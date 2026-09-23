@@ -20,11 +20,6 @@ function vetra_current_user_name() {
 	return $user && $user->exists() ? $user->display_name : 'کاربر پرتال';
 }
 
-function vetra_normalize_percentage( $value ) {
-	$value = strtr( (string) $value, array( '۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9' ) );
-	return max( 0, min( 100, absint( $value ) ) );
-}
-
 function vetra_brand_logo_url() {
 	$logo_id = absint( get_theme_mod( 'vetra_logo', 0 ) );
 	return $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
@@ -92,24 +87,18 @@ function vetra_form_url( $post_id ) {
 	return $url ? esc_url( $url ) : esc_url( get_permalink( $post_id ) );
 }
 
-function vetra_get_dashboard_stat( $key, $fallback ) {
-	return apply_filters( 'vetra_dashboard_stat_' . $key, $fallback );
-}
-
-function vetra_get_dashboard_nav() {
+function vetra_get_portal_nav() {
 	$forms_url = get_post_type_archive_link( 'vetra_form' );
 
 	return array(
-		array( 'label' => 'داشبورد', 'url' => home_url( '/' ), 'icon' => 'grid', 'active' => is_front_page() ),
 		array( 'label' => 'پروژه‌ها', 'url' => '#projects', 'icon' => 'building' ),
 		array( 'label' => 'برنامه زمان‌بندی', 'url' => '#schedule', 'icon' => 'calendar' ),
 		array( 'label' => 'منابع و ماشین‌آلات', 'url' => '#resources', 'icon' => 'chart' ),
 		array( 'label' => 'مالی و قراردادها', 'url' => '#finance', 'icon' => 'wallet' ),
 		array( 'label' => 'اسناد و مدارک', 'url' => '#documents', 'icon' => 'file' ),
-		array( 'label' => 'مرکز فرم‌ها', 'url' => $forms_url, 'icon' => 'forms', 'active' => is_post_type_archive( 'vetra_form' ) || is_singular( 'vetra_form' ) ),
+		array( 'label' => 'مرکز فرم‌ها', 'url' => $forms_url, 'icon' => 'forms', 'active' => is_front_page() || is_post_type_archive( 'vetra_form' ) || is_singular( 'vetra_form' ) ),
 		array( 'label' => 'گزارش‌ها', 'url' => '#reports', 'icon' => 'chart' ),
 		array( 'label' => 'کاربران', 'url' => '#users', 'icon' => 'users' ),
-		array( 'label' => 'تنظیمات', 'url' => '#settings', 'icon' => 'grid' ),
 	);
 }
 

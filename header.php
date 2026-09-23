@@ -23,7 +23,7 @@
 		</div>
 		<div class="vetra-topbar__center">
 			<nav class="vetra-topnav" aria-label="ناوبری اصلی">
-				<?php foreach ( vetra_get_dashboard_nav() as $item ) : if ( ! in_array( $item['label'], array( 'داشبورد', 'پروژه‌ها', 'مرکز فرم‌ها', 'گزارش‌ها', 'تنظیمات' ), true ) ) { continue; } ?>
+				<?php foreach ( vetra_get_portal_nav() as $item ) : if ( ! in_array( $item['label'], array( 'پروژه‌ها', 'مرکز فرم‌ها', 'گزارش‌ها' ), true ) ) { continue; } ?>
 					<a class="vetra-topnav__item<?php echo ! empty( $item['active'] ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( 'مرکز فرم‌ها' === $item['label'] ? 'فرم‌ها' : $item['label'] ); ?></a>
 				<?php endforeach; ?>
 			</nav>

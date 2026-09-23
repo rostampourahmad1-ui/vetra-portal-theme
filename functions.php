@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '1.2.2' );
+define( 'VETRA_PORTAL_VERSION', '1.2.3' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 

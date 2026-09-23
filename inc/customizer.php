@@ -28,19 +28,7 @@ function vetra_customizer_defaults() {
 		'glass_blur'              => 18,
 		'show_notifications'      => true,
 		'show_user_chip'          => true,
-		'show_project_switcher'   => true,
 		'topbar_sticky'           => true,
-		'greeting'                => 'سلام، {user}',
-		'dashboard_intro'         => 'وضعیت پروژه‌ها و عملیات امروز را در یک نگاه بررسی کنید.',
-		'project_name'             => 'برج سامان',
-		'project_location'         => 'تهران، منطقه ۲',
-		'project_manager'          => 'علی محمدی',
-		'project_start_date'       => '۱۴۰۳/۰۲/۱۵',
-		'project_status'           => 'در حال اجرا',
-		'remaining_days'           => '۱۲۴',
-		'physical_progress'         => '۵۶',
-		'budget_used'              => '۴۲',
-		'pending_reports'          => '۷',
 		'forms_title'              => 'مرکز فرم‌ها و فرآیندهای عملیاتی',
 		'forms_subtitle'           => 'دسترسی سریع به چک‌لیست‌ها، گزارش‌های روزانه کارگاه و درخواست‌های اداری و فنی.',
 		'forms_search_placeholder' => 'جستجوی نام فرم، کد یا دسته‌بندی ...',
@@ -94,7 +82,7 @@ function vetra_customizer_register( $wp_customize ) {
 		'vetra_portal_panel',
 		array(
 			'title'       => 'تنظیمات پرتال وترا',
-			'description' => 'کنترل کامل ظاهر، چیدمان، داشبورد و مرکز فرم‌های پرتال.',
+			'description' => 'کنترل کامل ظاهر، چیدمان و مرکز فرم‌های پرتال.',
 			'priority'    => 25,
 		)
 	);
@@ -130,20 +118,6 @@ function vetra_customizer_register( $wp_customize ) {
 	$wp_customize->add_section( 'vetra_navigation_section', array( 'title' => 'هدر و ناوبری', 'panel' => 'vetra_portal_panel', 'priority' => 50 ) );
 	vetra_add_checkbox_setting( $wp_customize, 'show_notifications', 'نمایش اعلان‌ها', 'vetra_navigation_section', 10 );
 	vetra_add_checkbox_setting( $wp_customize, 'show_user_chip', 'نمایش پروفایل کاربر', 'vetra_navigation_section', 20 );
-	vetra_add_checkbox_setting( $wp_customize, 'show_project_switcher', 'نمایش انتخاب پروژه', 'vetra_navigation_section', 30 );
-
-	$wp_customize->add_section( 'vetra_dashboard_section', array( 'title' => 'داشبورد', 'panel' => 'vetra_portal_panel', 'priority' => 60 ) );
-	vetra_add_text_setting( $wp_customize, 'greeting', 'متن خوش‌آمدگویی', 'vetra_dashboard_section', 10, 'sanitize_text_field', 'از {user} برای نام کاربر استفاده کنید.' );
-	vetra_add_textarea_setting( $wp_customize, 'dashboard_intro', 'توضیح داشبورد', 'vetra_dashboard_section', 20 );
-	vetra_add_text_setting( $wp_customize, 'project_name', 'نام پروژه فعال', 'vetra_dashboard_section', 30 );
-	vetra_add_text_setting( $wp_customize, 'project_location', 'مکان پروژه فعال', 'vetra_dashboard_section', 40 );
-	vetra_add_text_setting( $wp_customize, 'project_manager', 'مدیر پروژه', 'vetra_dashboard_section', 50 );
-	vetra_add_text_setting( $wp_customize, 'project_start_date', 'تاریخ شروع پروژه', 'vetra_dashboard_section', 60 );
-	vetra_add_text_setting( $wp_customize, 'project_status', 'وضعیت پروژه', 'vetra_dashboard_section', 70 );
-	vetra_add_text_setting( $wp_customize, 'remaining_days', 'روزهای باقی‌مانده', 'vetra_dashboard_section', 80 );
-	vetra_add_text_setting( $wp_customize, 'physical_progress', 'پیشرفت فیزیکی', 'vetra_dashboard_section', 90 );
-	vetra_add_text_setting( $wp_customize, 'budget_used', 'مصرف منابع مالی', 'vetra_dashboard_section', 100 );
-	vetra_add_text_setting( $wp_customize, 'pending_reports', 'گزارش‌های بررسی‌نشده', 'vetra_dashboard_section', 110 );
 
 	$wp_customize->add_section( 'vetra_forms_section', array( 'title' => 'مرکز فرم‌ها', 'panel' => 'vetra_portal_panel', 'priority' => 70 ) );
 	vetra_add_text_setting( $wp_customize, 'forms_title', 'عنوان صفحه فرم‌ها', 'vetra_forms_section', 10 );
