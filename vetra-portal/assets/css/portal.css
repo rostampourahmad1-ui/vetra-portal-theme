@@ -10,7 +10,7 @@
 	top: 0;
 	z-index: 20;
 	display: grid;
-	grid-template-columns: minmax(255px, 0.72fr) minmax(280px, 1.3fr) minmax(255px, 0.72fr);
+	grid-template-columns: minmax(245px, 0.8fr) minmax(420px, 1.6fr) minmax(220px, 0.8fr);
 	align-items: center;
 	min-height: 78px;
 	padding: 0 30px;
@@ -23,8 +23,6 @@
 .vetra-topbar__actions,
 .vetra-brand,
 .vetra-user-chip,
-.vetra-global-search,
-.vetra-sidebar__footer,
 .vetra-dashboard-hero,
 .vetra-project-switcher,
 .vetra-panel__head,
@@ -102,6 +100,49 @@
 .vetra-topbar__center {
 	justify-self: center;
 	width: min(100%, 440px);
+}
+
+.vetra-topnav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(18px, 3vw, 42px);
+	width: 100%;
+}
+
+.vetra-topnav__item {
+	position: relative;
+	padding: 26px 0 22px;
+	color: var(--vetra-muted);
+	font-size: 12px;
+	font-weight: 700;
+	white-space: nowrap;
+	transition: color 180ms ease;
+}
+
+.vetra-topnav__item::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 2px;
+	border-radius: 2px 2px 0 0;
+	background: var(--vetra-gold);
+	content: '';
+	opacity: 0;
+	transform: scaleX(0.5);
+	transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.vetra-topnav__item:hover,
+.vetra-topnav__item.is-active {
+	color: var(--vetra-gold);
+}
+
+.vetra-topnav__item.is-active::after,
+.vetra-topnav__item:hover::after {
+	opacity: 1;
+	transform: scaleX(1);
 }
 
 .vetra-global-search,
@@ -234,124 +275,10 @@
 	font-weight: 900;
 }
 
-.vetra-menu-toggle,
-.vetra-sidebar-close {
-	display: none;
-}
-
-.vetra-hamburger {
-	display: grid;
-	gap: 4px;
-	width: 18px;
-}
-
-.vetra-hamburger i {
-	display: block;
-	height: 2px;
-	border-radius: 2px;
-	background: currentColor;
-}
-
 .vetra-shell-layout {
 	display: grid;
-	grid-template-columns: 272px minmax(0, 1fr);
+	grid-template-columns: minmax(0, 1fr);
 	min-height: calc(100vh - 78px);
-}
-
-.vetra-sidebar {
-	position: sticky;
-	top: 78px;
-	align-self: start;
-	display: flex;
-	flex-direction: column;
-	min-height: calc(100vh - 78px);
-	padding: 30px 18px 20px;
-	border-left: 1px solid var(--vetra-line);
-	background: rgba(15, 23, 42, 0.62);
-}
-
-.vetra-sidebar__head {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 12px 17px;
-	color: var(--vetra-dim);
-	font-size: 10px;
-	font-weight: 700;
-}
-
-.vetra-nav {
-	display: grid;
-	gap: 6px;
-}
-
-.vetra-nav__item {
-	display: flex;
-	align-items: center;
-	gap: 13px;
-	min-height: 48px;
-	padding: 0 14px;
-	border: 1px solid transparent;
-	border-radius: 12px;
-	color: var(--vetra-muted);
-	font-size: 12px;
-	transition: transform 180ms ease, color 180ms ease, background 180ms ease, border-color 180ms ease;
-}
-
-.vetra-nav__item:hover {
-	transform: translateX(-3px);
-	color: var(--vetra-text);
-	background: rgba(51, 65, 85, 0.27);
-}
-
-.vetra-nav__item.is-active {
-	border-color: rgba(245, 158, 11, 0.24);
-	background: linear-gradient(90deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.06));
-	color: var(--vetra-gold);
-	box-shadow: inset -3px 0 0 var(--vetra-gold);
-}
-
-.vetra-nav__icon {
-	display: grid;
-	place-items: center;
-	width: 20px;
-	height: 20px;
-}
-
-.vetra-nav__icon svg {
-	width: 19px;
-	height: 19px;
-}
-
-.vetra-nav__icon svg path,
-.vetra-nav__icon svg rect,
-.vetra-nav__icon svg circle {
-	fill: none;
-	stroke: currentColor;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	stroke-width: 1.5;
-}
-
-.vetra-sidebar__footer {
-	gap: 10px;
-	margin-top: auto;
-	padding: 17px 12px 4px;
-	border-top: 1px solid var(--vetra-line);
-}
-
-.vetra-sidebar__footer div {
-	display: grid;
-	gap: 0;
-}
-
-.vetra-sidebar__footer strong {
-	font-size: 10px;
-}
-
-.vetra-sidebar__footer small {
-	color: var(--vetra-dim);
-	font-size: 9px;
 }
 
 .vetra-live-indicator {
@@ -916,10 +843,10 @@
 .vetra-content-card { max-width: 900px; margin: 0 auto; padding: 30px; }
 .vetra-content-card h1 { margin-top: 0; }
 
-.vetra-footer { display: flex; justify-content: space-between; gap: 16px; padding: 18px 32px 20px 304px; border-top: 1px solid var(--vetra-line); color: var(--vetra-dim); font-size: 10px; }
+.vetra-footer { display: flex; justify-content: space-between; gap: 16px; padding: 18px 32px 20px; border-top: 1px solid var(--vetra-line); color: var(--vetra-dim); font-size: 10px; }
 
 @media (max-width: 1180px) {
-	.vetra-topbar { grid-template-columns: minmax(220px, 0.75fr) minmax(240px, 1fr) minmax(220px, 0.75fr); padding: 0 20px; }
+	.vetra-topbar { grid-template-columns: minmax(220px, 0.75fr) minmax(360px, 1fr) minmax(220px, 0.75fr); padding: 0 20px; }
 	.vetra-stat-grid { grid-template-columns: repeat(2, 1fr); }
 	.vetra-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.vetra-project-panel { grid-row: span 2; }
@@ -927,14 +854,10 @@
 }
 
 @media (max-width: 860px) {
-	.vetra-topbar { grid-template-columns: 1fr auto; min-height: 68px; }
-	.vetra-topbar__center { display: none; }
+	.vetra-topbar { grid-template-columns: 1fr auto; grid-template-rows: 68px auto; min-height: 68px; }
+	.vetra-topbar__center { grid-column: 1 / -1; grid-row: 2; display: block; width: 100%; padding-bottom: 10px; overflow-x: auto; }
 	.vetra-topbar__actions { gap: 7px; }
-	.vetra-menu-toggle { display: grid; }
-	.vetra-shell-layout { display: block; min-height: calc(100vh - 68px); }
-	.vetra-sidebar { position: fixed; z-index: 50; inset: 0 auto 0 0; width: min(310px, 86vw); min-height: 100vh; padding-top: 26px; background: #101a2b; box-shadow: 15px 0 45px rgba(2, 6, 23, 0.45); transform: translateX(-105%); transition: transform 220ms ease; }
-	.vetra-menu-is-open .vetra-sidebar { transform: translateX(0); }
-	.vetra-sidebar-close { display: grid; }
+	.vetra-shell-layout { min-height: calc(100vh - 68px); }
 	.vetra-main { padding: 29px 20px 45px; }
 	.vetra-footer { padding: 18px 20px; }
 }
@@ -950,6 +873,8 @@
 	.vetra-brand__mark { width: 36px; height: 36px; }
 	.vetra-user-chip > span:last-child { display: none; }
 	.vetra-avatar { width: 34px; height: 34px; }
+	.vetra-topnav { justify-content: flex-start; gap: 25px; min-width: max-content; }
+	.vetra-topnav__item { padding: 0 0 9px; font-size: 11px; }
 	.vetra-dashboard-hero { display: grid; gap: 17px; }
 	.vetra-project-switcher { min-width: 0; width: 100%; }
 	.vetra-stat-grid,

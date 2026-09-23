@@ -16,22 +16,18 @@
 <div class="vetra-site-shell">
 	<header class="vetra-topbar">
 		<div class="vetra-topbar__brand">
-			<button class="vetra-icon-button vetra-menu-toggle js-vetra-menu-toggle" type="button" aria-controls="vetra-sidebar" aria-expanded="false" aria-label="<?php esc_attr_e( 'باز کردن منو', 'vetra-portal' ); ?>">
-				<span class="vetra-hamburger"><i></i><i></i><i></i></span>
-			</button>
 			<a class="vetra-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>">
 				<span class="vetra-brand__mark"><?php echo vetra_brand_logo_url() ? '<img src="' . esc_url( vetra_brand_logo_url() ) . '" alt="" />' : vetra_inline_icon( 'building' ); ?></span>
 				<span><strong><?php echo esc_html( vetra_option( 'brand_title' ) ); ?></strong><small><?php echo esc_html( vetra_option( 'brand_subtitle' ) ); ?></small></span>
 			</a>
 		</div>
-		<?php if ( vetra_option( 'show_global_search' ) ) : ?>
 		<div class="vetra-topbar__center">
-			<label class="vetra-global-search" for="vetra-global-search">
-				<span class="vetra-search-icon"><?php echo vetra_inline_icon( 'file' ); ?></span>
-				<input id="vetra-global-search" type="search" placeholder="جستجو در پروژه‌ها، اسناد و فرم‌ها ..." autocomplete="off">
-			</label>
+			<nav class="vetra-topnav" aria-label="ناوبری اصلی">
+				<?php foreach ( vetra_get_dashboard_nav() as $item ) : if ( ! in_array( $item['label'], array( 'داشبورد', 'پروژه‌ها', 'مرکز فرم‌ها', 'گزارش‌ها', 'تنظیمات' ), true ) ) { continue; } ?>
+					<a class="vetra-topnav__item<?php echo ! empty( $item['active'] ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( 'مرکز فرم‌ها' === $item['label'] ? 'فرم‌ها' : $item['label'] ); ?></a>
+				<?php endforeach; ?>
+			</nav>
 		</div>
-		<?php endif; ?>
 		<div class="vetra-topbar__actions">
 			<?php if ( vetra_option( 'show_notifications' ) ) : ?>
 			<button class="vetra-icon-button" type="button" aria-label="اعلان‌ها"><span class="vetra-notification-dot"></span><?php echo vetra_nav_icon( 'calendar' ); ?></button>
@@ -44,25 +40,5 @@
 			<?php endif; ?>
 		</div>
 	</header>
-	<div class="vetra-shell-layout<?php echo vetra_option( 'show_sidebar' ) ? '' : ' vetra-portal-no-sidebar'; ?>">
-		<?php if ( vetra_option( 'show_sidebar' ) ) : ?>
-		<aside id="vetra-sidebar" class="vetra-sidebar" aria-label="ناوبری پرتال">
-			<div class="vetra-sidebar__head">
-				<span><?php echo esc_html( vetra_option( 'sidebar_title' ) ); ?></span>
-				<button class="vetra-icon-button vetra-sidebar-close js-vetra-menu-close" type="button" aria-label="بستن منو">×</button>
-			</div>
-			<nav class="vetra-nav">
-				<?php foreach ( vetra_get_dashboard_nav() as $item ) : ?>
-					<a class="vetra-nav__item<?php echo ! empty( $item['active'] ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( $item['url'] ); ?>">
-						<span class="vetra-nav__icon"><?php echo $item['icon'] ? vetra_nav_icon( $item['icon'] ) : ''; ?></span>
-						<span><?php echo esc_html( $item['label'] ); ?></span>
-					</a>
-				<?php endforeach; ?>
-			</nav>
-			<div class="vetra-sidebar__footer">
-				<span class="vetra-live-indicator"></span>
-				<div><strong><?php echo esc_html( vetra_option( 'sidebar_status_title' ) ); ?></strong><small><?php echo esc_html( vetra_option( 'sidebar_status_subtitle' ) ); ?></small></div>
-			</div>
-		</aside>
-		<?php endif; ?>
+	<div class="vetra-shell-layout">
 		<main id="primary" class="vetra-main">

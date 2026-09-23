@@ -1,23 +1,6 @@
 (function () {
   'use strict';
 
-  var body = document.body;
-  var sidebar = document.getElementById('vetra-sidebar');
-  var menuOpen = document.querySelector('.js-vetra-menu-toggle');
-  var menuClose = document.querySelector('.js-vetra-menu-close');
-
-  function setMenu(open) {
-    if (!sidebar || !menuOpen) return;
-    body.classList.toggle('vetra-menu-is-open', open);
-    menuOpen.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-
-  if (menuOpen) menuOpen.addEventListener('click', function () { setMenu(true); });
-  if (menuClose) menuClose.addEventListener('click', function () { setMenu(false); });
-  document.addEventListener('click', function (event) {
-    if (body.classList.contains('vetra-menu-is-open') && sidebar && !sidebar.contains(event.target) && !menuOpen.contains(event.target)) setMenu(false);
-  });
-
   var input = document.querySelector('.js-vetra-form-search');
   var cards = Array.prototype.slice.call(document.querySelectorAll('.vetra-form-card'));
   var filters = Array.prototype.slice.call(document.querySelectorAll('.js-vetra-filter'));

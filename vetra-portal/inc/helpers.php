@@ -109,6 +109,7 @@ function vetra_get_dashboard_nav() {
 		array( 'label' => 'مرکز فرم‌ها', 'url' => $forms_url, 'icon' => 'forms', 'active' => is_post_type_archive( 'vetra_form' ) || is_singular( 'vetra_form' ) ),
 		array( 'label' => 'گزارش‌ها', 'url' => '#reports', 'icon' => 'chart' ),
 		array( 'label' => 'کاربران', 'url' => '#users', 'icon' => 'users' ),
+		array( 'label' => 'تنظیمات', 'url' => '#settings', 'icon' => 'grid' ),
 	);
 }
 

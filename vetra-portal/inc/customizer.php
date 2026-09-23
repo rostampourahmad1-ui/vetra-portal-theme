@@ -24,14 +24,8 @@ function vetra_customizer_defaults() {
 		'font_family'             => 'IRANYekan, Vazirmatn, Tahoma, sans-serif',
 		'base_font_size'          => 15,
 		'content_width'           => 1280,
-		'sidebar_width'           => 272,
 		'card_radius'             => 16,
 		'glass_blur'              => 18,
-		'show_sidebar'            => true,
-		'sidebar_title'           => 'ناوبری اصلی',
-		'sidebar_status_title'    => 'سامانه عملیاتی فعال',
-		'sidebar_status_subtitle' => 'همگام با ساخت آینده',
-		'show_global_search'      => true,
 		'show_notifications'      => true,
 		'show_user_chip'          => true,
 		'show_project_switcher'   => true,
@@ -129,19 +123,14 @@ function vetra_customizer_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'vetra_layout_section', array( 'title' => 'چیدمان و جلوه‌ها', 'panel' => 'vetra_portal_panel', 'priority' => 40 ) );
 	vetra_add_number_setting( $wp_customize, 'content_width', 'حداکثر عرض محتوا', 'vetra_layout_section', 10, 960, 1800 );
-	vetra_add_number_setting( $wp_customize, 'sidebar_width', 'عرض سایدبار', 'vetra_layout_section', 20, 220, 380 );
-	vetra_add_number_setting( $wp_customize, 'card_radius', 'شعاع گوشه کارت‌ها', 'vetra_layout_section', 30, 0, 32 );
-	vetra_add_number_setting( $wp_customize, 'glass_blur', 'میزان Blur شیشه‌ای', 'vetra_layout_section', 40, 0, 40 );
-	vetra_add_checkbox_setting( $wp_customize, 'topbar_sticky', 'هدر چسبان باشد', 'vetra_layout_section', 50 );
+	vetra_add_number_setting( $wp_customize, 'card_radius', 'شعاع گوشه کارت‌ها', 'vetra_layout_section', 20, 0, 32 );
+	vetra_add_number_setting( $wp_customize, 'glass_blur', 'میزان Blur شیشه‌ای', 'vetra_layout_section', 30, 0, 40 );
+	vetra_add_checkbox_setting( $wp_customize, 'topbar_sticky', 'هدر چسبان باشد', 'vetra_layout_section', 40 );
 	
 	$wp_customize->add_section( 'vetra_navigation_section', array( 'title' => 'هدر و ناوبری', 'panel' => 'vetra_portal_panel', 'priority' => 50 ) );
-	vetra_add_checkbox_setting( $wp_customize, 'show_sidebar', 'نمایش سایدبار', 'vetra_navigation_section', 10 );
-	vetra_add_text_setting( $wp_customize, 'sidebar_title', 'عنوان سایدبار', 'vetra_navigation_section', 20 );
-	vetra_add_checkbox_setting( $wp_customize, 'show_global_search', 'نمایش جستجوی هدر', 'vetra_navigation_section', 30 );
-	vetra_add_checkbox_setting( $wp_customize, 'show_notifications', 'نمایش اعلان‌ها', 'vetra_navigation_section', 40 );
-	vetra_add_checkbox_setting( $wp_customize, 'show_user_chip', 'نمایش پروفایل کاربر', 'vetra_navigation_section', 50 );
-	vetra_add_text_setting( $wp_customize, 'sidebar_status_title', 'عنوان وضعیت پایین سایدبار', 'vetra_navigation_section', 60 );
-	vetra_add_text_setting( $wp_customize, 'sidebar_status_subtitle', 'توضیح وضعیت پایین سایدبار', 'vetra_navigation_section', 70 );
+	vetra_add_checkbox_setting( $wp_customize, 'show_notifications', 'نمایش اعلان‌ها', 'vetra_navigation_section', 10 );
+	vetra_add_checkbox_setting( $wp_customize, 'show_user_chip', 'نمایش پروفایل کاربر', 'vetra_navigation_section', 20 );
+	vetra_add_checkbox_setting( $wp_customize, 'show_project_switcher', 'نمایش انتخاب پروژه', 'vetra_navigation_section', 30 );
 
 	$wp_customize->add_section( 'vetra_dashboard_section', array( 'title' => 'داشبورد', 'panel' => 'vetra_portal_panel', 'priority' => 60 ) );
 	vetra_add_text_setting( $wp_customize, 'greeting', 'متن خوش‌آمدگویی', 'vetra_dashboard_section', 10, 'sanitize_text_field', 'از {user} برای نام کاربر استفاده کنید.' );
@@ -202,7 +191,7 @@ function vetra_add_checkbox_setting( $customizer, $key, $label, $section, $prior
 
 function vetra_portal_customizer_css() {
 	$css = sprintf(
-		':root{--vetra-bg:%1$s;--vetra-panel:%2$s;--vetra-gold:%3$s;--vetra-gold-deep:%4$s;--vetra-text:%5$s;--vetra-muted:%6$s;--vetra-line:%7$s;--vetra-font:%8$s;--vetra-radius:%9$spx;--vetra-content-width:%10$spx;--vetra-sidebar-width:%11$spx;--vetra-blur:%12$spx;--vetra-base-font-size:%13$spx}.vetra-topbar{position:%14$s}.vetra-shell-layout{grid-template-columns:var(--vetra-sidebar-width) minmax(0,1fr)}.vetra-main{width:100%;max-width:var(--vetra-content-width);margin-inline:auto}.vetra-form-card{border-radius:var(--vetra-radius)}.vetra-forms-grid{grid-template-columns:repeat(%15$s,minmax(0,1fr))}.vetra-topbar{backdrop-filter:blur(var(--vetra-blur))}.vetra-sidebar{width:var(--vetra-sidebar-width)}.vetra-shell-layout.vetra-portal-no-sidebar{grid-template-columns:minmax(0,1fr)}.vetra-shell-layout.vetra-portal-no-sidebar .vetra-main{max-width:100%}',
+		':root{--vetra-bg:%1$s;--vetra-panel:%2$s;--vetra-gold:%3$s;--vetra-gold-deep:%4$s;--vetra-text:%5$s;--vetra-muted:%6$s;--vetra-line:%7$s;--vetra-font:%8$s;--vetra-radius:%9$spx;--vetra-content-width:%10$spx;--vetra-blur:%11$spx;--vetra-base-font-size:%12$spx}.vetra-topbar{position:%13$s}.vetra-shell-layout{grid-template-columns:minmax(0,1fr)}.vetra-main{width:100%;max-width:var(--vetra-content-width);margin-inline:auto}.vetra-form-card{border-radius:var(--vetra-radius)}.vetra-forms-grid{grid-template-columns:repeat(%14$s,minmax(0,1fr))}.vetra-topbar{backdrop-filter:blur(var(--vetra-blur))}',
 		esc_attr( vetra_option( 'background_color' ) ),
 		esc_attr( vetra_option( 'panel_color' ) ),
 		esc_attr( vetra_option( 'accent_color' ) ),
@@ -213,7 +202,6 @@ function vetra_portal_customizer_css() {
 		esc_attr( vetra_option( 'font_family' ) ),
 		absint( vetra_option( 'card_radius' ) ),
 		absint( vetra_option( 'content_width' ) ),
-		absint( vetra_option( 'sidebar_width' ) ),
 		absint( vetra_option( 'glass_blur' ) ),
 		absint( vetra_option( 'base_font_size' ) ),
 		vetra_option( 'topbar_sticky' ) ? 'sticky' : 'relative',
