@@ -112,18 +112,22 @@ add_action( 'add_meta_boxes', 'vetra_project_meta_boxes' );
 
 function vetra_project_fields() {
 	return array(
-		'project_code' => array( 'label' => 'کد پروژه', 'type' => 'text' ),
-		'project_client' => array( 'label' => 'کارفرما', 'type' => 'text' ),
-		'project_location' => array( 'label' => 'موقعیت', 'type' => 'text' ),
-		'project_type' => array( 'label' => 'نوع پروژه', 'type' => 'text' ),
-		'project_year' => array( 'label' => 'سال اجرا', 'type' => 'text' ),
-		'project_status' => array( 'label' => 'وضعیت', 'type' => 'select', 'options' => array( 'planning' => 'در مرحله طراحی', 'active' => 'در حال اجرا', 'completed' => 'تکمیل‌شده' ) ),
-		'project_area' => array( 'label' => 'زیربنا / مساحت', 'type' => 'text' ),
-		'project_budget' => array( 'label' => 'بودجه پروژه', 'type' => 'text' ),
-		'project_architect' => array( 'label' => 'معمار / طراح', 'type' => 'text' ),
+		'project_client' => array( 'label' => 'نام کارفرما', 'type' => 'text' ),
+		'project_usage' => array( 'label' => 'کاربری', 'type' => 'text' ),
+		'project_contract_type' => array( 'label' => 'نوع قرارداد', 'type' => 'text' ),
+		'project_contract_number' => array( 'label' => 'شماره قرارداد', 'type' => 'text' ),
+		'project_contractor' => array( 'label' => 'پیمانکار', 'type' => 'text' ),
+		'project_contract_start' => array( 'label' => 'تاریخ شروع قرارداد', 'type' => 'text' ),
+		'project_contract_duration' => array( 'label' => 'مدت قرارداد', 'type' => 'text' ),
+		'project_initial_amount' => array( 'label' => 'مبلغ اولیه پیمان', 'type' => 'text' ),
+		'project_supervisor' => array( 'label' => 'ناظر پروژه', 'type' => 'text' ),
 		'project_manager' => array( 'label' => 'مدیر پروژه', 'type' => 'text' ),
-		'project_completion' => array( 'label' => 'تاریخ تحویل', 'type' => 'text' ),
-		'project_website' => array( 'label' => 'لینک پروژه', 'type' => 'url' ),
+		'project_site_supervisor' => array( 'label' => 'سرپرست کارگاه', 'type' => 'text' ),
+		'project_address' => array( 'label' => 'آدرس پروژه', 'type' => 'textarea' ),
+		'project_client_address' => array( 'label' => 'آدرس کارفرما', 'type' => 'textarea' ),
+		'project_urban_file' => array( 'label' => 'شماره پرونده شهرسازی', 'type' => 'text' ),
+		'project_registry_sub' => array( 'label' => 'پلاک ثبتی فرعی', 'type' => 'text' ),
+		'project_registry_main' => array( 'label' => 'پلاک ثبتی اصلی', 'type' => 'text' ),
 	);
 }
 
@@ -139,13 +143,15 @@ function vetra_project_details_box( $post ) {
 				<select id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $key ); ?>">
 					<?php foreach ( $field['options'] as $option => $label ) : ?><option value="<?php echo esc_attr( $option ); ?>" <?php selected( $value, $option ); ?>><?php echo esc_html( $label ); ?></option><?php endforeach; ?>
 				</select>
+				<?php elseif ( 'textarea' === $field['type'] ) : ?>
+				<textarea class="widefat" rows="3" id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $key ); ?>"><?php echo esc_textarea( $value ); ?></textarea>
 				<?php else : ?>
 				<input class="widefat" type="<?php echo esc_attr( $field['type'] ); ?>" id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $value ); ?>">
 				<?php endif; ?>
 			</p>
 		<?php endforeach; ?>
 	</div>
-	<p class="description">تصویر شاخص، عنوان، متن کامل و دسته پروژه را از بخش‌های استاندارد وردپرس تکمیل کنید.</p>
+	<p class="description">نام پروژه از عنوان اصلی وردپرس تکمیل می‌شود. تصویر شاخص، توضیحات و دسته پروژه نیز از بخش‌های استاندارد همین صفحه قابل تکمیل است.</p>
 	<?php
 }
 
@@ -161,7 +167,7 @@ function vetra_save_project_details( $post_id ) {
 	}
 	foreach ( vetra_project_fields() as $key => $field ) {
 		$value = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
-		$value = 'url' === $field['type'] ? esc_url_raw( $value ) : sanitize_text_field( $value );
+		$value = 'url' === $field['type'] ? esc_url_raw( $value ) : ( 'textarea' === $field['type'] ? sanitize_textarea_field( $value ) : sanitize_text_field( $value ) );
 		if ( '' === $value ) {
 			delete_post_meta( $post_id, '_' . $key );
 		} else {
@@ -201,8 +207,8 @@ function vetra_project_frontend_process() {
 	if ( is_wp_error( $post_id ) ) {
 		return;
 	}
-	foreach ( array( 'project_client', 'project_location', 'project_type', 'project_year', 'project_status', 'project_area', 'project_budget', 'project_architect', 'project_manager', 'project_completion', 'project_website' ) as $key ) {
-		$value = 'project_website' === $key ? esc_url_raw( wp_unslash( $_POST[ $key ] ?? '' ) ) : sanitize_text_field( wp_unslash( $_POST[ $key ] ?? '' ) );
+	foreach ( array_keys( vetra_project_fields() ) as $key ) {
+		$value = in_array( $key, array( 'project_address', 'project_client_address' ), true ) ? sanitize_textarea_field( wp_unslash( $_POST[ $key ] ?? '' ) ) : sanitize_text_field( wp_unslash( $_POST[ $key ] ?? '' ) );
 		update_post_meta( $post_id, '_' . $key, $value );
 	}
 	if ( ! empty( $_FILES['project_image']['name'] ) ) {
@@ -233,6 +239,13 @@ function vetra_project_form_shortcode( $atts ) {
 		$post = null;
 	}
 	$value = function( $key ) use ( $post ) { return $post ? get_post_meta( $post->ID, '_' . $key, true ) : ''; };
+	$selected_category = 0;
+	if ( $post ) {
+		$categories = wp_get_post_terms( $post->ID, 'vetra_project_category', array( 'fields' => 'ids' ) );
+		if ( ! is_wp_error( $categories ) && ! empty( $categories ) ) {
+			$selected_category = absint( $categories[0] );
+		}
+	}
 	ob_start();
 	?>
 	<form class="vetra-project-form" method="post" enctype="multipart/form-data">
@@ -242,20 +255,25 @@ function vetra_project_form_shortcode( $atts ) {
 		<?php if ( isset( $_GET['vetra_project_saved'] ) ) : ?><p class="vetra-form-success">پروژه با موفقیت ثبت شد.</p><?php endif; ?>
 		<div class="vetra-project-form__grid">
 			<p><label>عنوان پروژه<input required type="text" name="project_title" value="<?php echo esc_attr( $post ? $post->post_title : '' ); ?>"></label></p>
-			<p><label>دسته پروژه<select name="project_category"><option value="0">بدون دسته</option><?php foreach ( get_terms( array( 'taxonomy' => 'vetra_project_category', 'hide_empty' => false ) ) as $term ) : ?><option value="<?php echo esc_attr( $term->term_id ); ?>" <?php selected( $post ? wp_get_post_terms( $post->ID, 'vetra_project_category', array( 'fields' => 'ids' ) )[0] ?? 0 : 0, $term->term_id ); ?>><?php echo esc_html( $term->name ); ?></option><?php endforeach; ?></select></label></p>
 			<p><label>کارفرما<input type="text" name="project_client" value="<?php echo esc_attr( $value( 'project_client' ) ); ?>"></label></p>
-			<p><label>موقعیت<input type="text" name="project_location" value="<?php echo esc_attr( $value( 'project_location' ) ); ?>"></label></p>
-			<p><label>نوع پروژه<input type="text" name="project_type" value="<?php echo esc_attr( $value( 'project_type' ) ); ?>"></label></p>
-			<p><label>سال اجرا<input type="text" name="project_year" value="<?php echo esc_attr( $value( 'project_year' ) ); ?>"></label></p>
-			<p><label>وضعیت<select name="project_status"><option value="planning" <?php selected( $value( 'project_status' ), 'planning' ); ?>>در مرحله طراحی</option><option value="active" <?php selected( $value( 'project_status' ), 'active' ); ?>>در حال اجرا</option><option value="completed" <?php selected( $value( 'project_status' ), 'completed' ); ?>>تکمیل‌شده</option></select></label></p>
-			<p><label>زیربنا / مساحت<input type="text" name="project_area" value="<?php echo esc_attr( $value( 'project_area' ) ); ?>"></label></p>
-			<p><label>بودجه پروژه<input type="text" name="project_budget" value="<?php echo esc_attr( $value( 'project_budget' ) ); ?>"></label></p>
-			<p><label>معمار / طراح<input type="text" name="project_architect" value="<?php echo esc_attr( $value( 'project_architect' ) ); ?>"></label></p>
+			<p><label>کاربری<input type="text" name="project_usage" value="<?php echo esc_attr( $value( 'project_usage' ) ); ?>"></label></p>
+			<p><label>نوع قرارداد<input type="text" name="project_contract_type" value="<?php echo esc_attr( $value( 'project_contract_type' ) ); ?>"></label></p>
+			<p><label>شماره قرارداد<input type="text" name="project_contract_number" value="<?php echo esc_attr( $value( 'project_contract_number' ) ); ?>"></label></p>
+			<p><label>پیمانکار<input type="text" name="project_contractor" value="<?php echo esc_attr( $value( 'project_contractor' ) ); ?>"></label></p>
+			<p><label>تاریخ شروع قرارداد<input type="text" name="project_contract_start" value="<?php echo esc_attr( $value( 'project_contract_start' ) ); ?>"></label></p>
+			<p><label>مدت قرارداد<input type="text" name="project_contract_duration" value="<?php echo esc_attr( $value( 'project_contract_duration' ) ); ?>"></label></p>
+			<p><label>مبلغ اولیه پیمان<input type="text" name="project_initial_amount" value="<?php echo esc_attr( $value( 'project_initial_amount' ) ); ?>"></label></p>
+			<p><label>ناظر پروژه<input type="text" name="project_supervisor" value="<?php echo esc_attr( $value( 'project_supervisor' ) ); ?>"></label></p>
 			<p><label>مدیر پروژه<input type="text" name="project_manager" value="<?php echo esc_attr( $value( 'project_manager' ) ); ?>"></label></p>
-			<p><label>تاریخ تحویل<input type="text" name="project_completion" value="<?php echo esc_attr( $value( 'project_completion' ) ); ?>"></label></p>
-			<p><label>لینک پروژه<input type="url" name="project_website" value="<?php echo esc_attr( $value( 'project_website' ) ); ?>"></label></p>
+			<p><label>سرپرست کارگاه<input type="text" name="project_site_supervisor" value="<?php echo esc_attr( $value( 'project_site_supervisor' ) ); ?>"></label></p>
+			<p><label>شماره پرونده شهرسازی<input type="text" name="project_urban_file" value="<?php echo esc_attr( $value( 'project_urban_file' ) ); ?>"></label></p>
+			<p><label>پلاک ثبتی فرعی<input type="text" name="project_registry_sub" value="<?php echo esc_attr( $value( 'project_registry_sub' ) ); ?>"></label></p>
+			<p><label>پلاک ثبتی اصلی<input type="text" name="project_registry_main" value="<?php echo esc_attr( $value( 'project_registry_main' ) ); ?>"></label></p>
 			<p><label>تصویر شاخص پروژه<input type="file" name="project_image" accept="image/*"></label></p>
 		</div>
+		<p><label>آدرس پروژه<textarea name="project_address" rows="3"><?php echo esc_textarea( $value( 'project_address' ) ); ?></textarea></label></p>
+		<p><label>آدرس کارفرما<textarea name="project_client_address" rows="3"><?php echo esc_textarea( $value( 'project_client_address' ) ); ?></textarea></label></p>
+		<p><label>دسته پروژه<select name="project_category"><option value="0">بدون دسته</option><?php foreach ( get_terms( array( 'taxonomy' => 'vetra_project_category', 'hide_empty' => false ) ) as $term ) : ?><option value="<?php echo esc_attr( $term->term_id ); ?>" <?php selected( $selected_category, $term->term_id ); ?>><?php echo esc_html( $term->name ); ?></option><?php endforeach; ?></select></label></p>
 		<p><label>خلاصه پروژه<textarea name="project_excerpt" rows="3"><?php echo esc_textarea( $post ? $post->post_excerpt : '' ); ?></textarea></label></p>
 		<p><label>توضیحات کامل<textarea name="project_content" rows="7"><?php echo esc_textarea( $post ? $post->post_content : '' ); ?></textarea></label></p>
 		<button class="vetra-button vetra-button--primary" type="submit"><?php echo $post ? 'ذخیره ویرایش' : 'ثبت پروژه'; ?></button>
@@ -275,7 +293,7 @@ function vetra_project_list_shortcode( $atts ) {
 			$query->the_post();
 			echo '<article class="vetra-project-card">';
 			if ( has_post_thumbnail() ) { the_post_thumbnail( 'large' ); } else { echo '<div class="vetra-project-card__art vetra-project-card__art--1"><span>' . vetra_inline_icon( 'building' ) . '</span></div>'; }
-			echo '<div class="vetra-project-card__overlay"><span>' . esc_html( get_post_meta( get_the_ID(), '_project_location', true ) ) . '</span><h3>' . esc_html( get_the_title() ) . '</h3><a href="' . esc_url( get_permalink() ) . '">' . vetra_inline_icon( 'arrow-up' ) . '</a></div></article>';
+			echo '<div class="vetra-project-card__overlay"><span>' . esc_html( get_post_meta( get_the_ID(), '_project_usage', true ) ) . '</span><h3>' . esc_html( get_the_title() ) . '</h3><a href="' . esc_url( get_permalink() ) . '">' . vetra_inline_icon( 'arrow-up' ) . '</a></div></article>';
 		}
 		echo '</div>';
 	} else {

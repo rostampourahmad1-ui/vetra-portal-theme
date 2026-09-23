@@ -18,7 +18,7 @@ get_header();
 		<?php while ( have_posts() ) : the_post(); ?>
 			<article class="vetra-project-card">
 				<?php if ( has_post_thumbnail() ) : the_post_thumbnail( 'large' ); else : ?><div class="vetra-project-card__art vetra-project-card__art--1"><span><?php echo vetra_inline_icon( 'building' ); ?></span></div><?php endif; ?>
-				<div class="vetra-project-card__overlay"><span><?php echo esc_html( get_post_meta( get_the_ID(), '_project_location', true ) ); ?></span><h3><?php the_title(); ?></h3><a href="<?php the_permalink(); ?>" aria-label="مشاهده پروژه"><?php echo vetra_inline_icon( 'arrow-up' ); ?></a></div>
+				<div class="vetra-project-card__overlay"><span><?php echo esc_html( get_post_meta( get_the_ID(), '_project_usage', true ) ); ?></span><h3><?php the_title(); ?></h3><a href="<?php the_permalink(); ?>" aria-label="مشاهده پروژه"><?php echo vetra_inline_icon( 'arrow-up' ); ?></a></div>
 			</article>
 		<?php endwhile; ?>
 		</div>
