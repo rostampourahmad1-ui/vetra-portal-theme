@@ -9,13 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '1.2.3' );
+define( 'VETRA_PORTAL_VERSION', '2.0.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
 require_once VETRA_PORTAL_DIR . '/inc/helpers.php';
-require_once VETRA_PORTAL_DIR . '/inc/cpt.php';
-require_once VETRA_PORTAL_DIR . '/inc/acf.php';
 require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
 
@@ -31,7 +29,7 @@ function vetra_portal_setup() {
 
 	register_nav_menus(
 		array(
-			'primary' => __( 'منوی اصلی پرتال', 'vetra-portal' ),
+			'primary' => __( 'منوی اصلی سایت', 'vetra-portal' ),
 		)
 	);
 }
@@ -39,16 +37,15 @@ add_action( 'after_setup_theme', 'vetra_portal_setup' );
 
 function vetra_portal_enqueue_assets() {
 	wp_enqueue_style( 'vetra-portal-style', get_stylesheet_uri(), array(), VETRA_PORTAL_VERSION );
-	wp_enqueue_style( 'vetra-portal-layout', VETRA_PORTAL_URI . '/assets/css/portal.css', array( 'vetra-portal-style' ), VETRA_PORTAL_VERSION );
-	wp_add_inline_style( 'vetra-portal-layout', vetra_portal_customizer_css() );
-	wp_enqueue_script( 'vetra-portal-script', VETRA_PORTAL_URI . '/assets/js/portal.js', array(), VETRA_PORTAL_VERSION, true );
+	wp_enqueue_style( 'vetra-corporate', VETRA_PORTAL_URI . '/assets/css/corporate.css', array( 'vetra-portal-style' ), VETRA_PORTAL_VERSION );
+	wp_add_inline_style( 'vetra-corporate', vetra_portal_customizer_css() );
+	wp_enqueue_script( 'vetra-portal-script', VETRA_PORTAL_URI . '/assets/js/corporate.js', array(), VETRA_PORTAL_VERSION, true );
 	wp_localize_script(
 		'vetra-portal-script',
 		'vetraPortal',
 		array(
-			'noResults' => __( 'فرمی با این مشخصات پیدا نشد.', 'vetra-portal' ),
-			'openMenu' => __( 'باز کردن منو', 'vetra-portal' ),
-			'closeMenu' => __( 'بستن منو', 'vetra-portal' ),
+			'themeMode' => vetra_option( 'color_mode' ),
+			'themeLabel' => __( 'تغییر حالت رنگی', 'vetra-portal' ),
 		)
 	);
 }
@@ -58,10 +55,6 @@ function vetra_portal_body_classes( $classes ) {
 	$classes[] = 'vetra-portal-theme';
 	$classes[] = is_user_logged_in() ? 'vetra-user-logged-in' : 'vetra-user-logged-out';
 
-	if ( is_post_type_archive( 'vetra_form' ) || is_singular( 'vetra_form' ) ) {
-		$classes[] = 'vetra-forms-context';
-	}
-
 	return $classes;
 }
 add_filter( 'body_class', 'vetra_portal_body_classes' );
@@ -70,10 +63,3 @@ function vetra_portal_excerpt_length() {
 	return 18;
 }
 add_filter( 'excerpt_length', 'vetra_portal_excerpt_length' );
-
-function vetra_portal_flush_rewrites() {
-	vetra_register_form_content();
-	vetra_register_form_taxonomy();
-	flush_rewrite_rules();
-}
-add_action( 'after_switch_theme', 'vetra_portal_flush_rewrites' );

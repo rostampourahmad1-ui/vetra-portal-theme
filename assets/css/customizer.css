@@ -1,0 +1,22 @@
+/* Keep the Customizer workspace aligned with the corporate theme. */
+#customize-controls,
+#customize-theme-controls .accordion-section-title {
+	font-family: IRANYekan, Vazirmatn, Tahoma, sans-serif;
+}
+
+#customize-controls {
+	background: #f4f6f4;
+}
+
+#customize-theme-controls .accordion-section-title {
+	color: #18201b;
+	font-weight: 800;
+}
+
+#customize-theme-controls .accordion-section-title:after {
+	color: #f28b38;
+}
+
+.customize-control-title {
+	font-weight: 700;
+}

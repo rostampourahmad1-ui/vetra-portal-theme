@@ -1,11 +1,12 @@
 <?php
 /**
- * Header and portal shell.
+ * Corporate site header.
  *
  * @package VetraPortal
  */
+$theme_mode = vetra_option( 'color_mode', 'system' );
 ?><!doctype html>
-<html <?php language_attributes(); ?> dir="rtl">
+<html <?php language_attributes(); ?> dir="rtl" data-theme="<?php echo esc_attr( 'dark' === $theme_mode ? 'dark' : 'light' ); ?>" data-theme-mode="<?php echo esc_attr( $theme_mode ); ?>">
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,30 +16,23 @@
 <?php wp_body_open(); ?>
 <div class="vetra-site-shell">
 	<header class="vetra-topbar">
-		<div class="vetra-topbar__brand">
+		<div class="vetra-container vetra-topbar__inner">
 			<a class="vetra-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>">
 				<span class="vetra-brand__mark"><?php echo vetra_brand_logo_url() ? '<img src="' . esc_url( vetra_brand_logo_url() ) . '" alt="" />' : vetra_inline_icon( 'building' ); ?></span>
-				<span><strong><?php echo esc_html( vetra_option( 'brand_title' ) ); ?></strong><small><?php echo esc_html( vetra_option( 'brand_subtitle' ) ); ?></small></span>
+				<span class="vetra-brand__copy"><strong><?php echo esc_html( vetra_option( 'brand_title' ) ); ?></strong><small><?php echo esc_html( vetra_option( 'brand_subtitle' ) ); ?></small></span>
 			</a>
-		</div>
-		<div class="vetra-topbar__center">
-			<nav class="vetra-topnav" aria-label="ناوبری اصلی">
-				<?php foreach ( vetra_get_portal_nav() as $item ) : if ( ! in_array( $item['label'], array( 'پروژه‌ها', 'مرکز فرم‌ها', 'گزارش‌ها' ), true ) ) { continue; } ?>
-					<a class="vetra-topnav__item<?php echo ! empty( $item['active'] ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( 'مرکز فرم‌ها' === $item['label'] ? 'فرم‌ها' : $item['label'] ); ?></a>
-				<?php endforeach; ?>
+			<nav class="vetra-site-nav" aria-label="ناوبری اصلی">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">خانه</a>
+				<a href="#about">درباره وترا</a>
+				<a href="#services">خدمات</a>
+				<a href="#projects">پروژه‌ها</a>
+				<a href="#contact">تماس با ما</a>
 			</nav>
-		</div>
-		<div class="vetra-topbar__actions">
-			<?php if ( vetra_option( 'show_notifications' ) ) : ?>
-			<button class="vetra-icon-button" type="button" aria-label="اعلان‌ها"><span class="vetra-notification-dot"></span><?php echo vetra_nav_icon( 'calendar' ); ?></button>
-			<?php endif; ?>
-			<?php if ( vetra_option( 'show_user_chip' ) ) : ?>
-			<div class="vetra-user-chip">
-				<span class="vetra-avatar"><?php $user_name = vetra_current_user_name(); echo esc_html( function_exists( 'mb_substr' ) ? mb_substr( $user_name, 0, 1 ) : substr( $user_name, 0, 1 ) ); ?></span>
-				<span><strong><?php echo is_user_logged_in() ? esc_html( wp_get_current_user()->roles[0] ?? 'کاربر پرتال' ) : 'مهمان'; ?></strong><small><?php echo esc_html( vetra_current_user_name() ); ?></small></span>
+			<div class="vetra-topbar__actions">
+				<?php if ( vetra_option( 'show_theme_switch', true ) ) : ?><button class="vetra-mode-toggle js-vetra-mode-toggle" type="button" aria-label="<?php esc_attr_e( 'تغییر حالت رنگی', 'vetra-portal' ); ?>"><span class="vetra-mode-toggle__sun"><?php echo vetra_inline_icon( 'sun' ); ?></span><span class="vetra-mode-toggle__moon"><?php echo vetra_inline_icon( 'moon' ); ?></span></button><?php endif; ?>
+				<a class="vetra-header-cta" href="<?php echo esc_url( vetra_option( 'header_cta_url' ) ); ?>"><?php echo esc_html( vetra_option( 'header_cta_text' ) ); ?><span><?php echo vetra_inline_icon( 'arrow-up' ); ?></span></a>
+				<button class="vetra-mobile-toggle js-vetra-mobile-toggle" type="button" aria-label="منوی سایت" aria-expanded="false"><?php echo vetra_inline_icon( 'menu' ); ?></button>
 			</div>
-			<?php endif; ?>
 		</div>
 	</header>
-	<div class="vetra-shell-layout">
-		<main id="primary" class="vetra-main">
+	<main id="primary" class="vetra-main">
