@@ -190,23 +190,27 @@ function vetra_add_checkbox_setting( $customizer, $key, $label, $section, $prior
 }
 
 function vetra_portal_customizer_css() {
-	$css = sprintf(
-		':root{--vetra-bg:%1$s;--vetra-panel:%2$s;--vetra-gold:%3$s;--vetra-gold-deep:%4$s;--vetra-text:%5$s;--vetra-muted:%6$s;--vetra-line:%7$s;--vetra-font:%8$s;--vetra-radius:%9$spx;--vetra-content-width:%10$spx;--vetra-blur:%11$spx;--vetra-base-font-size:%12$spx}.vetra-topbar{position:%13$s}.vetra-shell-layout{grid-template-columns:minmax(0,1fr)}.vetra-main{width:100%;max-width:var(--vetra-content-width);margin-inline:auto}.vetra-form-card{border-radius:var(--vetra-radius)}.vetra-forms-grid{grid-template-columns:repeat(%14$s,minmax(0,1fr))}.vetra-topbar{backdrop-filter:blur(var(--vetra-blur))}',
-		esc_attr( vetra_option( 'background_color' ) ),
-		esc_attr( vetra_option( 'panel_color' ) ),
-		esc_attr( vetra_option( 'accent_color' ) ),
-		esc_attr( vetra_option( 'accent_deep_color' ) ),
-		esc_attr( vetra_option( 'text_color' ) ),
-		esc_attr( vetra_option( 'muted_color' ) ),
-		esc_attr( vetra_option( 'line_color' ) ),
-		esc_attr( vetra_option( 'font_family' ) ),
-		absint( vetra_option( 'card_radius' ) ),
-		absint( vetra_option( 'content_width' ) ),
-		absint( vetra_option( 'glass_blur' ) ),
-		absint( vetra_option( 'base_font_size' ) ),
-		vetra_option( 'topbar_sticky' ) ? 'sticky' : 'relative',
-		absint( vetra_option( 'forms_grid_columns' ) )
-	);
+	$css = ':root{' .
+		'--vetra-bg:' . esc_attr( vetra_option( 'background_color' ) ) . ';' .
+		'--vetra-panel:' . esc_attr( vetra_option( 'panel_color' ) ) . ';' .
+		'--vetra-gold:' . esc_attr( vetra_option( 'accent_color' ) ) . ';' .
+		'--vetra-gold-deep:' . esc_attr( vetra_option( 'accent_deep_color' ) ) . ';' .
+		'--vetra-text:' . esc_attr( vetra_option( 'text_color' ) ) . ';' .
+		'--vetra-muted:' . esc_attr( vetra_option( 'muted_color' ) ) . ';' .
+		'--vetra-line:' . esc_attr( vetra_option( 'line_color' ) ) . ';' .
+		'--vetra-font:' . esc_attr( vetra_option( 'font_family' ) ) . ';' .
+		'--vetra-radius:' . absint( vetra_option( 'card_radius' ) ) . 'px;' .
+		'--vetra-content-width:' . absint( vetra_option( 'content_width' ) ) . 'px;' .
+		'--vetra-blur:' . absint( vetra_option( 'glass_blur' ) ) . 'px;' .
+		'--vetra-base-font-size:' . absint( vetra_option( 'base_font_size' ) ) . 'px' .
+	'}';
+
+	$css .= '.vetra-topbar{position:' . ( vetra_option( 'topbar_sticky' ) ? 'sticky' : 'relative' ) . '}' .
+		'.vetra-shell-layout{grid-template-columns:minmax(0,1fr)}' .
+		'.vetra-main{width:100%;max-width:var(--vetra-content-width);margin-inline:auto}' .
+		'.vetra-form-card{border-radius:var(--vetra-radius)}' .
+		'.vetra-forms-grid{grid-template-columns:repeat(' . absint( vetra_option( 'forms_grid_columns' ) ) . ',minmax(0,1fr))}' .
+		'.vetra-topbar{backdrop-filter:blur(var(--vetra-blur))}';
 
 	$css .= '@media (max-width:1180px){.vetra-forms-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:640px){.vetra-forms-grid{grid-template-columns:1fr}}';
 	$css .= vetra_option( 'custom_css', '' );
