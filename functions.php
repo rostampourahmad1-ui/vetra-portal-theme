@@ -9,13 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '2.1.0' );
+define( 'VETRA_PORTAL_VERSION', '2.1.1' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
 require_once VETRA_PORTAL_DIR . '/inc/helpers.php';
 require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
+require_once VETRA_PORTAL_DIR . '/inc/projects.php';
 
 function vetra_portal_setup() {
 	load_theme_textdomain( 'vetra-portal', VETRA_PORTAL_DIR . '/languages' );
@@ -26,6 +27,7 @@ function vetra_portal_setup() {
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
 	add_theme_support( 'custom-background', array( 'default-color' => 'f6f7f4' ) );
 	add_theme_support( 'align-wide' );
+	add_theme_support( 'elementor' );
 
 	register_nav_menus(
 		array(
@@ -73,6 +75,9 @@ function vetra_portal_body_classes( $classes ) {
 	if ( vetra_option( 'sticky_bottom_bar' ) ) {
 		$classes[] = 'vetra-has-bottom-bar';
 	}
+	if ( vetra_option( 'background_enabled', false ) ) {
+		$classes[] = 'vetra-bg-active';
+	}
 
 	return $classes;
 }
@@ -82,6 +87,12 @@ function vetra_portal_excerpt_length() {
 	return 18;
 }
 add_filter( 'excerpt_length', 'vetra_portal_excerpt_length' );
+
+function vetra_elementor_post_types( $post_types ) {
+	$post_types[] = 'vetra_project';
+	return array_unique( $post_types );
+}
+add_filter( 'elementor/cpt_support', 'vetra_elementor_post_types' );
 
 /**
  * Render user bar on selected pages.

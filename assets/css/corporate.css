@@ -591,6 +591,26 @@ html[data-theme="dark"] .vetra-hero__image { mix-blend-mode: screen; opacity: .5
 .vetra-service-card__list svg { width: 16px; height: 16px; color: var(--vetra-accent); }
 .vetra-service-card__list svg path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 2; }
 
+/* Shared project content and front-end submission form. */
+.vetra-project-single { padding-top: 100px; padding-bottom: 130px; }
+.vetra-project-single__header { max-width: 760px; margin-bottom: 40px; }
+.vetra-project-single__header h1 { margin: 18px 0 12px; font-size: clamp(38px, 6vw, 76px); letter-spacing: -.07em; line-height: 1.2; }
+.vetra-project-single__header p { margin: 0; color: var(--vetra-muted); line-height: 2; }
+.vetra-project-single__image { margin-bottom: 30px; border-radius: var(--vetra-radius); overflow: hidden; }
+.vetra-project-single__image img { display: block; width: 100%; }
+.vetra-project-single__facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 45px; border: 1px solid var(--vetra-line); border-radius: var(--vetra-radius); background: var(--vetra-line); overflow: hidden; }
+.vetra-project-single__facts div { display: grid; gap: 4px; padding: 20px; background: var(--vetra-surface); }
+.vetra-project-single__facts span { color: var(--vetra-muted); font-size: 10px; }
+.vetra-project-single__facts strong { font-size: 14px; }
+.vetra-project-single .vetra-entry-content { max-width: 760px; margin-inline: auto; font-size: 15px; }
+.vetra-project-form { display: grid; gap: 15px; }
+.vetra-project-form__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.vetra-project-form label { display: grid; gap: 7px; color: var(--vetra-muted); font-size: 11px; font-weight: 700; }
+.vetra-project-form input, .vetra-project-form select, .vetra-project-form textarea { width: 100%; padding: 12px 13px; border: 1px solid var(--vetra-line); border-radius: 11px; background: var(--vetra-bg); color: var(--vetra-text); font: inherit; }
+.vetra-project-form input:focus, .vetra-project-form select:focus, .vetra-project-form textarea:focus { outline: 2px solid color-mix(in srgb, var(--vetra-accent) 30%, transparent); border-color: var(--vetra-accent); }
+.vetra-project-form p { margin: 0; }
+.vetra-form-success { padding: 12px 16px; border-radius: 10px; background: var(--vetra-accent-soft); color: var(--vetra-accent); }
+
 @media (max-width: 1050px) {
 	.vetra-topbar__inner { grid-template-columns: 1fr auto; }
 	.vetra-site-nav { position: absolute; top: calc(100% + 1px); right: 24px; left: 24px; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 10px 20px; border: 1px solid var(--vetra-line); border-radius: 18px; background: var(--vetra-surface); box-shadow: 0 20px 50px rgba(0,0,0,.12); }
@@ -643,6 +663,8 @@ html[data-theme="dark"] .vetra-hero__image { mix-blend-mode: screen; opacity: .5
 	.vetra-form-section { grid-template-columns: 1fr; }
 	.vetra-form-section__copy { position: static; }
 	.vetra-user-bar__list { display: none; }
+	.vetra-project-single__facts { grid-template-columns: repeat(2, 1fr); }
+	.vetra-project-form__grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Free dependency manager for the corporate theme.
+ * Dependency manager for the corporate theme.
  *
  * @package VetraPortal
  */
@@ -13,7 +13,7 @@ function vetra_plugin_manifest() {
 	return array(
 		'elementor' => array(
 			'name' => 'Elementor',
-			'description' => 'صفحه‌ساز رایگان برای صفحات خدمات و پروژه‌ها.',
+			'description' => 'صفحه‌ساز اصلی قالب برای ساخت و ویرایش صفحات، سکشن‌ها و پروژه‌ها.',
 			'url' => 'https://downloads.wordpress.org/plugin/elementor.latest-stable.zip',
 			'file' => 'elementor/elementor.php',
 			'type' => 'url',
@@ -85,6 +85,7 @@ function vetra_plugin_manager_handle_actions() {
 		if ( isset( $manifest[ $slug ] ) && ! vetra_plugin_is_active( $manifest[ $slug ]['file'] ) ) {
 			if ( 'zip' === $manifest[ $slug ]['type'] ) {
 				if ( ! empty( $_FILES['plugin_zip']['tmp_name'] ) ) {
+					require_once ABSPATH . 'wp-admin/includes/file.php';
 					$uploaded = wp_handle_upload( $_FILES['plugin_zip'], array( 'test_form' => false, 'mimes' => array( 'zip' => 'application/zip' ) ) );
 					if ( isset( $uploaded['file'] ) ) {
 						$result = vetra_install_plugin_package( $uploaded['file'] );
@@ -141,7 +142,7 @@ function vetra_plugin_manager_page() {
 	?>
 	<div class="wrap" dir="rtl">
 		<h1>افزونه‌های وترا</h1>
-		<p>قالب شرکتی وترا بدون افزونه هم قابل استفاده است. این افزونه‌ها فقط برای صفحات پیشرفته و فرم تماس پیشنهاد می‌شوند.</p>
+		<p>Elementor به‌عنوان صفحه‌ساز اصلی قالب پیشنهاد می‌شود. قالب بدون افزونه هم قابل استفاده است؛ Gravity Forms نیازمند لایسنس و ZIP رسمی است.</p>
 		<?php if ( isset( $_GET['vetra_plugin_message'] ) ) : ?><div class="notice notice-success"><p><?php echo esc_html( wp_unslash( $_GET['vetra_plugin_message'] ) ); ?></p></div><?php endif; ?>
 		<?php if ( isset( $_GET['vetra_plugin_error'] ) ) : ?><div class="notice notice-error"><p><?php echo esc_html( wp_unslash( $_GET['vetra_plugin_error'] ) ); ?></p></div><?php endif; ?>
 		<table class="widefat striped" style="max-width:1000px;margin-top:20px"><thead><tr><th>افزونه</th><th>کاربرد</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>

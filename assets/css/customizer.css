@@ -1,22 +1,106 @@
-/* Keep the Customizer workspace aligned with the corporate theme. */
+/* Vetra Customizer: compact, grouped and RTL-friendly. */
+:root {
+	--vetra-admin-accent: #f28b38;
+	--vetra-admin-ink: #18201b;
+	--vetra-admin-muted: #68736d;
+	--vetra-admin-line: #e2e7e3;
+	--vetra-admin-surface: #ffffff;
+}
+
 #customize-controls,
-#customize-theme-controls .accordion-section-title {
+#customize-theme-controls .accordion-section-title,
+#customize-control-vetra_custom_css,
+.customize-control {
 	font-family: IRANYekan, Vazirmatn, Tahoma, sans-serif;
 }
 
 #customize-controls {
-	background: #f4f6f4;
+	background: #f3f6f3;
+}
+
+#customize-controls .customize-info,
+#customize-controls .customize-pane-parent {
+	background: transparent;
+}
+
+#customize-controls .customize-info .customize-section-description {
+	padding: 12px 14px;
+	border-radius: 12px;
+	background: #e9f0eb;
 }
 
 #customize-theme-controls .accordion-section-title {
-	color: #18201b;
+	margin: 8px 10px 0;
+	border: 1px solid var(--vetra-admin-line);
+	border-radius: 13px;
+	background: var(--vetra-admin-surface);
+	color: var(--vetra-admin-ink);
+	font-size: 13px;
 	font-weight: 800;
+	box-shadow: 0 3px 12px rgba(24, 32, 27, .04);
+}
+
+#customize-theme-controls .accordion-section-title:hover,
+#customize-theme-controls .accordion-section-title:focus {
+	border-color: var(--vetra-admin-accent);
+	color: var(--vetra-admin-accent);
 }
 
 #customize-theme-controls .accordion-section-title:after {
-	color: #f28b38;
+	color: var(--vetra-admin-accent);
+}
+
+.customize-control {
+	margin-bottom: 16px;
 }
 
 .customize-control-title {
-	font-weight: 700;
+	margin-bottom: 6px;
+	color: var(--vetra-admin-ink);
+	font-size: 12px;
+	font-weight: 800;
+}
+
+.customize-control-description,
+.customize-section-description {
+	color: var(--vetra-admin-muted);
+	font-size: 11px;
+	line-height: 1.9;
+}
+
+.customize-control input[type="text"],
+.customize-control input[type="number"],
+.customize-control select,
+.customize-control textarea {
+	min-height: 38px;
+	border: 1px solid var(--vetra-admin-line);
+	border-radius: 10px;
+	background: #fbfcfb;
+	box-shadow: none;
+}
+
+.customize-control input:focus,
+.customize-control select:focus,
+.customize-control textarea:focus {
+	border-color: var(--vetra-admin-accent);
+	box-shadow: 0 0 0 2px rgba(242, 139, 56, .14);
+}
+
+.customize-control-checkbox label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 11px 12px;
+	border: 1px solid var(--vetra-admin-line);
+	border-radius: 10px;
+	background: var(--vetra-admin-surface);
+}
+
+.customize-control-checkbox input:checked + span:before {
+	border-color: var(--vetra-admin-accent);
+	background: var(--vetra-admin-accent);
+}
+
+.vetra-multi-checkbox {
+	accent-color: var(--vetra-admin-accent);
 }

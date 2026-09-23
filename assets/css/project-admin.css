@@ -1,0 +1,9 @@
+.vetra-project-admin-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.vetra-project-admin-grid p { margin: 0; }
+.vetra-project-admin-grid label { display: grid; gap: 5px; }
+.vetra-project-admin-grid select { width: 100%; min-height: 30px; }
+.vetra-admin-wrap { max-width: 1100px; }
+.vetra-admin-card { margin: 18px 0; padding: 20px 24px; border: 1px solid #dfe6e1; border-radius: 14px; background: #fff; box-shadow: 0 5px 18px rgba(24,32,27,.04); }
+.vetra-admin-card h2 { margin-top: 0; }
+.vetra-capability { display: inline-flex; align-items: center; gap: 5px; margin: 0 18px 10px 0; }
+@media (max-width: 900px) { .vetra-project-admin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
