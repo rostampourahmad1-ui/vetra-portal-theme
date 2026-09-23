@@ -81,6 +81,62 @@ function vetra_customizer_defaults() {
 		'contact_email'     => 'hello@vetragroup.ir',
 		'contact_address'   => 'تهران، خیابان ولیعصر، دفتر مرکزی وترا',
 		'custom_css'        => '',
+
+		// Background.
+		'bg_type'           => 'gradient',
+		'bg_color'          => '#f6f7f4',
+		'bg_gradient_start' => '#f6f7f4',
+		'bg_gradient_end'   => '#e8e6df',
+		'bg_gradient_angle' => 145,
+		'bg_image'          => 0,
+		'bg_image_size'     => 'cover',
+		'bg_image_position' => 'center',
+		'bg_image_repeat'   => 'no-repeat',
+		'bg_image_attachment' => 'fixed',
+		'bg_overlay_color'  => 'rgba(255,255,255,0)',
+		'bg_overlay_opacity'=> 0,
+		'bg_pattern'        => 'none',
+
+		// Fonts.
+		'font_heading'      => 'inherit',
+		'font_body'         => 'IRANYekan, Vazirmatn, Tahoma, sans-serif',
+		'load_vazirmatn'    => false,
+		'load_estedad'      => false,
+		'load_dana'         => false,
+
+		// Mobile menu.
+		'mobile_menu_style' => 'drawer',
+		'sticky_bottom_bar' => true,
+		'bottom_bar_item_1_icon' => 'home',
+		'bottom_bar_item_1_text' => 'خانه',
+		'bottom_bar_item_1_url'  => '/',
+		'bottom_bar_item_2_icon' => 'services',
+		'bottom_bar_item_2_text' => 'خدمات',
+		'bottom_bar_item_2_url'  => '#services',
+		'bottom_bar_item_3_icon' => 'projects',
+		'bottom_bar_item_3_text' => 'پروژه‌ها',
+		'bottom_bar_item_3_url'  => '#projects',
+		'bottom_bar_item_4_icon' => 'contact',
+		'bottom_bar_item_4_text' => 'تماس',
+		'bottom_bar_item_4_url'  => '#contact',
+
+		// User bar.
+		'show_user_bar'     => false,
+		'user_bar_pages'    => array(),
+		'show_user_avatar'  => true,
+		'show_user_name'    => true,
+		'show_user_list'    => false,
+
+		// PWA.
+		'pwa_enabled'       => false,
+		'pwa_name'          => 'وترا',
+		'pwa_short_name'    => 'وترا',
+		'pwa_description'   => 'گروه ساختمانی و مهندسی وترا',
+		'pwa_theme_color'   => '#f28b38',
+		'pwa_bg_color'      => '#f6f7f4',
+		'pwa_display'       => 'standalone',
+		'pwa_start_url'     => '/',
+		'pwa_icon'          => 0,
 	);
 }
 
@@ -108,9 +164,51 @@ function vetra_sanitize_mode( $value ) {
 	return in_array( $value, array( 'light', 'dark', 'system' ), true ) ? $value : 'system';
 }
 
-function vetra_sanitize_font( $value ) {
-	$allowed = array( 'IRANYekan, Vazirmatn, Tahoma, sans-serif', 'Vazirmatn, Tahoma, sans-serif', 'IRANSans, Tahoma, sans-serif', 'Tahoma, Arial, sans-serif', 'system-ui, sans-serif' );
+function vetra_sanitize_bg_type( $value ) {
+	return in_array( $value, array( 'color', 'gradient', 'image' ), true ) ? $value : 'color';
+}
+
+function vetra_sanitize_bg_size( $value ) {
+	return in_array( $value, array( 'cover', 'contain', 'auto' ), true ) ? $value : 'cover';
+}
+
+function vetra_sanitize_bg_repeat( $value ) {
+	return in_array( $value, array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ), true ) ? $value : 'no-repeat';
+}
+
+function vetra_sanitize_bg_attachment( $value ) {
+	return in_array( $value, array( 'fixed', 'scroll', 'local' ), true ) ? $value : 'fixed';
+}
+
+function vetra_sanitize_pattern( $value ) {
+	return in_array( $value, array( 'none', 'dots', 'grid', 'diagonal', 'noise' ), true ) ? $value : 'none';
+}
+
+function vetra_sanitize_font_stack( $value ) {
+	$allowed = array(
+		'IRANYekan, Vazirmatn, Tahoma, sans-serif',
+		'Vazirmatn, Tahoma, sans-serif',
+		'IRANSans, Tahoma, sans-serif',
+		'Estedad, Vazirmatn, Tahoma, sans-serif',
+		'Dana, Vazirmatn, Tahoma, sans-serif',
+		'YekanBakh, Vazirmatn, Tahoma, sans-serif',
+		'Sahel, Vazirmatn, Tahoma, sans-serif',
+		'Shabnam, Vazirmatn, Tahoma, sans-serif',
+		'Tahoma, Arial, sans-serif',
+		'system-ui, sans-serif',
+	);
 	return in_array( $value, $allowed, true ) ? $value : $allowed[0];
+}
+
+function vetra_sanitize_pwa_display( $value ) {
+	return in_array( $value, array( 'fullscreen', 'standalone', 'minimal-ui', 'browser' ), true ) ? $value : 'standalone';
+}
+
+function vetra_sanitize_pages_array( $value ) {
+	if ( ! is_array( $value ) ) {
+		return array();
+	}
+	return array_map( 'absint', array_filter( $value ) );
 }
 
 function vetra_sanitize_custom_css( $value ) {
@@ -137,6 +235,16 @@ function vetra_add_toggle( $customizer, $key, $label, $section, $priority ) {
 	$customizer->add_control( 'vetra_' . $key, array( 'label' => $label, 'section' => $section, 'type' => 'checkbox', 'priority' => $priority ) );
 }
 
+function vetra_add_select( $customizer, $key, $label, $section, $priority, $choices ) {
+	$customizer->add_setting( 'vetra_' . $key, array( 'default' => vetra_customizer_defaults()[ $key ], 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'refresh' ) );
+	$customizer->add_control( 'vetra_' . $key, array( 'label' => $label, 'section' => $section, 'type' => 'select', 'choices' => $choices, 'priority' => $priority ) );
+}
+
+function vetra_add_pages_multi( $customizer, $key, $label, $section, $priority ) {
+	$customizer->add_setting( 'vetra_' . $key, array( 'default' => vetra_customizer_defaults()[ $key ], 'sanitize_callback' => 'vetra_sanitize_pages_array', 'transport' => 'refresh' ) );
+	$customizer->add_control( new Vetra_Customize_Control_Checkbox_Multiple( $customizer, 'vetra_' . $key, array( 'label' => $label, 'section' => $section, 'priority' => $priority ) ) );
+}
+
 function vetra_customizer_register( $wp_customize ) {
 	$wp_customize->add_panel( 'vetra_corporate_panel', array( 'title' => 'هویت شرکتی وترا', 'description' => 'طراحی، محتوا و رنگ‌بندی سایت شرکتی وترا را از یک پنل حرفه‌ای مدیریت کنید.', 'priority' => 25 ) );
 
@@ -148,8 +256,22 @@ function vetra_customizer_register( $wp_customize ) {
 	$wp_customize->add_section( 'vetra_theme_section', array( 'title' => 'حالت نمایش و رنگ‌ها', 'panel' => 'vetra_corporate_panel', 'priority' => 20 ) );
 	$wp_customize->add_setting( 'vetra_color_mode', array( 'default' => 'system', 'sanitize_callback' => 'vetra_sanitize_mode', 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'vetra_color_mode', array( 'label' => 'حالت رنگی پیش‌فرض', 'section' => 'vetra_theme_section', 'type' => 'select', 'choices' => array( 'system' => 'هماهنگ با دستگاه', 'light' => 'روشن', 'dark' => 'تیره' ), 'priority' => 10 ) );
-	$wp_customize->add_setting( 'vetra_font_family', array( 'default' => vetra_customizer_defaults()['font_family'], 'sanitize_callback' => 'vetra_sanitize_font', 'transport' => 'refresh' ) );
-	$wp_customize->add_control( 'vetra_font_family', array( 'label' => 'فونت اصلی', 'section' => 'vetra_theme_section', 'type' => 'select', 'choices' => array( 'IRANYekan, Vazirmatn, Tahoma, sans-serif' => 'IRANYekan / Vazirmatn', 'Vazirmatn, Tahoma, sans-serif' => 'Vazirmatn', 'IRANSans, Tahoma, sans-serif' => 'IRANSans', 'Tahoma, Arial, sans-serif' => 'Tahoma', 'system-ui, sans-serif' => 'System UI' ), 'priority' => 20 ) );
+	$wp_customize->add_setting( 'vetra_font_family', array( 'default' => vetra_customizer_defaults()['font_family'], 'sanitize_callback' => 'vetra_sanitize_font_stack', 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'vetra_font_family', array( 'label' => 'فونت اصلی', 'section' => 'vetra_theme_section', 'type' => 'select', 'choices' => array(
+		'IRANYekan, Vazirmatn, Tahoma, sans-serif' => 'IRANYekan',
+		'Vazirmatn, Tahoma, sans-serif' => 'Vazirmatn',
+		'IRANSans, Tahoma, sans-serif' => 'IRANSans',
+		'Estedad, Vazirmatn, Tahoma, sans-serif' => 'Estedad',
+		'Dana, Vazirmatn, Tahoma, sans-serif' => 'Dana',
+		'YekanBakh, Vazirmatn, Tahoma, sans-serif' => 'Yekan Bakh',
+		'Sahel, Vazirmatn, Tahoma, sans-serif' => 'Sahel',
+		'Shabnam, Vazirmatn, Tahoma, sans-serif' => 'Shabnam',
+		'Tahoma, Arial, sans-serif' => 'Tahoma',
+		'system-ui, sans-serif' => 'System UI',
+	), 'priority' => 20 ) );
+	vetra_add_toggle( $wp_customize, 'load_vazirmatn', 'بارگذاری Vazirmatn از CDN', 'vetra_theme_section', 25 );
+	vetra_add_toggle( $wp_customize, 'load_estedad', 'بارگذاری Estedad از CDN', 'vetra_theme_section', 26 );
+	vetra_add_toggle( $wp_customize, 'load_dana', 'بارگذاری Dana از CDN', 'vetra_theme_section', 27 );
 	vetra_add_color( $wp_customize, 'light_bg', 'پس‌زمینه روشن', 'vetra_theme_section', 30 );
 	vetra_add_color( $wp_customize, 'light_surface', 'سطح کارت روشن', 'vetra_theme_section', 40 );
 	vetra_add_color( $wp_customize, 'light_text', 'متن روشن', 'vetra_theme_section', 50 );
@@ -159,11 +281,44 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_color( $wp_customize, 'dark_text', 'متن تیره', 'vetra_theme_section', 90 );
 	vetra_add_color( $wp_customize, 'dark_accent', 'رنگ شاخص تیره', 'vetra_theme_section', 100 );
 
+	$wp_customize->add_section( 'vetra_background_section', array( 'title' => 'پس‌زمینه جامع', 'panel' => 'vetra_corporate_panel', 'priority' => 22 ) );
+	vetra_add_select( $wp_customize, 'bg_type', 'نوع پس‌زمینه', 'vetra_background_section', 10, array( 'color' => 'رنگ ساده', 'gradient' => 'گرادیان', 'image' => 'تصویر' ) );
+	vetra_add_color( $wp_customize, 'bg_color', 'رنگ پس‌زمینه', 'vetra_background_section', 20 );
+	vetra_add_color( $wp_customize, 'bg_gradient_start', 'رنگ شروع گرادیان', 'vetra_background_section', 30 );
+	vetra_add_color( $wp_customize, 'bg_gradient_end', 'رنگ پایان گرادیان', 'vetra_background_section', 40 );
+	$wp_customize->add_setting( 'vetra_bg_gradient_angle', array( 'default' => 145, 'sanitize_callback' => function( $v ) { return vetra_sanitize_number( $v, 0, 360 ); }, 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'vetra_bg_gradient_angle', array( 'label' => 'زاویه گرادیان (درجه)', 'section' => 'vetra_background_section', 'type' => 'number', 'input_attrs' => array( 'min' => 0, 'max' => 360 ), 'priority' => 50 ) );
+	vetra_add_media( $wp_customize, 'bg_image', 'تصویر پس‌زمینه', 'vetra_background_section', 60 );
+	vetra_add_select( $wp_customize, 'bg_image_size', 'اندازه تصویر', 'vetra_background_section', 70, array( 'cover' => 'پوشش کامل', 'contain' => 'جای‌گیری', 'auto' => 'خودکار' ) );
+	vetra_add_select( $wp_customize, 'bg_image_position', 'موقعیت تصویر', 'vetra_background_section', 80, array( 'center' => 'مرکز', 'top' => 'بالا', 'bottom' => 'پایین', 'left' => 'چپ', 'right' => 'راست', 'top left' => 'بالا چپ', 'top right' => 'بالا راست', 'bottom left' => 'پایین چپ', 'bottom right' => 'پایین راست' ) );
+	vetra_add_select( $wp_customize, 'bg_image_repeat', 'تکرار تصویر', 'vetra_background_section', 90, array( 'no-repeat' => 'بدون تکرار', 'repeat' => 'تکرار', 'repeat-x' => 'تکرار افقی', 'repeat-y' => 'تکرار عمودی' ) );
+	vetra_add_select( $wp_customize, 'bg_image_attachment', 'چسبندگی تصویر', 'vetra_background_section', 100, array( 'fixed' => 'ثابت', 'scroll' => 'اسکرول', 'local' => 'محلی' ) );
+	vetra_add_select( $wp_customize, 'bg_pattern', 'الگوی رویه', 'vetra_background_section', 110, array( 'none' => 'بدون الگو', 'dots' => 'نقطه‌ای', 'grid' => 'شبکه', 'diagonal' => 'مورب', 'noise' => 'نویز' ) );
+	vetra_add_color( $wp_customize, 'bg_overlay_color', 'رنگ Overlay', 'vetra_background_section', 120 );
+	$wp_customize->add_setting( 'vetra_bg_overlay_opacity', array( 'default' => 0, 'sanitize_callback' => function( $v ) { return vetra_sanitize_number( $v, 0, 100 ); }, 'transport' => 'refresh' ) );
+	$wp_customize->add_control( 'vetra_bg_overlay_opacity', array( 'label' => 'شفافیت Overlay (٪)', 'section' => 'vetra_background_section', 'type' => 'number', 'input_attrs' => array( 'min' => 0, 'max' => 100 ), 'priority' => 130 ) );
+
 	$wp_customize->add_section( 'vetra_header_section', array( 'title' => 'هدر و تماس', 'panel' => 'vetra_corporate_panel', 'priority' => 30 ) );
 	vetra_add_toggle( $wp_customize, 'header_sticky', 'هدر چسبان', 'vetra_header_section', 10 );
 	vetra_add_toggle( $wp_customize, 'show_theme_switch', 'نمایش کلید حالت روشن/تیره', 'vetra_header_section', 20 );
 	vetra_add_text( $wp_customize, 'header_cta_text', 'متن دکمه هدر', 'vetra_header_section', 30 );
 	vetra_add_text( $wp_customize, 'header_cta_url', 'لینک دکمه هدر', 'vetra_header_section', 40 );
+
+	$wp_customize->add_section( 'vetra_mobile_menu_section', array( 'title' => 'منوی موبایل', 'panel' => 'vetra_corporate_panel', 'priority' => 35 ) );
+	vetra_add_select( $wp_customize, 'mobile_menu_style', 'استایل منوی موبایل', 'vetra_mobile_menu_section', 10, array( 'drawer' => 'کشویی از بالا', 'bottom-sheet' => 'برگه پایین' ) );
+	vetra_add_toggle( $wp_customize, 'sticky_bottom_bar', 'منوی چسبان پایین موبایل', 'vetra_mobile_menu_section', 20 );
+	for ( $i = 1; $i <= 4; $i++ ) {
+		vetra_add_text( $wp_customize, 'bottom_bar_item_' . $i . '_text', 'برچسب آیتم ' . $i, 'vetra_mobile_menu_section', 30 + ( $i * 10 ) );
+		vetra_add_text( $wp_customize, 'bottom_bar_item_' . $i . '_url', 'لینک آیتم ' . $i, 'vetra_mobile_menu_section', 35 + ( $i * 10 ) );
+		vetra_add_text( $wp_customize, 'bottom_bar_item_' . $i . '_icon', 'کلاس آیکون آیتم ' . $i, 'vetra_mobile_menu_section', 38 + ( $i * 10 ) );
+	}
+
+	$wp_customize->add_section( 'vetra_user_bar_section', array( 'title' => 'نوار کاربر', 'panel' => 'vetra_corporate_panel', 'priority' => 37 ) );
+	vetra_add_toggle( $wp_customize, 'show_user_bar', 'نمایش نوار کاربر', 'vetra_user_bar_section', 10 );
+	vetra_add_pages_multi( $wp_customize, 'user_bar_pages', 'صفحات نمایش نوار کاربر', 'vetra_user_bar_section', 20 );
+	vetra_add_toggle( $wp_customize, 'show_user_avatar', 'نمایش آواتار کاربر جاری', 'vetra_user_bar_section', 30 );
+	vetra_add_toggle( $wp_customize, 'show_user_name', 'نمایش نام کاربر جاری', 'vetra_user_bar_section', 40 );
+	vetra_add_toggle( $wp_customize, 'show_user_list', 'نمایش فهرست کاربران', 'vetra_user_bar_section', 50 );
 
 	$wp_customize->add_section( 'vetra_hero_section', array( 'title' => 'Hero صفحه اصلی', 'panel' => 'vetra_corporate_panel', 'priority' => 40 ) );
 	vetra_add_text( $wp_customize, 'hero_eyebrow', 'برچسب بالای عنوان', 'vetra_hero_section', 10 );
@@ -202,7 +357,18 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_text( $wp_customize, 'contact_email', 'ایمیل', 'vetra_contact_section', 60 );
 	vetra_add_text( $wp_customize, 'contact_address', 'آدرس', 'vetra_contact_section', 70 );
 
-	$wp_customize->add_section( 'vetra_advanced_section', array( 'title' => 'پیشرفته', 'panel' => 'vetra_corporate_panel', 'priority' => 70 ) );
+	$wp_customize->add_section( 'vetra_pwa_section', array( 'title' => 'وب‌اپ PWA', 'panel' => 'vetra_corporate_panel', 'priority' => 70 ) );
+	vetra_add_toggle( $wp_customize, 'pwa_enabled', 'فعال‌سازی PWA', 'vetra_pwa_section', 10 );
+	vetra_add_text( $wp_customize, 'pwa_name', 'نام اپ', 'vetra_pwa_section', 20 );
+	vetra_add_text( $wp_customize, 'pwa_short_name', 'نام کوتاه', 'vetra_pwa_section', 30 );
+	vetra_add_text( $wp_customize, 'pwa_description', 'توضیح اپ', 'vetra_pwa_section', 40 );
+	vetra_add_color( $wp_customize, 'pwa_theme_color', 'رنگ تم', 'vetra_pwa_section', 50 );
+	vetra_add_color( $wp_customize, 'pwa_bg_color', 'رنگ پس‌زمینه اپ', 'vetra_pwa_section', 60 );
+	vetra_add_select( $wp_customize, 'pwa_display', 'حالت نمایش', 'vetra_pwa_section', 70, array( 'fullscreen' => 'تمام‌صفحه', 'standalone' => 'standalone', 'minimal-ui' => 'minimal-ui', 'browser' => 'browser' ) );
+	vetra_add_text( $wp_customize, 'pwa_start_url', 'آدرس شروع', 'vetra_pwa_section', 80 );
+	vetra_add_media( $wp_customize, 'pwa_icon', 'آیکون PWA (مربع ۵۱۲px)', 'vetra_pwa_section', 90 );
+
+	$wp_customize->add_section( 'vetra_advanced_section', array( 'title' => 'پیشرفته', 'panel' => 'vetra_corporate_panel', 'priority' => 80 ) );
 	$wp_customize->add_setting( 'vetra_custom_css', array( 'default' => '', 'sanitize_callback' => 'vetra_sanitize_custom_css', 'transport' => 'refresh' ) );
 	if ( class_exists( 'WP_Customize_Code_Editor_Control' ) ) {
 		$wp_customize->add_control( new WP_Customize_Code_Editor_Control( $wp_customize, 'vetra_custom_css', array( 'label' => 'CSS سفارشی', 'description' => 'بدون تگ style. این CSS بعد از استایل قالب اعمال می‌شود.', 'section' => 'vetra_advanced_section', 'code_type' => 'text/css', 'priority' => 10 ) ) );
@@ -212,12 +378,76 @@ function vetra_customizer_register( $wp_customize ) {
 }
 add_action( 'customize_register', 'vetra_customizer_register' );
 
+/**
+ * Multiple checkbox control for pages selection.
+ */
+if ( class_exists( 'WP_Customize_Control' ) ) {
+	class Vetra_Customize_Control_Checkbox_Multiple extends WP_Customize_Control {
+		public $type = 'checkbox_multiple';
+
+		public function render_content() {
+			if ( empty( $this->choices ) ) {
+				$pages = get_pages( array( 'number' => 100 ) );
+				foreach ( $pages as $page ) {
+					$this->choices[ $page->ID ] = $page->post_title;
+				}
+			}
+			$value = is_array( $this->value() ) ? $this->value() : array();
+			?>
+			<label>
+				<?php if ( ! empty( $this->label ) ) : ?><span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span><?php endif; ?>
+			</label>
+			<ul style="max-height:200px;overflow:auto;border:1px solid #ddd;padding:8px 12px;background:#fff">
+			<?php foreach ( $this->choices as $id => $label ) : ?>
+				<li><label><input type="checkbox" value="<?php echo esc_attr( $id ); ?>" <?php checked( in_array( (string) $id, array_map( 'strval', $value ), true ) ); ?> class="vetra-multi-checkbox" /> <?php echo esc_html( $label ); ?></label></li>
+			<?php endforeach; ?>
+			</ul>
+			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( implode( ',', $value ) ); ?>" />
+			<?php
+		}
+	}
+}
+
 function vetra_customizer_css() {
 	$defaults = vetra_customizer_defaults();
-	$root     = ':root{--vetra-font:' . esc_attr( vetra_option( 'font_family' ) ) . ';--vetra-radius:' . absint( vetra_option( 'card_radius', 24 ) ) . 'px;--vetra-content-width:' . absint( vetra_option( 'content_width', 1320 ) ) . 'px;--vetra-base-size:16px;--vetra-bg:' . esc_attr( vetra_option( 'light_bg' ) ) . ';--vetra-surface:' . esc_attr( vetra_option( 'light_surface' ) ) . ';--vetra-text:' . esc_attr( vetra_option( 'light_text' ) ) . ';--vetra-muted:' . esc_attr( vetra_option( 'light_muted' ) ) . ';--vetra-accent:' . esc_attr( vetra_option( 'light_accent' ) ) . ';--vetra-accent-soft:' . esc_attr( vetra_option( 'light_accent_soft' ) ) . ';--vetra-line:' . esc_attr( vetra_option( 'line_color' ) ) . '}';
+
+	// Background builder.
+	$bg_css = '';
+	$bg_type = vetra_option( 'bg_type', 'gradient' );
+	if ( 'image' === $bg_type ) {
+		$image = vetra_image_url( 'bg_image' );
+		if ( $image ) {
+			$bg_css = 'background-image:url(' . esc_url( $image ) . ');background-size:' . esc_attr( vetra_option( 'bg_image_size' ) ) . ';background-position:' . esc_attr( vetra_option( 'bg_image_position' ) ) . ';background-repeat:' . esc_attr( vetra_option( 'bg_image_repeat' ) ) . ';background-attachment:' . esc_attr( vetra_option( 'bg_image_attachment' ) ) . ';';
+		}
+	} elseif ( 'gradient' === $bg_type ) {
+		$bg_css = 'background:linear-gradient(' . absint( vetra_option( 'bg_gradient_angle' ) ) . 'deg,' . esc_attr( vetra_option( 'bg_gradient_start' ) ) . ',' . esc_attr( vetra_option( 'bg_gradient_end' ) ) . ');';
+	} else {
+		$bg_css = 'background:' . esc_attr( vetra_option( 'bg_color' ) ) . ';';
+	}
+
+	$pattern = vetra_option( 'bg_pattern', 'none' );
+	$pattern_css = '';
+	if ( 'dots' === $pattern ) {
+		$pattern_css = 'background-image:radial-gradient(circle,currentColor 1px,transparent 1px);background-size:24px 24px;opacity:.06;';
+	} elseif ( 'grid' === $pattern ) {
+		$pattern_css = 'background-image:linear-gradient(currentColor 1px,transparent 1px),linear-gradient(90deg,currentColor 1px,transparent 1px);background-size:40px 40px;opacity:.04;';
+	} elseif ( 'diagonal' === $pattern ) {
+		$pattern_css = 'background-image:repeating-linear-gradient(45deg,currentColor 0,currentColor 1px,transparent 0,transparent 50%);background-size:20px 20px;opacity:.04;';
+	} elseif ( 'noise' === $pattern ) {
+		$pattern_css = 'background-image:url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.4\'/%3E%3C/svg%3E");opacity:.05;';
+	}
+
+	$overlay_opacity = absint( vetra_option( 'bg_overlay_opacity', 0 ) ) / 100;
+	$overlay_css = $overlay_opacity > 0 ? '--vetra-bg-overlay:' . esc_attr( vetra_option( 'bg_overlay_color', 'rgba(255,255,255,0)' ) ) . ';--vetra-bg-overlay-opacity:' . $overlay_opacity . ';' : '';
+
+	$root     = ':root{--vetra-font:' . esc_attr( vetra_option( 'font_family' ) ) . ';--vetra-radius:' . absint( vetra_option( 'card_radius', 24 ) ) . 'px;--vetra-content-width:' . absint( vetra_option( 'content_width', 1320 ) ) . 'px;--vetra-base-size:16px;--vetra-bg:' . esc_attr( vetra_option( 'light_bg' ) ) . ';--vetra-surface:' . esc_attr( vetra_option( 'light_surface' ) ) . ';--vetra-text:' . esc_attr( vetra_option( 'light_text' ) ) . ';--vetra-muted:' . esc_attr( vetra_option( 'light_muted' ) ) . ';--vetra-accent:' . esc_attr( vetra_option( 'light_accent' ) ) . ';--vetra-accent-soft:' . esc_attr( vetra_option( 'light_accent_soft' ) ) . ';--vetra-line:' . esc_attr( vetra_option( 'line_color' ) ) . ';' . $overlay_css . '}';
 	$dark     = 'html[data-theme="dark"]{--vetra-bg:' . esc_attr( vetra_option( 'dark_bg' ) ) . ';--vetra-surface:' . esc_attr( vetra_option( 'dark_surface' ) ) . ';--vetra-text:' . esc_attr( vetra_option( 'dark_text' ) ) . ';--vetra-muted:' . esc_attr( vetra_option( 'dark_muted' ) ) . ';--vetra-accent:' . esc_attr( vetra_option( 'dark_accent' ) ) . ';--vetra-accent-soft:' . esc_attr( vetra_option( 'dark_accent_soft' ) ) . '}';
-	$layout   = '.vetra-main{max-width:var(--vetra-content-width);margin-inline:auto}.vetra-topbar{position:' . ( vetra_option( 'header_sticky' ) ? 'sticky' : 'relative' ) . '}.vetra-site-shell{background:var(--vetra-bg)}';
-	return $root . $dark . $layout . vetra_option( 'custom_css', '' );
+	$layout   = '.vetra-main{max-width:var(--vetra-content-width);margin-inline:auto}.vetra-topbar{position:' . ( vetra_option( 'header_sticky' ) ? 'sticky' : 'relative' ) . '}.vetra-site-shell{background:' . esc_attr( vetra_option( 'light_bg' ) ) . '}';
+	$body_bg  = 'body{' . $bg_css . '}';
+	$pattern  = $pattern_css ? 'body::after{position:fixed;z-index:-1;inset:0;pointer-events:none;content:"";' . $pattern_css . '}' : '';
+	$overlay  = $overlay_opacity > 0 ? 'body::before{position:fixed;z-index:-1;inset:0;background:var(--vetra-bg-overlay);opacity:var(--vetra-bg-overlay-opacity);content:"";pointer-events:none;}' : '';
+
+	return $root . $dark . $layout . $body_bg . $pattern . $overlay . vetra_option( 'custom_css', '' );
 }
 
 function vetra_portal_customizer_css() {
@@ -226,5 +456,67 @@ function vetra_portal_customizer_css() {
 
 function vetra_customizer_controls_assets() {
 	wp_enqueue_style( 'vetra-customizer-controls', VETRA_PORTAL_URI . '/assets/css/customizer.css', array(), VETRA_PORTAL_VERSION );
+	wp_enqueue_script( 'vetra-customizer-controls', VETRA_PORTAL_URI . '/assets/js/customizer-controls.js', array( 'jquery', 'customize-controls' ), VETRA_PORTAL_VERSION, true );
 }
 add_action( 'customize_controls_enqueue_scripts', 'vetra_customizer_controls_assets' );
+
+/**
+ * PWA manifest endpoint.
+ */
+function vetra_pwa_add_rewrite() {
+	add_rewrite_endpoint( 'vetra-manifest', EP_ROOT );
+}
+add_action( 'init', 'vetra_pwa_add_rewrite' );
+
+function vetra_pwa_manifest_template() {
+	global $wp_query;
+	if ( ! isset( $wp_query->query_vars['vetra-manifest'] ) ) {
+		return;
+	}
+	if ( ! vetra_option( 'pwa_enabled' ) ) {
+		wp_die( 'PWA غیرفعال است.', 'PWA', array( 'response' => 404 ) );
+	}
+
+	$icon_url = vetra_image_url( 'pwa_icon' );
+	if ( ! $icon_url ) {
+		$icon_url = get_site_icon_url( 512, '' );
+	}
+	$icons = array();
+	if ( $icon_url ) {
+		$icons[] = array( 'src' => $icon_url, 'sizes' => '512x512', 'type' => 'image/png', 'purpose' => 'any maskable' );
+		$icons[] = array( 'src' => $icon_url, 'sizes' => '192x192', 'type' => 'image/png', 'purpose' => 'any maskable' );
+	}
+
+	$manifest = array(
+		'name'            => vetra_option( 'pwa_name', 'وترا' ),
+		'short_name'      => vetra_option( 'pwa_short_name', 'وترا' ),
+		'description'     => vetra_option( 'pwa_description', 'گروه ساختمانی و مهندسی وترا' ),
+		'start_url'       => vetra_option( 'pwa_start_url', '/' ),
+		'display'         => vetra_option( 'pwa_display', 'standalone' ),
+		'background_color'=> vetra_option( 'pwa_bg_color', '#f6f7f4' ),
+		'theme_color'     => vetra_option( 'pwa_theme_color', '#f28b38' ),
+		'orientation'     => 'portrait',
+		'lang'            => 'fa',
+		'dir'             => 'rtl',
+	);
+	if ( $icons ) {
+		$manifest['icons'] = $icons;
+	}
+
+	header( 'Content-Type: application/manifest+json; charset=' . get_bloginfo( 'charset' ) );
+	echo wp_json_encode( $manifest, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+	exit;
+}
+add_action( 'template_redirect', 'vetra_pwa_manifest_template' );
+
+function vetra_pwa_manifest_link() {
+	if ( ! vetra_option( 'pwa_enabled' ) ) {
+		return;
+	}
+	echo '<link rel="manifest" href="' . esc_url( home_url( '/vetra-manifest' ) ) . '">' . "\n";
+	echo '<meta name="theme-color" content="' . esc_attr( vetra_option( 'pwa_theme_color', '#f28b38' ) ) . '">' . "\n";
+	echo '<meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
+	echo '<meta name="apple-mobile-web-app-status-bar-style" content="default">' . "\n";
+	echo '<meta name="apple-mobile-web-app-title" content="' . esc_attr( vetra_option( 'pwa_short_name', 'وترا' ) ) . '">' . "\n";
+}
+add_action( 'wp_head', 'vetra_pwa_manifest_link', 1 );

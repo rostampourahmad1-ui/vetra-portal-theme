@@ -16,18 +16,20 @@ function vetra_plugin_manifest() {
 			'description' => 'صفحه‌ساز رایگان برای صفحات خدمات و پروژه‌ها.',
 			'url' => 'https://downloads.wordpress.org/plugin/elementor.latest-stable.zip',
 			'file' => 'elementor/elementor.php',
+			'type' => 'url',
 		),
 		'elementskit-lite' => array(
 			'name' => 'ElementsKit Lite',
 			'description' => 'ویجت‌های تکمیلی رایگان Elementor.',
 			'url' => 'https://downloads.wordpress.org/plugin/elementskit-lite.latest-stable.zip',
 			'file' => 'elementskit-lite/elementskit-lite.php',
+			'type' => 'url',
 		),
-		'contact-form-7' => array(
-			'name' => 'Contact Form 7',
-			'description' => 'فرم تماس رایگان برای بخش ارتباط با ما.',
-			'url' => 'https://downloads.wordpress.org/plugin/contact-form-7.latest-stable.zip',
-			'file' => 'contact-form-7/wp-contact-form-7.php',
+		'gravityforms' => array(
+			'name' => 'Gravity Forms',
+			'description' => 'فرم‌ساز حرفه‌ای. نیازمند فایل ZIP رسمی خریداری‌شده است.',
+			'file' => 'gravityforms/gravityforms.php',
+			'type' => 'zip',
 		),
 	);
 }
@@ -64,7 +66,7 @@ function vetra_install_plugin_package( $package ) {
 }
 
 function vetra_plugin_manager_admin_menu() {
-	add_theme_page( 'افزونه‌های رایگان وترا', 'افزونه‌های رایگان', 'manage_options', 'vetra-portal-plugins', 'vetra_plugin_manager_page' );
+	add_theme_page( 'افزونه‌های وترا', 'افزونه‌های وترا', 'manage_options', 'vetra-portal-plugins', 'vetra_plugin_manager_page' );
 }
 add_action( 'admin_menu', 'vetra_plugin_manager_admin_menu' );
 
@@ -76,23 +78,59 @@ function vetra_plugin_manager_handle_actions() {
 	$manifest = vetra_plugin_manifest();
 	$action = sanitize_key( wp_unslash( $_POST['vetra_plugin_action'] ) );
 	$errors = array();
+	$messages = array();
+
 	if ( 'install' === $action ) {
 		$slug = sanitize_key( wp_unslash( $_POST['plugin_slug'] ?? '' ) );
 		if ( isset( $manifest[ $slug ] ) && ! vetra_plugin_is_active( $manifest[ $slug ]['file'] ) ) {
-			$result = vetra_install_plugin_package( $manifest[ $slug ]['url'] );
-			if ( is_wp_error( $result ) ) $errors[] = $result->get_error_message();
-		}
-	}
-	if ( 'install-all' === $action ) {
-		foreach ( $manifest as $plugin ) {
-			if ( ! vetra_plugin_is_active( $plugin['file'] ) ) {
-				$result = vetra_install_plugin_package( $plugin['url'] );
-				if ( is_wp_error( $result ) ) $errors[] = $result->get_error_message();
+			if ( 'zip' === $manifest[ $slug ]['type'] ) {
+				if ( ! empty( $_FILES['plugin_zip']['tmp_name'] ) ) {
+					$uploaded = wp_handle_upload( $_FILES['plugin_zip'], array( 'test_form' => false, 'mimes' => array( 'zip' => 'application/zip' ) ) );
+					if ( isset( $uploaded['file'] ) ) {
+						$result = vetra_install_plugin_package( $uploaded['file'] );
+						if ( is_wp_error( $result ) ) {
+							$errors[] = $result->get_error_message();
+						} else {
+							$messages[] = $manifest[ $slug ]['name'] . ' نصب و فعال شد.';
+						}
+					} else {
+						$errors[] = 'آپلود فایل ZIP ناموفق بود.';
+					}
+				} else {
+					$errors[] = 'لطفاً فایل ZIP رسمی افزونه را انتخاب کنید.';
+				}
+			} elseif ( ! empty( $manifest[ $slug ]['url'] ) ) {
+				$result = vetra_install_plugin_package( $manifest[ $slug ]['url'] );
+				if ( is_wp_error( $result ) ) {
+					$errors[] = $result->get_error_message();
+				} else {
+					$messages[] = $manifest[ $slug ]['name'] . ' نصب و فعال شد.';
+				}
 			}
 		}
 	}
+
+	if ( 'install-all' === $action ) {
+		foreach ( $manifest as $slug => $plugin ) {
+			if ( vetra_plugin_is_active( $plugin['file'] ) || 'zip' === $plugin['type'] ) {
+				continue;
+			}
+			$result = vetra_install_plugin_package( $plugin['url'] );
+			if ( is_wp_error( $result ) ) {
+				$errors[] = $result->get_error_message();
+			} else {
+				$messages[] = $plugin['name'] . ' نصب و فعال شد.';
+			}
+		}
+	}
+
 	$url = wp_get_referer() ?: admin_url( 'themes.php?page=vetra-portal-plugins' );
-	$url = add_query_arg( $errors ? 'vetra_plugin_error' : 'vetra_plugin_message', rawurlencode( $errors ? implode( ' ', $errors ) : 'success' ), $url );
+	if ( $errors ) {
+		$url = add_query_arg( 'vetra_plugin_error', rawurlencode( implode( ' ', $errors ) ), $url );
+	}
+	if ( $messages ) {
+		$url = add_query_arg( 'vetra_plugin_message', rawurlencode( implode( ' ', $messages ) ), $url );
+	}
 	wp_safe_redirect( $url );
 	exit;
 }
@@ -102,13 +140,30 @@ function vetra_plugin_manager_page() {
 	$manifest = vetra_plugin_manifest();
 	?>
 	<div class="wrap" dir="rtl">
-		<h1>افزونه‌های رایگان وترا</h1>
-		<p>قالب شرکتی وترا بدون افزونه هم قابل استفاده است. این افزونه‌های رایگان فقط برای ساخت صفحات پیشرفته و فرم تماس پیشنهاد می‌شوند.</p>
-		<?php if ( isset( $_GET['vetra_plugin_message'] ) ) : ?><div class="notice notice-success"><p>افزونه‌ها با موفقیت نصب شدند.</p></div><?php endif; ?>
+		<h1>افزونه‌های وترا</h1>
+		<p>قالب شرکتی وترا بدون افزونه هم قابل استفاده است. این افزونه‌ها فقط برای صفحات پیشرفته و فرم تماس پیشنهاد می‌شوند.</p>
+		<?php if ( isset( $_GET['vetra_plugin_message'] ) ) : ?><div class="notice notice-success"><p><?php echo esc_html( wp_unslash( $_GET['vetra_plugin_message'] ) ); ?></p></div><?php endif; ?>
 		<?php if ( isset( $_GET['vetra_plugin_error'] ) ) : ?><div class="notice notice-error"><p><?php echo esc_html( wp_unslash( $_GET['vetra_plugin_error'] ) ); ?></p></div><?php endif; ?>
 		<table class="widefat striped" style="max-width:1000px;margin-top:20px"><thead><tr><th>افزونه</th><th>کاربرد</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>
 		<?php foreach ( $manifest as $slug => $plugin ) : $active = vetra_plugin_is_active( $plugin['file'] ); ?>
-			<tr><td><strong><?php echo esc_html( $plugin['name'] ); ?></strong></td><td><?php echo esc_html( $plugin['description'] ); ?></td><td><?php echo $active ? '<span style="color:#008a20">فعال</span>' : '<span style="color:#b32d2e">نصب نیست</span>'; ?></td><td><?php if ( ! $active ) : ?><form method="post"><input type="hidden" name="vetra_plugin_action" value="install"><input type="hidden" name="plugin_slug" value="<?php echo esc_attr( $slug ); ?>"><?php wp_nonce_field( 'vetra_plugin_manager' ); ?><button class="button button-primary">نصب و فعال‌سازی</button></form><?php else : ?>آماده استفاده<?php endif; ?></td></tr>
+			<tr>
+				<td><strong><?php echo esc_html( $plugin['name'] ); ?></strong></td>
+				<td><?php echo esc_html( $plugin['description'] ); ?></td>
+				<td><?php echo $active ? '<span style="color:#008a20">فعال</span>' : '<span style="color:#b32d2e">نصب نیست</span>'; ?></td>
+				<td>
+				<?php if ( ! $active ) : ?>
+					<form method="post" enctype="multipart/form-data">
+						<input type="hidden" name="vetra_plugin_action" value="install">
+						<input type="hidden" name="plugin_slug" value="<?php echo esc_attr( $slug ); ?>">
+						<?php wp_nonce_field( 'vetra_plugin_manager' ); ?>
+						<?php if ( 'zip' === $plugin['type'] ) : ?>
+							<input type="file" name="plugin_zip" accept=".zip" required style="margin-bottom:8px;display:block">
+						<?php endif; ?>
+						<button class="button button-primary">نصب و فعال‌سازی</button>
+					</form>
+				<?php else : ?>آماده استفاده<?php endif; ?>
+				</td>
+			</tr>
 		<?php endforeach; ?>
 		</tbody></table>
 		<form method="post" style="margin-top:18px"><input type="hidden" name="vetra_plugin_action" value="install-all"><?php wp_nonce_field( 'vetra_plugin_manager' ); ?><button class="button button-primary">نصب همه افزونه‌های رایگان</button></form>

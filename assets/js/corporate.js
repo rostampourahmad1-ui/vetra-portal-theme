@@ -36,4 +36,21 @@
     var observer = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { threshold: .12 });
     reveal.forEach(function (item) { observer.observe(item); });
   } else reveal.forEach(function (item) { item.classList.add('is-visible'); });
+
+  // Bottom bar active link.
+  var currentPath = window.location.pathname;
+  document.querySelectorAll('.vetra-bottom-bar a').forEach(function (link) {
+    try {
+      if (new URL(link.href, window.location.origin).pathname === currentPath) {
+        link.classList.add('is-active');
+      }
+    } catch (e) {}
+  });
+
+  // PWA service worker registration.
+  if (window.vetraPortal && vetraPortal.pwaEnabled && 'serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register(vetraPortal.swUrl).catch(function () {});
+    });
+  }
 }());

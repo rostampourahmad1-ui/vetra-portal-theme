@@ -35,4 +35,5 @@ $theme_mode = vetra_option( 'color_mode', 'system' );
 			</div>
 		</div>
 	</header>
+	<?php do_action( 'vetra_after_header' ); ?>
 	<main id="primary" class="vetra-main">
