@@ -15,6 +15,21 @@ function vetra_field( $key, $post_id = false, $default = '' ) {
 	return ( '' === $value || null === $value || false === $value ) ? $default : $value;
 }
 
+function vetra_current_user_name() {
+	$user = wp_get_current_user();
+	return $user && $user->exists() ? $user->display_name : 'کاربر پرتال';
+}
+
+function vetra_normalize_percentage( $value ) {
+	$value = strtr( (string) $value, array( '۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9' ) );
+	return max( 0, min( 100, absint( $value ) ) );
+}
+
+function vetra_brand_logo_url() {
+	$logo_id = absint( get_theme_mod( 'vetra_logo', 0 ) );
+	return $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
+}
+
 function vetra_form_icon_url( $value ) {
 	if ( is_array( $value ) && ! empty( $value['url'] ) ) {
 		return $value['url'];

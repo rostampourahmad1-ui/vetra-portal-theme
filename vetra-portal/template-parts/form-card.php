@@ -17,9 +17,9 @@ $search_text   = implode( ' ', array_merge( array( $title, $description, $code, 
 	<div class="vetra-form-icon"><?php echo vetra_render_form_icon( vetra_field( 'form_icon', $post_id ), 'file' ); ?></div>
 	<h2><?php echo esc_html( $title ); ?></h2>
 	<p><?php echo esc_html( $description ); ?></p>
-	<div class="vetra-form-card__meta"><span><i><?php echo vetra_inline_icon( 'calendar' ); ?></i><?php echo esc_html( $time ); ?></span><span><i><?php echo vetra_inline_icon( 'file' ); ?></i><?php echo esc_html( $output ); ?></span></div>
+	<?php if ( vetra_option( 'show_form_metadata' ) ) : ?><div class="vetra-form-card__meta"><span><i><?php echo vetra_inline_icon( 'calendar' ); ?></i><?php echo esc_html( $time ); ?></span><span><i><?php echo vetra_inline_icon( 'file' ); ?></i><?php echo esc_html( $output ); ?></span></div><?php endif; ?>
 	<?php if ( $allowed ) : ?>
-		<a class="vetra-primary-button" href="<?php echo esc_url( vetra_form_url( $post_id ) ); ?>">تکمیل و ارسال فرم <span>←</span></a>
+		<a class="vetra-primary-button" href="<?php echo esc_url( vetra_form_url( $post_id ) ); ?>"><?php echo esc_html( vetra_option( 'form_button_text' ) ); ?> <span>←</span></a>
 	<?php else : ?>
 		<a class="vetra-secondary-button" href="<?php echo esc_url( wp_login_url( get_permalink( $post_id ) ) ); ?>">ورود برای دسترسی <span>←</span></a>
 	<?php endif; ?>

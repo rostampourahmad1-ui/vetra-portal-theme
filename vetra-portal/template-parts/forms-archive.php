@@ -10,8 +10,8 @@ $terms = get_terms( array( 'taxonomy' => 'form_category', 'hide_empty' => true )
 <section class="vetra-forms-page" aria-labelledby="vetra-forms-title">
 	<div class="vetra-forms-hero">
 		<div class="vetra-forms-hero__icon"><?php echo vetra_inline_icon( 'file' ); ?></div>
-		<div><span class="vetra-eyebrow"><span class="vetra-live-indicator"></span> دسترسی عملیاتی</span><h1 id="vetra-forms-title">مرکز فرم‌ها و فرآیندهای عملیاتی</h1><p>دسترسی سریع به چک‌لیست‌ها، گزارش‌های روزانه کارگاه و درخواست‌های اداری و فنی.</p></div>
-		<label class="vetra-forms-search" for="vetra-form-search"><span><?php echo vetra_inline_icon( 'file' ); ?></span><input id="vetra-form-search" class="js-vetra-form-search" type="search" placeholder="جستجوی نام فرم، کد یا دسته‌بندی ..." autocomplete="off"></label>
+		<div><span class="vetra-eyebrow"><span class="vetra-live-indicator"></span> دسترسی عملیاتی</span><h1 id="vetra-forms-title"><?php echo esc_html( vetra_option( 'forms_title' ) ); ?></h1><p><?php echo esc_html( vetra_option( 'forms_subtitle' ) ); ?></p></div>
+		<label class="vetra-forms-search" for="vetra-form-search"><span><?php echo vetra_inline_icon( 'file' ); ?></span><input id="vetra-form-search" class="js-vetra-form-search" type="search" placeholder="<?php echo esc_attr( vetra_option( 'forms_search_placeholder' ) ); ?>" autocomplete="off"></label>
 	</div>
 
 	<nav class="vetra-form-filters" aria-label="فیلتر دسته‌بندی فرم‌ها">

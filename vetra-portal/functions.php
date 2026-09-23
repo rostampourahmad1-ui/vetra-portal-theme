@@ -9,13 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '1.0.0' );
+define( 'VETRA_PORTAL_VERSION', '1.1.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
 require_once VETRA_PORTAL_DIR . '/inc/helpers.php';
 require_once VETRA_PORTAL_DIR . '/inc/cpt.php';
 require_once VETRA_PORTAL_DIR . '/inc/acf.php';
+require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
+require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
 
 function vetra_portal_setup() {
 	load_theme_textdomain( 'vetra-portal', VETRA_PORTAL_DIR . '/languages' );
@@ -38,6 +40,7 @@ add_action( 'after_setup_theme', 'vetra_portal_setup' );
 function vetra_portal_enqueue_assets() {
 	wp_enqueue_style( 'vetra-portal-style', get_stylesheet_uri(), array(), VETRA_PORTAL_VERSION );
 	wp_enqueue_style( 'vetra-portal-layout', VETRA_PORTAL_URI . '/assets/css/portal.css', array( 'vetra-portal-style' ), VETRA_PORTAL_VERSION );
+	wp_add_inline_style( 'vetra-portal-layout', vetra_portal_customizer_css() );
 	wp_enqueue_script( 'vetra-portal-script', VETRA_PORTAL_URI . '/assets/js/portal.js', array(), VETRA_PORTAL_VERSION, true );
 	wp_localize_script(
 		'vetra-portal-script',

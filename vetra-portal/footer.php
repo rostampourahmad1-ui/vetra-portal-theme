@@ -9,7 +9,7 @@
 	</div>
 	<footer class="vetra-footer">
 		<span>© <?php echo esc_html( gmdate( 'Y' ) ); ?> پرتال مدیریت ساخت وترا</span>
-		<span>ساخت بهتر، با مدیریت دقیق‌تر</span>
+		<span><?php echo esc_html( vetra_option( 'footer_text' ) ); ?></span>
 	</footer>
 </div>
 <?php wp_footer(); ?>

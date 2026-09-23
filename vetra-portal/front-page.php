@@ -4,42 +4,42 @@ get_header();
 <section class="vetra-dashboard-hero">
 	<div>
 		<span class="vetra-eyebrow"><span class="vetra-live-indicator"></span> نمای کلی پرتال</span>
-		<h1>سلام، علی محمدی</h1>
-		<p>وضعیت پروژه‌ها و عملیات امروز را در یک نگاه بررسی کنید.</p>
+		<h1><?php echo esc_html( str_replace( '{user}', vetra_current_user_name(), vetra_option( 'greeting' ) ) ); ?></h1>
+		<p><?php echo esc_html( vetra_option( 'dashboard_intro' ) ); ?></p>
 	</div>
-	<div class="vetra-project-switcher">
+	<?php if ( vetra_option( 'show_project_switcher' ) ) : ?><div class="vetra-project-switcher">
 		<span class="vetra-project-switcher__icon"><?php echo vetra_inline_icon( 'building' ); ?></span>
-		<span><small>پروژه فعال</small><strong>برج سامان</strong><em>تهران، منطقه ۲</em></span>
+		<span><small>پروژه فعال</small><strong><?php echo esc_html( vetra_option( 'project_name' ) ); ?></strong><em><?php echo esc_html( vetra_option( 'project_location' ) ); ?></em></span>
 		<span class="vetra-chevron">⌄</span>
-	</div>
+	</div><?php endif; ?>
 </section>
 
 <section class="vetra-stat-grid" aria-label="خلاصه وضعیت">
 	<article class="vetra-stat-card">
 		<span class="vetra-stat-card__icon is-gold"><?php echo vetra_inline_icon( 'calendar' ); ?></span>
-		<div><small>تعداد روزهای باقی‌مانده</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'remaining_days', '۱۲۴' ) ); ?> <i>روز</i></strong><em>تا پایان برنامه پروژه</em></div>
+		<div><small>تعداد روزهای باقی‌مانده</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'remaining_days', vetra_option( 'remaining_days' ) ) ); ?> <i>روز</i></strong><em>تا پایان برنامه پروژه</em></div>
 	</article>
 	<article class="vetra-stat-card">
 		<span class="vetra-stat-card__icon is-blue"><?php echo vetra_inline_icon( 'building' ); ?></span>
-		<div><small>پیشرفت فیزیکی</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'physical_progress', '۵۶' ) ); ?><i>%</i></strong><div class="vetra-mini-progress"><span style="width:56%"></span></div></div>
+		<div><small>پیشرفت فیزیکی</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'physical_progress', vetra_option( 'physical_progress' ) ) ); ?><i>%</i></strong><div class="vetra-mini-progress"><span style="width:<?php echo esc_attr( vetra_normalize_percentage( vetra_option( 'physical_progress' ) ) ); ?>%"></span></div></div>
 	</article>
 	<article class="vetra-stat-card">
 		<span class="vetra-stat-card__icon is-green"><?php echo vetra_inline_icon( 'wallet' ); ?></span>
-		<div><small>مصرف منابع مالی</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'budget_used', '۴۲' ) ); ?><i>%</i></strong><em>از بودجه مصوب پروژه</em></div>
+		<div><small>مصرف منابع مالی</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'budget_used', vetra_option( 'budget_used' ) ) ); ?><i>%</i></strong><em>از بودجه مصوب پروژه</em></div>
 	</article>
 	<article class="vetra-stat-card">
 		<span class="vetra-stat-card__icon is-rose"><?php echo vetra_inline_icon( 'file' ); ?></span>
-		<div><small>گزارش‌های بررسی‌نشده</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'pending_reports', '۷' ) ); ?><i> مورد</i></strong><em class="is-warning">نیازمند اقدام امروز</em></div>
+		<div><small>گزارش‌های بررسی‌نشده</small><strong><?php echo esc_html( vetra_get_dashboard_stat( 'pending_reports', vetra_option( 'pending_reports' ) ) ); ?><i> مورد</i></strong><em class="is-warning">نیازمند اقدام امروز</em></div>
 	</article>
 </section>
 
 <section class="vetra-dashboard-grid">
 	<article class="vetra-panel vetra-project-panel">
-		<div class="vetra-panel__head"><div><span class="vetra-eyebrow">پروژه منتخب</span><h2>پروژه برج سامان</h2></div><a href="#projects" class="vetra-text-link">مشاهده جزئیات <span>←</span></a></div>
+		<div class="vetra-panel__head"><div><span class="vetra-eyebrow">پروژه منتخب</span><h2><?php echo esc_html( vetra_option( 'project_name' ) ); ?></h2></div><a href="#projects" class="vetra-text-link">مشاهده جزئیات <span>←</span></a></div>
 		<div class="vetra-building-art" aria-label="تصویر شماتیک پروژه برج سامان">
 			<div class="vetra-building-art__sun"></div><div class="vetra-building-art__tower"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="vetra-building-art__base"></div>
 		</div>
-		<div class="vetra-project-panel__meta"><span><small>مدیر پروژه</small><strong>علی محمدی</strong></span><span><small>تاریخ شروع</small><strong>۱۴۰۳/۰۲/۱۵</strong></span><span><small>وضعیت</small><strong class="is-success">در حال اجرا</strong></span></div>
+		<div class="vetra-project-panel__meta"><span><small>مدیر پروژه</small><strong><?php echo esc_html( vetra_option( 'project_manager' ) ); ?></strong></span><span><small>تاریخ شروع</small><strong><?php echo esc_html( vetra_option( 'project_start_date' ) ); ?></strong></span><span><small>وضعیت</small><strong class="is-success"><?php echo esc_html( vetra_option( 'project_status' ) ); ?></strong></span></div>
 	</article>
 
 	<article class="vetra-panel vetra-progress-panel">

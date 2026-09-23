@@ -83,6 +83,12 @@
 	height: 25px;
 }
 
+.vetra-brand__mark img {
+	width: 30px;
+	height: 30px;
+	object-fit: contain;
+}
+
 .vetra-brand__mark svg path,
 .vetra-project-switcher__icon svg path,
 .vetra-project-switcher__icon svg rect {
@@ -233,6 +239,19 @@
 	display: none;
 }
 
+.vetra-hamburger {
+	display: grid;
+	gap: 4px;
+	width: 18px;
+}
+
+.vetra-hamburger i {
+	display: block;
+	height: 2px;
+	border-radius: 2px;
+	background: currentColor;
+}
+
 .vetra-shell-layout {
 	display: grid;
 	grid-template-columns: 272px minmax(0, 1fr);
@@ -347,6 +366,7 @@
 .vetra-main {
 	min-width: 0;
 	padding: 36px clamp(20px, 4vw, 64px) 56px;
+	font-size: var(--vetra-base-font-size);
 }
 
 .vetra-dashboard-hero {
@@ -917,6 +937,10 @@
 	.vetra-sidebar-close { display: grid; }
 	.vetra-main { padding: 29px 20px 45px; }
 	.vetra-footer { padding: 18px 20px; }
+}
+
+@media (max-width: 1180px) {
+	.vetra-forms-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 640px) {
