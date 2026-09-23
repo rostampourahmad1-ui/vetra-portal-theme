@@ -2,8 +2,12 @@
 .vetra-project-admin-grid p { margin: 0; }
 .vetra-project-admin-grid label { display: grid; gap: 5px; }
 .vetra-project-admin-grid select { width: 100%; min-height: 30px; }
+.vetra-admin-card .vetra-project-form__grid, .vetra-admin-card .vetra-project-form__extras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.vetra-admin-card .vetra-project-form label { display: grid; gap: 6px; font-weight: 700; }
+.vetra-admin-card .vetra-project-form input, .vetra-admin-card .vetra-project-form select, .vetra-admin-card .vetra-project-form textarea { width: 100%; }
+.vetra-admin-card .vetra-project-form p { margin: 0 0 14px; }
 .vetra-admin-wrap { max-width: 1100px; }
 .vetra-admin-card { margin: 18px 0; padding: 20px 24px; border: 1px solid #dfe6e1; border-radius: 14px; background: #fff; box-shadow: 0 5px 18px rgba(24,32,27,.04); }
 .vetra-admin-card h2 { margin-top: 0; }
 .vetra-capability { display: inline-flex; align-items: center; gap: 5px; margin: 0 18px 10px 0; }
-@media (max-width: 900px) { .vetra-project-admin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .vetra-project-admin-grid, .vetra-admin-card .vetra-project-form__grid, .vetra-admin-card .vetra-project-form__extras { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

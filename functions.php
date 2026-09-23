@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '2.1.2' );
+define( 'VETRA_PORTAL_VERSION', '2.1.3' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
@@ -87,12 +87,6 @@ function vetra_portal_excerpt_length() {
 	return 18;
 }
 add_filter( 'excerpt_length', 'vetra_portal_excerpt_length' );
-
-function vetra_elementor_post_types( $post_types ) {
-	$post_types[] = 'vetra_project';
-	return array_unique( $post_types );
-}
-add_filter( 'elementor/cpt_support', 'vetra_elementor_post_types' );
 
 /**
  * Render user bar on selected pages.
