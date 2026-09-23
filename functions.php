@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '2.1.3' );
+define( 'VETRA_PORTAL_VERSION', '3.0.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
@@ -71,8 +71,10 @@ add_action( 'wp_enqueue_scripts', 'vetra_portal_enqueue_assets' );
 function vetra_portal_body_classes( $classes ) {
 	$classes[] = 'vetra-portal-theme';
 	$classes[] = is_user_logged_in() ? 'vetra-user-logged-in' : 'vetra-user-logged-out';
-	$classes[] = 'drawer' === vetra_option( 'mobile_menu_style', 'drawer' ) ? 'vetra-mobile-drawer' : 'vetra-mobile-bottom-sheet';
-	if ( vetra_option( 'sticky_bottom_bar' ) ) {
+	if ( vetra_option( 'mobile_menu_enabled', true ) ) {
+		$classes[] = 'drawer' === vetra_option( 'mobile_menu_style', 'drawer' ) ? 'vetra-mobile-drawer' : 'vetra-mobile-bottom-sheet';
+	}
+	if ( vetra_option( 'mobile_menu_enabled', true ) && vetra_option( 'sticky_bottom_bar' ) ) {
 		$classes[] = 'vetra-has-bottom-bar';
 	}
 	if ( vetra_option( 'background_enabled', false ) ) {
@@ -137,7 +139,7 @@ add_action( 'vetra_after_header', 'vetra_render_user_bar' );
  * Render sticky bottom mobile menu.
  */
 function vetra_render_bottom_bar() {
-	if ( ! vetra_option( 'sticky_bottom_bar' ) ) {
+	if ( ! vetra_option( 'mobile_menu_enabled', true ) || ! vetra_option( 'sticky_bottom_bar' ) ) {
 		return;
 	}
 	?>

@@ -50,6 +50,19 @@
 	color: var(--vetra-admin-accent);
 }
 
+#customize-theme-controls .accordion-section-content {
+	margin: 0 10px;
+	border: 1px solid var(--vetra-admin-line);
+	border-top: 0;
+	border-radius: 0 0 14px 14px;
+	background: #f9fbf9;
+}
+
+.customize-section-title h3 {
+	color: var(--vetra-admin-ink);
+	font-size: 15px;
+}
+
 .customize-control {
 	margin-bottom: 16px;
 }
@@ -94,6 +107,12 @@
 	border: 1px solid var(--vetra-admin-line);
 	border-radius: 10px;
 	background: var(--vetra-admin-surface);
+}
+
+.customize-control-checkbox input[type="checkbox"] {
+	width: 17px;
+	height: 17px;
+	accent-color: var(--vetra-admin-accent);
 }
 
 .customize-control-checkbox input:checked + span:before {

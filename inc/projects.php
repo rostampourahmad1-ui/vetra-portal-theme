@@ -289,21 +289,41 @@ function vetra_project_status_label( $status ) {
 	return array( 'pending' => 'در انتظار بررسی', 'approved' => 'تأیید و قابل نمایش', 'rejected' => 'ردشده' )[ $status ] ?? 'در انتظار بررسی';
 }
 
+function vetra_project_render_field( $key, $field, $get ) {
+	?>
+	<p><label><?php echo esc_html( $field['label'] ); ?><?php if ( 'textarea' === $field['type'] ) : ?><textarea name="<?php echo esc_attr( $key ); ?>" rows="3"><?php echo esc_textarea( $get( $key ) ); ?></textarea><?php else : ?><input type="text" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $get( $key ) ); ?>"><?php endif; ?></label></p>
+	<?php
+}
+
 function vetra_project_render_fields( $project = null, $admin = false ) {
 	$get = function( $key ) use ( $project ) { return $project ? ( $project->{$key} ?? '' ) : ''; };
+	$groups = array(
+		'project_identity' => array( 'title' => '۱. مشخصات پایه پروژه', 'fields' => array( 'project_name' ) ),
+		'project_contract' => array( 'title' => '۲. اطلاعات قرارداد', 'fields' => array( 'client_name', 'project_usage', 'contract_type', 'contract_number', 'contractor', 'contract_start', 'contract_duration', 'initial_amount' ) ),
+		'project_team' => array( 'title' => '۳. ارکان و عوامل پروژه', 'fields' => array( 'project_supervisor', 'project_manager', 'site_supervisor' ) ),
+		'project_addresses' => array( 'title' => '۴. نشانی و اطلاعات ثبتی', 'fields' => array( 'project_address', 'client_address', 'urban_file_number', 'registry_sub', 'registry_main' ) ),
+	);
+	$fields = vetra_project_fields();
 	?>
-	<div class="vetra-project-form__grid">
-		<p><label>نام پروژه<input required type="text" name="project_name" value="<?php echo esc_attr( $get( 'project_name' ) ); ?>"></label></p>
-		<?php foreach ( vetra_project_fields() as $key => $field ) : ?>
-			<p><label><?php echo esc_html( $field['label'] ); ?><?php if ( 'textarea' === $field['type'] ) : ?><textarea name="<?php echo esc_attr( $key ); ?>" rows="3"><?php echo esc_textarea( $get( $key ) ); ?></textarea><?php else : ?><input type="text" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $get( $key ) ); ?>"><?php endif; ?></label></p>
-		<?php endforeach; ?>
-	</div>
-	<div class="vetra-project-form__extras">
-		<p><label>دسته پروژه<input type="text" name="category" value="<?php echo esc_attr( $get( 'category' ) ); ?>"></label></p>
-		<p><label>تصویر شاخص پروژه<input type="file" name="featured_image" accept="image/*"></label></p>
-		<p><label>خلاصه پروژه<textarea name="summary" rows="3"><?php echo esc_textarea( $get( 'summary' ) ); ?></textarea></label></p>
-		<p><label>توضیحات کامل<textarea name="description" rows="6"><?php echo esc_textarea( $get( 'description' ) ); ?></textarea></label></p>
-	</div>
+	<?php foreach ( $groups as $group ) : ?>
+		<section class="vetra-project-form__group">
+			<h3><?php echo esc_html( $group['title'] ); ?></h3>
+			<div class="vetra-project-form__grid">
+				<?php foreach ( $group['fields'] as $key ) : ?>
+					<?php if ( 'project_name' === $key ) : ?><p><label>نام پروژه<input required type="text" name="project_name" value="<?php echo esc_attr( $get( 'project_name' ) ); ?>"></label></p><?php else : vetra_project_render_field( $key, $fields[ $key ], $get ); endif; ?>
+				<?php endforeach; ?>
+			</div>
+		</section>
+	<?php endforeach; ?>
+	<section class="vetra-project-form__group vetra-project-form__group--extras">
+		<h3>۵. اطلاعات تکمیلی</h3>
+		<div class="vetra-project-form__extras">
+			<?php vetra_project_render_field( 'category', vetra_project_extra_fields()['category'], $get ); ?>
+			<p><label>تصویر شاخص پروژه<input type="file" name="featured_image" accept="image/*"></label></p>
+			<?php vetra_project_render_field( 'summary', vetra_project_extra_fields()['summary'], $get ); ?>
+			<?php vetra_project_render_field( 'description', vetra_project_extra_fields()['description'], $get ); ?>
+		</div>
+	</section>
 	<?php if ( $admin ) : ?>
 		<p><label>وضعیت پروژه<select name="status"><option value="pending" <?php selected( $get( 'status' ), 'pending' ); ?>>در انتظار بررسی</option><option value="approved" <?php selected( $get( 'status' ), 'approved' ); ?>>تأیید و قابل نمایش</option><option value="rejected" <?php selected( $get( 'status' ), 'rejected' ); ?>>ردشده</option></select></label></p>
 	<?php endif; ?>

@@ -14,6 +14,17 @@ function vetra_customizer_defaults() {
 		'brand_title'       => 'وترا',
 		'brand_subtitle'    => 'معماری، مهندسی و ساخت',
 		'footer_text'       => 'طراحی دقیق. ساخت ماندگار.',
+		'header_enabled'    => true,
+		'header_cta_enabled' => true,
+		'footer_enabled'    => true,
+		'footer_contact_enabled' => true,
+		'footer_bottom_enabled' => true,
+		'home_hero_enabled' => true,
+		'home_stats_enabled' => true,
+		'home_services_enabled' => true,
+		'home_about_enabled' => true,
+		'home_projects_enabled' => true,
+		'home_cta_enabled'  => true,
 		'color_mode'        => 'system',
 		'color_palette_enabled' => true,
 		'light_bg'          => '#f6f7f4',
@@ -109,6 +120,7 @@ function vetra_customizer_defaults() {
 
 		// Mobile menu.
 		'mobile_menu_style' => 'drawer',
+		'mobile_menu_enabled' => true,
 		'sticky_bottom_bar' => true,
 		'bottom_bar_item_1_icon' => 'home',
 		'bottom_bar_item_1_text' => 'خانه',
@@ -259,10 +271,22 @@ function vetra_add_pages_multi( $customizer, $key, $label, $section, $priority )
 function vetra_customizer_register( $wp_customize ) {
 	$wp_customize->add_panel( 'vetra_corporate_panel', array( 'title' => 'هویت شرکتی وترا', 'description' => 'طراحی، محتوا و رنگ‌بندی سایت شرکتی وترا را از یک پنل حرفه‌ای مدیریت کنید.', 'priority' => 25 ) );
 
-	$wp_customize->add_section( 'vetra_identity_section', array( 'title' => 'هویت برند', 'panel' => 'vetra_corporate_panel', 'priority' => 10 ) );
+	$wp_customize->add_section( 'vetra_identity_section', array( 'title' => 'هویت برند', 'description' => 'نام، شعار و لوگوی اصلی سایت را مدیریت کنید.', 'panel' => 'vetra_corporate_panel', 'priority' => 10 ) );
 	vetra_add_text( $wp_customize, 'brand_title', 'نام برند', 'vetra_identity_section', 10 );
 	vetra_add_text( $wp_customize, 'brand_subtitle', 'شعار کوتاه برند', 'vetra_identity_section', 20 );
 	vetra_add_media( $wp_customize, 'logo', 'لوگوی اصلی', 'vetra_identity_section', 30 );
+
+	$wp_customize->add_section( 'vetra_features_section', array( 'title' => 'اجزای فعال قالب', 'description' => 'هر بخش را مستقل فعال یا غیرفعال کنید. غیرفعال‌سازی یک بخش، تنظیمات سایر بخش‌ها را تغییر نمی‌دهد.', 'panel' => 'vetra_corporate_panel', 'priority' => 15 ) );
+	vetra_add_toggle( $wp_customize, 'header_enabled', 'فعال‌سازی هدر سایت', 'vetra_features_section', 10 );
+	vetra_add_toggle( $wp_customize, 'footer_enabled', 'فعال‌سازی فوتر سایت', 'vetra_features_section', 20 );
+	vetra_add_toggle( $wp_customize, 'footer_contact_enabled', 'نمایش اطلاعات تماس فوتر', 'vetra_features_section', 25 );
+	vetra_add_toggle( $wp_customize, 'footer_bottom_enabled', 'نمایش نوار پایانی فوتر', 'vetra_features_section', 27 );
+	vetra_add_toggle( $wp_customize, 'home_hero_enabled', 'نمایش Hero صفحه اصلی', 'vetra_features_section', 30 );
+	vetra_add_toggle( $wp_customize, 'home_stats_enabled', 'نمایش نوار آمار', 'vetra_features_section', 40 );
+	vetra_add_toggle( $wp_customize, 'home_services_enabled', 'نمایش بخش خدمات', 'vetra_features_section', 50 );
+	vetra_add_toggle( $wp_customize, 'home_about_enabled', 'نمایش بخش درباره ما', 'vetra_features_section', 60 );
+	vetra_add_toggle( $wp_customize, 'home_projects_enabled', 'نمایش پروژه‌های منتخب صفحه اصلی', 'vetra_features_section', 70 );
+	vetra_add_toggle( $wp_customize, 'home_cta_enabled', 'نمایش دعوت به همکاری', 'vetra_features_section', 80 );
 
 	$wp_customize->add_section( 'vetra_theme_section', array( 'title' => 'ظاهر پایه و رنگ‌ها', 'description' => 'این بخش ظاهر اصلی نسخه ۲.۰ را کنترل می‌کند. تنظیمات پس‌زمینه در بخش جداگانه و اختیاری قرار دارد.', 'panel' => 'vetra_corporate_panel', 'priority' => 20 ) );
 	$wp_customize->add_setting( 'vetra_color_mode', array( 'default' => 'system', 'sanitize_callback' => 'vetra_sanitize_mode', 'transport' => 'refresh' ) );
@@ -313,13 +337,15 @@ function vetra_customizer_register( $wp_customize ) {
 	$wp_customize->add_setting( 'vetra_bg_overlay_opacity', array( 'default' => 0, 'sanitize_callback' => function( $v ) { return vetra_sanitize_number( $v, 0, 100 ); }, 'transport' => 'refresh' ) );
 	$wp_customize->add_control( 'vetra_bg_overlay_opacity', array( 'label' => 'شفافیت Overlay (٪)', 'section' => 'vetra_background_section', 'type' => 'number', 'input_attrs' => array( 'min' => 0, 'max' => 100 ), 'priority' => 130 ) );
 
-	$wp_customize->add_section( 'vetra_header_section', array( 'title' => 'هدر و تماس', 'panel' => 'vetra_corporate_panel', 'priority' => 30 ) );
+	$wp_customize->add_section( 'vetra_header_section', array( 'title' => 'هدر و تماس', 'description' => 'نمایش هدر، منوی اصلی، دکمه تماس و حالت رنگی را کنترل کنید.', 'panel' => 'vetra_corporate_panel', 'priority' => 30 ) );
 	vetra_add_toggle( $wp_customize, 'header_sticky', 'هدر چسبان', 'vetra_header_section', 10 );
 	vetra_add_toggle( $wp_customize, 'show_theme_switch', 'نمایش کلید حالت روشن/تیره', 'vetra_header_section', 20 );
+	vetra_add_toggle( $wp_customize, 'header_cta_enabled', 'نمایش دکمه همکاری هدر', 'vetra_header_section', 25 );
 	vetra_add_text( $wp_customize, 'header_cta_text', 'متن دکمه هدر', 'vetra_header_section', 30 );
 	vetra_add_text( $wp_customize, 'header_cta_url', 'لینک دکمه هدر', 'vetra_header_section', 40 );
 
-	$wp_customize->add_section( 'vetra_mobile_menu_section', array( 'title' => 'منوی موبایل', 'panel' => 'vetra_corporate_panel', 'priority' => 35 ) );
+	$wp_customize->add_section( 'vetra_mobile_menu_section', array( 'title' => 'منوی موبایل', 'description' => 'منوی موبایل و نوار دسترسی سریع پایین صفحه را مستقل مدیریت کنید.', 'panel' => 'vetra_corporate_panel', 'priority' => 35 ) );
+	vetra_add_toggle( $wp_customize, 'mobile_menu_enabled', 'فعال‌سازی منوی موبایل', 'vetra_mobile_menu_section', 5 );
 	vetra_add_select( $wp_customize, 'mobile_menu_style', 'استایل منوی موبایل', 'vetra_mobile_menu_section', 10, array( 'drawer' => 'کشویی از بالا', 'bottom-sheet' => 'برگه پایین' ) );
 	vetra_add_toggle( $wp_customize, 'sticky_bottom_bar', 'منوی چسبان پایین موبایل', 'vetra_mobile_menu_section', 20 );
 	for ( $i = 1; $i <= 4; $i++ ) {
