@@ -1,0 +1,9 @@
+/*
+ * The main stylesheet is RTL-first. This file keeps WordPress RTL discovery
+ * explicit for plugins that check for a dedicated rtl.css file.
+ */
+
+html,
+body {
+	direction: rtl;
+}

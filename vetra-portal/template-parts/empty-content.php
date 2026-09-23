@@ -1,0 +1,1 @@
+<div class="vetra-empty-state"><span class="vetra-form-icon is-large"><?php echo vetra_inline_icon( 'file' ); ?></span><h2>محتوایی برای نمایش وجود ندارد</h2><p>این بخش هنوز محتوایی دریافت نکرده است.</p></div>
