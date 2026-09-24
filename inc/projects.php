@@ -421,7 +421,7 @@ function vetra_project_list_shortcode( $atts ) {
 		echo '<div class="vetra-project-grid vetra-project-grid--shortcode">';
 		foreach ( $projects as $project ) {
 			echo '<article class="vetra-project-card">';
-			if ( $project->featured_image_id ) { echo wp_get_attachment_image( $project->featured_image_id, 'large' ); } else { echo '<div class="vetra-project-card__art vetra-project-card__art--1"><span>' . vetra_inline_icon( 'building' ) . '</span></div>'; }
+			if ( $project->featured_image_id ) { echo wp_get_attachment_image( $project->featured_image_id, 'large' ); } else { echo '<img src="' . esc_url( VETRA_PORTAL_URI . '/assets/images/art-building.png' ) . '" alt="" loading="lazy" />'; }
 			$detail = add_query_arg( 'vetra_project_id', $project->id, get_permalink() );
 			echo '<div class="vetra-project-card__overlay"><span>' . esc_html( $project->project_usage ) . '</span><h3>' . esc_html( $project->project_name ) . '</h3><a href="' . esc_url( $detail ) . '" aria-label="مشاهده اطلاعات پروژه">' . vetra_inline_icon( 'arrow-up' ) . '</a></div></article>';
 		}

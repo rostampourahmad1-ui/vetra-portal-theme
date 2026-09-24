@@ -11,7 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function vetra_brand_logo_url() {
 	$logo_id = absint( get_theme_mod( 'vetra_logo', 0 ) );
-	return $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
+	if ( $logo_id ) {
+		return wp_get_attachment_image_url( $logo_id, 'full' );
+	}
+	return VETRA_PORTAL_URI . '/assets/images/logo.png';
 }
 
 function vetra_image_url( $key ) {

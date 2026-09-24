@@ -12,7 +12,7 @@ get_header();
 	</div>
 	<div class="vetra-hero__visual">
 		<?php if ( vetra_image_url( 'hero_image' ) ) : ?><img class="vetra-hero__image" src="<?php echo esc_url( vetra_image_url( 'hero_image' ) ); ?>" alt="" /><?php endif; ?>
-		<div class="vetra-hero__grid"></div><div class="vetra-hero__building"><i></i><i></i><i></i><i></i><i></i><i></i><b></b></div>
+		<div class="vetra-hero__grid"></div><img class="vetra-hero__building-img" src="<?php echo esc_url( VETRA_PORTAL_URI . '/assets/images/art-building.png' ); ?>" alt="" loading="lazy" />
 		<div class="vetra-float-card vetra-float-card--top"><span><?php echo vetra_inline_icon( 'chart' ); ?></span><small>تحویل به‌موقع پروژه‌ها</small><strong>۹۶٪</strong></div>
 		<div class="vetra-float-card vetra-float-card--bottom"><small>پروژه منتخب</small><strong>ساخت با نگاه آینده</strong><span><?php echo vetra_inline_icon( 'arrow-up' ); ?></span></div>
 	</div>
@@ -36,7 +36,7 @@ get_header();
 
 <?php if ( vetra_option( 'home_about_enabled', true ) ) : ?>
 <section id="about" class="vetra-about vetra-container vetra-reveal">
-	<div class="vetra-about__visual"><?php if ( vetra_image_url( 'about_image' ) ) : ?><img src="<?php echo esc_url( vetra_image_url( 'about_image' ) ); ?>" alt="" loading="lazy" /><?php else : ?><div class="vetra-about__art"><div></div><span>VETRA<br><b>GROUP</b></span></div><?php endif; ?><span class="vetra-about__stamp">V</span></div>
+	<div class="vetra-about__visual"><?php if ( vetra_image_url( 'about_image' ) ) : ?><img src="<?php echo esc_url( vetra_image_url( 'about_image' ) ); ?>" alt="" loading="lazy" /><?php else : ?><img src="<?php echo esc_url( VETRA_PORTAL_URI . '/assets/images/art-interior.png' ); ?>" alt="" loading="lazy" /><?php endif; ?><span class="vetra-about__stamp">V</span></div>
 	<div class="vetra-about__copy"><span class="vetra-kicker"><i></i>درباره وترا</span><h2><?php echo esc_html( vetra_option( 'about_title' ) ); ?></h2><p><?php echo esc_html( vetra_option( 'about_text' ) ); ?></p><div class="vetra-check-list"><span><?php echo vetra_inline_icon( 'check' ); ?>شفافیت در تصمیم‌گیری</span><span><?php echo vetra_inline_icon( 'check' ); ?>تعهد به کیفیت اجرا</span><span><?php echo vetra_inline_icon( 'check' ); ?>نگاه بلندمدت به ارزش پروژه</span></div><a class="vetra-text-button" href="#contact">با ما آشنا شوید <span><?php echo vetra_inline_icon( 'arrow' ); ?></span></a></div>
 </section>
 <?php endif; ?>
@@ -45,7 +45,7 @@ get_header();
 <section id="projects" class="vetra-section vetra-container vetra-reveal">
 	<div class="vetra-section-heading vetra-section-heading--projects"><div><span class="vetra-kicker"><i></i>منتخب پروژه‌ها</span><h2><?php echo esc_html( vetra_option( 'projects_title' ) ); ?></h2></div><p><?php echo esc_html( vetra_option( 'projects_intro' ) ); ?></p></div>
 	<div class="vetra-project-grid">
-		<?php for ( $i = 1; $i <= 3; $i++ ) : $image = vetra_image_url( 'project_' . $i . '_image' ); ?><article class="vetra-project-card<?php echo 2 === $i ? ' vetra-project-card--large' : ''; ?>"><?php if ( $image ) : ?><img src="<?php echo esc_url( $image ); ?>" alt="" loading="lazy" /><?php else : ?><div class="vetra-project-card__art vetra-project-card__art--<?php echo esc_attr( $i ); ?>"><span><?php echo vetra_inline_icon( 'building' ); ?></span></div><?php endif; ?><div class="vetra-project-card__overlay"><span><?php echo esc_html( vetra_option( 'project_' . $i . '_meta' ) ); ?></span><h3><?php echo esc_html( vetra_option( 'project_' . $i . '_title' ) ); ?></h3><a href="#contact" aria-label="<?php echo esc_attr( vetra_option( 'project_' . $i . '_title' ) ); ?>"><?php echo vetra_inline_icon( 'arrow-up' ); ?></a></div></article><?php endfor; ?>
+		<?php $project_art = array( 'art-interior.png', 'art-building.png', 'art-interior-2.png' ); for ( $i = 1; $i <= 3; $i++ ) : $image = vetra_image_url( 'project_' . $i . '_image' ); ?><article class="vetra-project-card<?php echo 2 === $i ? ' vetra-project-card--large' : ''; ?>"><?php if ( $image ) : ?><img src="<?php echo esc_url( $image ); ?>" alt="" loading="lazy" /><?php else : ?><img src="<?php echo esc_url( VETRA_PORTAL_URI . '/assets/images/' . $project_art[ $i - 1 ] ); ?>" alt="" loading="lazy" /><?php endif; ?><div class="vetra-project-card__overlay"><span><?php echo esc_html( vetra_option( 'project_' . $i . '_meta' ) ); ?></span><h3><?php echo esc_html( vetra_option( 'project_' . $i . '_title' ) ); ?></h3><a href="#contact" aria-label="<?php echo esc_attr( vetra_option( 'project_' . $i . '_title' ) ); ?>"><?php echo vetra_inline_icon( 'arrow-up' ); ?></a></div></article><?php endfor; ?>
 	</div>
 </section>
 <?php endif; ?>

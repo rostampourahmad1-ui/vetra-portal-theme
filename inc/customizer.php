@@ -551,6 +551,9 @@ function vetra_pwa_manifest_template() {
 	if ( ! $icon_url ) {
 		$icon_url = get_site_icon_url( 512, '' );
 	}
+	if ( ! $icon_url ) {
+		$icon_url = VETRA_PORTAL_URI . '/assets/images/favicon.png';
+	}
 	$icons = array();
 	if ( $icon_url ) {
 		$icons[] = array( 'src' => $icon_url, 'sizes' => '512x512', 'type' => 'image/png', 'purpose' => 'any maskable' );

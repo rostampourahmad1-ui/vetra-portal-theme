@@ -10,6 +10,7 @@ $theme_mode = vetra_option( 'color_mode', 'system' );
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="<?php echo esc_url( VETRA_PORTAL_URI . '/assets/images/favicon.png' ); ?>" type="image/png">
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
