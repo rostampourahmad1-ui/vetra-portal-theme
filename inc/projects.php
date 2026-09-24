@@ -230,7 +230,7 @@ function vetra_project_can_edit( $project ) {
 }
 
 function vetra_project_admin_menu() {
-	add_menu_page( 'پروژه‌ها', 'پروژه‌ها', 'vetra_manage_projects', 'vetra-projects', 'vetra_projects_admin_page', 'dashicons-building', 25 );
+	add_menu_page( 'پروژه‌ها', 'پروژه‌ها', 'vetra_manage_projects', 'vetra-projects', 'vetra_project_admin_page', 'dashicons-building', 25 );
 	add_submenu_page( 'vetra-projects', 'افزودن پروژه', 'افزودن پروژه', 'vetra_manage_projects', 'vetra-projects-add', 'vetra_project_admin_form_page' );
 }
 add_action( 'admin_menu', 'vetra_project_admin_menu' );
@@ -251,11 +251,9 @@ function vetra_project_admin_actions() {
 	}
 	$data = vetra_project_sanitize_data( $_POST );
 	$data['status'] = current_user_can( 'vetra_approve_projects' ) ? $data['status'] : 'pending';
-	$data['created_by'] = absint( $_POST['created_by'] ?? get_current_user_id() );
 	$id = absint( $_POST['project_id'] ?? 0 );
-	if ( ! $id ) {
-		$data['created_by'] = get_current_user_id();
-	}
+	$existing = $id ? vetra_project_get( $id ) : null;
+	$data['created_by'] = $existing ? (int) $existing->created_by : get_current_user_id();
 	$image_id = vetra_project_upload_image( $_FILES['featured_image'] ?? array() );
 	if ( $image_id ) {
 		$data['featured_image_id'] = $image_id;
@@ -304,6 +302,7 @@ function vetra_project_render_fields( $project = null, $admin = false ) {
 		'project_addresses' => array( 'title' => '۴. نشانی و اطلاعات ثبتی', 'fields' => array( 'project_address', 'client_address', 'urban_file_number', 'registry_sub', 'registry_main' ) ),
 	);
 	$fields = vetra_project_fields();
+	$default_status = $admin && current_user_can( 'vetra_approve_projects' ) ? 'approved' : 'pending';
 	?>
 	<?php foreach ( $groups as $group ) : ?>
 		<section class="vetra-project-form__group">
@@ -325,7 +324,7 @@ function vetra_project_render_fields( $project = null, $admin = false ) {
 		</div>
 	</section>
 	<?php if ( $admin ) : ?>
-		<p><label>وضعیت پروژه<select name="status"><option value="pending" <?php selected( $get( 'status' ), 'pending' ); ?>>در انتظار بررسی</option><option value="approved" <?php selected( $get( 'status' ), 'approved' ); ?>>تأیید و قابل نمایش</option><option value="rejected" <?php selected( $get( 'status' ), 'rejected' ); ?>>ردشده</option></select></label></p>
+		<p><label>وضعیت پروژه<select name="status"><option value="pending" <?php selected( $get( 'status' ) ?: $default_status, 'pending' ); ?>>در انتظار بررسی</option><option value="approved" <?php selected( $get( 'status' ) ?: $default_status, 'approved' ); ?>>تأیید و قابل نمایش</option><option value="rejected" <?php selected( $get( 'status' ) ?: $default_status, 'rejected' ); ?>>ردشده</option></select></label></p>
 	<?php endif; ?>
 	<?php
 }
