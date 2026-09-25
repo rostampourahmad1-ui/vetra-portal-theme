@@ -6,7 +6,8 @@
  */
 ?>
 	</main>
-	<?php if ( vetra_option( 'footer_enabled', true ) ) : ?>
+	<?php $vetra_has_custom_footer = function_exists( 'vetra_render_layout' ) && vetra_render_layout( 'footer' ); ?>
+	<?php if ( ! $vetra_has_custom_footer && vetra_option( 'footer_enabled', true ) ) : ?>
 	<footer id="contact" class="vetra-footer">
 		<div class="vetra-container">
 			<div class="vetra-footer__top">

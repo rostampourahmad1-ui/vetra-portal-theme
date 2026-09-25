@@ -23,6 +23,11 @@ function vetra_image_url( $key ) {
 	return $id ? wp_get_attachment_image_url( $id, 'full' ) : '';
 }
 
+/** Return the URL of the centrally managed custom icon, if configured. */
+function vetra_custom_icon_url() {
+	return vetra_image_url( 'custom_icon' );
+}
+
 function vetra_inline_icon( $name = 'arrow' ) {
 	$icons = array(
 		'arrow'    => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>',

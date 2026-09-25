@@ -1,5 +1,16 @@
 /* Vetra Corporate visual system. */
 
+.vetra-layout { width: 100%; }
+.vetra-layout > :first-child { margin-top: 0; }
+.vetra-layout > :last-child { margin-bottom: 0; }
+.vetra-layout img { max-width: 100%; height: auto; }
+.vetra-layout .alignfull { width: 100%; max-width: 100%; }
+@media (max-width: 700px) {
+	.vetra-layout { overflow-wrap: anywhere; }
+	.vetra-layout .wp-block-columns { display: block; }
+	.vetra-layout .wp-block-column { margin-bottom: 1.25rem; }
+}
+
 :root {
 	--vetra-transition: 220ms cubic-bezier(.22,.61,.36,1);
 }

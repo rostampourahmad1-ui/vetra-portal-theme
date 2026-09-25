@@ -160,7 +160,7 @@ function vetra_project_extra_fields() {
 function vetra_project_get( $id ) {
 	global $wpdb;
 	$project = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . vetra_projects_table() . ' WHERE id = %d', absint( $id ) ) );
-	if ( $project && 'approved' !== $project->status && ! current_user_can( 'vetra_manage_projects' ) && ! vetra_project_can_edit( $project ) ) {
+	if ( $project && 'approved' !== $project->status && ! current_user_can( 'vetra_manage_projects' ) && ! current_user_can( 'vetra_approve_projects' ) && ! vetra_project_can_edit( $project ) ) {
 		return null;
 	}
 	return apply_filters( 'vetra_project_read', $project, absint( $id ) );
@@ -262,6 +262,28 @@ function vetra_project_formats( $record ) {
 
 function vetra_project_can_edit( $project ) {
 	return $project && ( current_user_can( 'vetra_edit_all_projects' ) || ( current_user_can( 'vetra_edit_own_projects' ) && get_current_user_id() === (int) $project->created_by ) );
+}
+
+/** Change publication state through the permission-checked project API. */
+function vetra_project_set_status( $project_id, $status ) {
+	$project_id = absint( $project_id );
+	$status     = sanitize_key( $status );
+	if ( ! current_user_can( 'vetra_approve_projects' ) || ! in_array( $status, array( 'pending', 'approved', 'rejected' ), true ) ) {
+		return false;
+	}
+	$project = vetra_project_get( $project_id );
+	if ( ! $project ) {
+		return false;
+	}
+	global $wpdb;
+	$result = $wpdb->update(
+		vetra_projects_table(),
+		array( 'status' => $status, 'updated_at' => current_time( 'mysql' ) ),
+		array( 'id' => $project_id ),
+		array( '%s', '%s' ),
+		array( '%d' )
+	);
+	return false !== $result;
 }
 
 function vetra_project_admin_menu() {
@@ -401,8 +423,9 @@ function vetra_project_moderate_action() {
 	$status = sanitize_key( wp_unslash( $_POST['project_status'] ?? '' ) );
 	check_admin_referer( 'vetra_project_moderate_' . $id );
 	if ( ! $id || ! in_array( $status, array( 'approved', 'rejected', 'pending' ), true ) ) { wp_die( 'درخواست وضعیت پروژه معتبر نیست.', '', array( 'response' => 400 ) ); }
-	global $wpdb;
-	$wpdb->update( vetra_projects_table(), array( 'status' => $status, 'updated_at' => current_time( 'mysql' ) ), array( 'id' => $id ), array( '%s', '%s' ), array( '%d' ) );
+	if ( ! vetra_project_set_status( $id, $status ) ) {
+		wp_die( 'تغییر وضعیت پروژه انجام نشد.', '', array( 'response' => 500 ) );
+	}
 	wp_safe_redirect( admin_url( 'admin.php?page=vetra-projects&moderated=1' ) ); exit;
 }
 add_action( 'admin_post_vetra_project_moderate', 'vetra_project_moderate_action' );

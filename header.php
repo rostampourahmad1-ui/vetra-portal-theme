@@ -13,10 +13,11 @@ $theme_mode = vetra_option( 'color_mode', 'system' );
 	<?php if ( ! get_site_icon_url() ) : ?><link rel="icon" href="<?php echo esc_url( VETRA_PORTAL_URI . '/assets/images/favicon.png' ); ?>" type="image/png"><?php endif; ?>
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<div class="vetra-site-shell">
-	<?php if ( vetra_option( 'header_enabled', true ) ) : ?>
+	<body <?php body_class(); ?>>
+	<?php wp_body_open(); ?>
+	<div class="vetra-site-shell">
+	<?php $vetra_has_custom_header = function_exists( 'vetra_render_layout' ) && vetra_render_layout( 'header' ); ?>
+	<?php if ( ! $vetra_has_custom_header && vetra_option( 'header_enabled', true ) ) : ?>
 	<header class="vetra-topbar">
 		<div class="vetra-container vetra-topbar__inner">
 			<a class="vetra-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>">

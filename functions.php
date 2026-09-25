@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '3.2.0' );
+define( 'VETRA_PORTAL_VERSION', '3.3.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
@@ -18,6 +18,7 @@ require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
 require_once VETRA_PORTAL_DIR . '/inc/projects.php';
 require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
+require_once VETRA_PORTAL_DIR . '/inc/layouts.php';
 
 /** Keep non-administrative accounts out of wp-admin; front-end forms remain available. */
 function vetra_restrict_dashboard() {

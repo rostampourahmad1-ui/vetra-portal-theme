@@ -281,6 +281,7 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_media( $wp_customize, 'logo', 'لوگوی اصلی', 'vetra_identity_section', 30 );
 	vetra_add_media( $wp_customize, 'logo_light', 'لوگوی حالت روشن (اختیاری)', 'vetra_identity_section', 40 );
 	vetra_add_media( $wp_customize, 'logo_dark', 'لوگوی حالت تیره (اختیاری)', 'vetra_identity_section', 50 );
+	vetra_add_media( $wp_customize, 'custom_icon', 'آیکن اختصاصی (PNG/WebP)', 'vetra_identity_section', 60 );
 	$wp_customize->get_section( 'title_tagline' )->panel = 'vetra_corporate_panel';
 	$wp_customize->get_section( 'title_tagline' )->priority = 5;
 

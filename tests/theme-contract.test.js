@@ -10,6 +10,7 @@ const features = read('inc/site-features.php');
 const customizer = read('inc/customizer.php');
 const bootstrap = read('functions.php');
 const guide = read('readme.md');
+const layouts = read('inc/layouts.php');
 
 test('stable project field identifiers are documented and exposed by API', () => {
   const ids = ['project_name', 'client_name', 'project_usage', 'contract_type', 'contract_number', 'contractor', 'contract_start', 'contract_duration', 'initial_amount', 'project_supervisor', 'project_manager', 'site_supervisor', 'project_address', 'client_address', 'urban_file_number', 'registry_sub', 'registry_main', 'category', 'summary', 'description'];
@@ -86,4 +87,23 @@ test('theme page template and version declarations agree', () => {
   assert.equal(read('style.css').match(/^Version: (.+)$/m)[1], version);
   assert.match(bootstrap, /templates\/full-width\.php/);
   assert.match(read('templates/full-width.php'), /Template Name: وترا: تمام‌عرض/);
+});
+
+test('reusable header and footer layouts are registered and server-side selectable', () => {
+  assert.match(bootstrap, /inc\/layouts\.php/);
+  assert.match(layouts, /register_post_type\( 'vetra_layout'/);
+  assert.match(layouts, /_vetra_header_layout/);
+  assert.match(layouts, /_vetra_footer_layout/);
+  assert.match(layouts, /vetra_render_layout\(/);
+  assert.match(read('header.php'), /vetra_render_layout\( 'header' \)/);
+  assert.match(read('footer.php'), /vetra_render_layout\( 'footer' \)/);
+  assert.match(guide, /الگوهای هدر و فوتر/);
+});
+
+test('moderation and custom icon APIs are documented', () => {
+  assert.match(projects, /function vetra_project_set_status\(/);
+  assert.match(projects, /vetra_project_set_status\( \$id, \$status \)/);
+  assert.match(projects, /vetra_approve_projects/);
+  assert.match(read('inc/helpers.php'), /function vetra_custom_icon_url\(/);
+  assert.match(guide, /vetra_custom_icon_url/);
 });
