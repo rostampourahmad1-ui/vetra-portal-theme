@@ -13,7 +13,8 @@ function vetra_customizer_defaults() {
 	return array(
 		'brand_title'       => 'وترا',
 		'brand_subtitle'    => 'معماری، مهندسی و ساخت',
-		'footer_text'       => 'طراحی دقیق. ساخت ماندگار.',
+	'footer_text'       => 'طراحی دقیق. ساخت ماندگار.',
+	'copyright_text'    => '© {year} گروه ساختمانی و مهندسی وترا',
 		'header_enabled'    => true,
 		'header_cta_enabled' => true,
 		'footer_enabled'    => true,
@@ -152,6 +153,9 @@ function vetra_customizer_defaults() {
 		'pwa_display'       => 'standalone',
 		'pwa_start_url'     => '/',
 		'pwa_icon'          => 0,
+		'pwa_install_prompt' => true,
+		'pwa_install_text'   => 'برای دسترسی سریع‌تر، وب‌اپ وترا را نصب کنید.',
+		'pwa_install_delay'  => 5,
 	);
 }
 
@@ -275,6 +279,10 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_text( $wp_customize, 'brand_title', 'نام برند', 'vetra_identity_section', 10 );
 	vetra_add_text( $wp_customize, 'brand_subtitle', 'شعار کوتاه برند', 'vetra_identity_section', 20 );
 	vetra_add_media( $wp_customize, 'logo', 'لوگوی اصلی', 'vetra_identity_section', 30 );
+	vetra_add_media( $wp_customize, 'logo_light', 'لوگوی حالت روشن (اختیاری)', 'vetra_identity_section', 40 );
+	vetra_add_media( $wp_customize, 'logo_dark', 'لوگوی حالت تیره (اختیاری)', 'vetra_identity_section', 50 );
+	$wp_customize->get_section( 'title_tagline' )->panel = 'vetra_corporate_panel';
+	$wp_customize->get_section( 'title_tagline' )->priority = 5;
 
 	$wp_customize->add_section( 'vetra_features_section', array( 'title' => 'اجزای فعال قالب', 'description' => 'هر بخش را مستقل فعال یا غیرفعال کنید. غیرفعال‌سازی یک بخش، تنظیمات سایر بخش‌ها را تغییر نمی‌دهد.', 'panel' => 'vetra_corporate_panel', 'priority' => 15 ) );
 	vetra_add_toggle( $wp_customize, 'header_enabled', 'فعال‌سازی هدر سایت', 'vetra_features_section', 10 );
@@ -390,6 +398,8 @@ function vetra_customizer_register( $wp_customize ) {
 	}
 
 	$wp_customize->add_section( 'vetra_contact_section', array( 'title' => 'تماس و CTA', 'panel' => 'vetra_corporate_panel', 'priority' => 60 ) );
+	vetra_add_text( $wp_customize, 'footer_text', 'متن معرفی فوتر', 'vetra_contact_section', 5, true );
+	vetra_add_text( $wp_customize, 'copyright_text', 'متن حق‌نشر ({year} برای سال جاری)', 'vetra_contact_section', 6 );
 	vetra_add_text( $wp_customize, 'cta_title', 'عنوان دعوت به همکاری', 'vetra_contact_section', 10 );
 	vetra_add_text( $wp_customize, 'cta_text', 'توضیح دعوت به همکاری', 'vetra_contact_section', 20, true );
 	vetra_add_text( $wp_customize, 'cta_button_text', 'متن دکمه CTA', 'vetra_contact_section', 30 );
@@ -408,6 +418,10 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_select( $wp_customize, 'pwa_display', 'حالت نمایش', 'vetra_pwa_section', 70, array( 'fullscreen' => 'تمام‌صفحه', 'standalone' => 'standalone', 'minimal-ui' => 'minimal-ui', 'browser' => 'browser' ) );
 	vetra_add_text( $wp_customize, 'pwa_start_url', 'آدرس شروع', 'vetra_pwa_section', 80 );
 	vetra_add_media( $wp_customize, 'pwa_icon', 'آیکون PWA (مربع ۵۱۲px)', 'vetra_pwa_section', 90 );
+	vetra_add_toggle( $wp_customize, 'pwa_install_prompt', 'نمایش پیشنهاد نصب', 'vetra_pwa_section', 100 );
+	vetra_add_text( $wp_customize, 'pwa_install_text', 'متن پیشنهاد نصب', 'vetra_pwa_section', 110 );
+	$wp_customize->add_setting( 'vetra_pwa_install_delay', array( 'default' => 5, 'sanitize_callback' => function( $v ) { return vetra_sanitize_number( $v, 0, 86400 ); } ) );
+	$wp_customize->add_control( 'vetra_pwa_install_delay', array( 'label' => 'تأخیر نمایش پیشنهاد (ثانیه)', 'section' => 'vetra_pwa_section', 'type' => 'number', 'input_attrs' => array( 'min' => 0, 'max' => 86400 ), 'priority' => 120 ) );
 
 	$wp_customize->add_section( 'vetra_advanced_section', array( 'title' => 'پیشرفته', 'panel' => 'vetra_corporate_panel', 'priority' => 80 ) );
 	$wp_customize->add_setting( 'vetra_custom_css', array( 'default' => '', 'sanitize_callback' => 'vetra_sanitize_custom_css', 'transport' => 'refresh' ) );
@@ -535,11 +549,21 @@ add_action( 'customize_controls_enqueue_scripts', 'vetra_customizer_controls_ass
  */
 function vetra_pwa_add_rewrite() {
 	add_rewrite_endpoint( 'vetra-manifest', EP_ROOT );
+	add_rewrite_endpoint( 'vetra-sw', EP_ROOT );
 }
 add_action( 'init', 'vetra_pwa_add_rewrite' );
 
 function vetra_pwa_manifest_template() {
 	global $wp_query;
+	if ( isset( $wp_query->query_vars['vetra-sw'] ) ) {
+		if ( ! vetra_option( 'pwa_enabled' ) ) { status_header( 404 ); exit; }
+		$worker = VETRA_PORTAL_DIR . '/assets/js/service-worker.js';
+		if ( ! is_readable( $worker ) ) { status_header( 404 ); exit; }
+		header( 'Content-Type: application/javascript; charset=' . get_bloginfo( 'charset' ) );
+		header( 'Service-Worker-Allowed: /' );
+		header( 'Cache-Control: no-cache, must-revalidate' );
+		readfile( $worker ); exit;
+	}
 	if ( ! isset( $wp_query->query_vars['vetra-manifest'] ) ) {
 		return;
 	}

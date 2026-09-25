@@ -41,6 +41,12 @@ function vetra_plugin_is_active( $file ) {
 	return is_plugin_active( $file );
 }
 
+function vetra_plugin_is_installed( $file ) {
+	if ( ! function_exists( 'get_plugins' ) ) { require_once ABSPATH . 'wp-admin/includes/plugin.php'; }
+	$plugins = get_plugins();
+	return isset( $plugins[ $file ] );
+}
+
 function vetra_install_plugin_package( $package ) {
 	if ( ! current_user_can( 'install_plugins' ) ) {
 		return new WP_Error( 'vetra_no_permission', 'مجوز نصب افزونه را ندارید.' );
@@ -146,13 +152,15 @@ function vetra_plugin_manager_page() {
 		<?php if ( isset( $_GET['vetra_plugin_message'] ) ) : ?><div class="notice notice-success"><p><?php echo esc_html( wp_unslash( $_GET['vetra_plugin_message'] ) ); ?></p></div><?php endif; ?>
 		<?php if ( isset( $_GET['vetra_plugin_error'] ) ) : ?><div class="notice notice-error"><p><?php echo esc_html( wp_unslash( $_GET['vetra_plugin_error'] ) ); ?></p></div><?php endif; ?>
 		<table class="widefat striped" style="max-width:1000px;margin-top:20px"><thead><tr><th>افزونه</th><th>کاربرد</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>
-		<?php foreach ( $manifest as $slug => $plugin ) : $active = vetra_plugin_is_active( $plugin['file'] ); ?>
+		<?php foreach ( $manifest as $slug => $plugin ) : $active = vetra_plugin_is_active( $plugin['file'] ); $installed = vetra_plugin_is_installed( $plugin['file'] ); ?>
 			<tr>
 				<td><strong><?php echo esc_html( $plugin['name'] ); ?></strong></td>
 				<td><?php echo esc_html( $plugin['description'] ); ?></td>
-				<td><?php echo $active ? '<span style="color:#008a20">فعال</span>' : '<span style="color:#b32d2e">نصب نیست</span>'; ?></td>
+				<td><?php echo $active ? '<span style="color:#008a20">فعال</span>' : ( $installed ? '<span style="color:#b26200">نصب‌شده و غیرفعال</span>' : '<span style="color:#b32d2e">نصب نیست</span>' ); ?></td>
 				<td>
-				<?php if ( ! $active ) : ?>
+				<?php if ( ! $active && $installed ) : ?>
+					<a class="button" href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>">فعال‌سازی از بخش افزونه‌های وردپرس</a>
+				<?php elseif ( ! $active ) : ?>
 					<form method="post" enctype="multipart/form-data">
 						<input type="hidden" name="vetra_plugin_action" value="install">
 						<input type="hidden" name="plugin_slug" value="<?php echo esc_attr( $slug ); ?>">

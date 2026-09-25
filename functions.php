@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '3.1.0' );
+define( 'VETRA_PORTAL_VERSION', '3.2.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
@@ -17,6 +17,16 @@ require_once VETRA_PORTAL_DIR . '/inc/helpers.php';
 require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
 require_once VETRA_PORTAL_DIR . '/inc/projects.php';
+require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
+
+/** Keep non-administrative accounts out of wp-admin; front-end forms remain available. */
+function vetra_restrict_dashboard() {
+	if ( is_admin() && ! wp_doing_ajax() && ! ( defined( 'DOING_CRON' ) && DOING_CRON ) && ! current_user_can( 'manage_options' ) && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		wp_safe_redirect( home_url( '/' ) );
+		exit;
+	}
+}
+add_action( 'admin_init', 'vetra_restrict_dashboard', 1 );
 
 function vetra_portal_setup() {
 	load_theme_textdomain( 'vetra-portal', VETRA_PORTAL_DIR . '/languages' );
@@ -36,6 +46,26 @@ function vetra_portal_setup() {
 	);
 }
 add_action( 'after_setup_theme', 'vetra_portal_setup' );
+
+function vetra_primary_menu_fallback() {
+	echo '<ul class="vetra-site-nav"><li><a href="' . esc_url( home_url( '/' ) ) . '">خانه</a></li><li><a href="' . esc_url( home_url( '/#about' ) ) . '">درباره وترا</a></li><li><a href="' . esc_url( home_url( '/#services' ) ) . '">خدمات</a></li><li><a href="' . esc_url( home_url( '/#projects' ) ) . '">پروژه‌ها</a></li><li><a href="' . esc_url( home_url( '/#contact' ) ) . '">تماس با ما</a></li></ul>';
+}
+
+/** Elementor-friendly canvas layout while retaining the standard page content flow. */
+function vetra_register_page_templates( $templates ) {
+	$templates['templates/full-width.php'] = 'وترا: تمام‌عرض';
+	return $templates;
+}
+add_filter( 'theme_page_templates', 'vetra_register_page_templates' );
+
+function vetra_load_page_template( $template ) {
+	if ( is_page() && 'templates/full-width.php' === get_page_template_slug() ) {
+		$custom = VETRA_PORTAL_DIR . '/templates/full-width.php';
+		if ( is_readable( $custom ) ) { return $custom; }
+	}
+	return $template;
+}
+add_filter( 'template_include', 'vetra_load_page_template' );
 
 function vetra_portal_enqueue_assets() {
 	// Font CDNs.
@@ -62,7 +92,10 @@ function vetra_portal_enqueue_assets() {
 			'themeMode' => vetra_option( 'color_mode' ),
 			'themeLabel' => __( 'تغییر حالت رنگی', 'vetra-portal' ),
 			'pwaEnabled' => (bool) vetra_option( 'pwa_enabled' ),
-			'swUrl' => VETRA_PORTAL_URI . '/assets/js/service-worker.js',
+			'swUrl' => home_url( '/vetra-sw' ),
+			'installPrompt' => (bool) vetra_option( 'pwa_install_prompt', true ),
+			'installText' => sanitize_text_field( vetra_option( 'pwa_install_text', 'برای دسترسی سریع‌تر، وب‌اپ وترا را نصب کنید.' ) ),
+			'installDelay' => absint( vetra_option( 'pwa_install_delay', 5 ) ),
 		)
 	);
 }
@@ -70,6 +103,7 @@ add_action( 'wp_enqueue_scripts', 'vetra_portal_enqueue_assets' );
 
 function vetra_portal_body_classes( $classes ) {
 	$classes[] = 'vetra-portal-theme';
+	if ( is_page() && 'templates/full-width.php' === get_page_template_slug() ) { $classes[] = 'vetra-page-full-width'; }
 	$classes[] = is_user_logged_in() ? 'vetra-user-logged-in' : 'vetra-user-logged-out';
 	if ( vetra_option( 'mobile_menu_enabled', true ) ) {
 		$classes[] = 'drawer' === vetra_option( 'mobile_menu_style', 'drawer' ) ? 'vetra-mobile-drawer' : 'vetra-mobile-bottom-sheet';

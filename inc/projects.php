@@ -70,6 +70,7 @@ add_action( 'after_setup_theme', 'vetra_project_install_schema', 20 );
 function vetra_project_flush_rewrites() {
 	// Kept as a no-op migration hook for installations upgrading from the old CPT.
 	vetra_project_install_schema();
+	flush_rewrite_rules( false );
 }
 add_action( 'after_switch_theme', 'vetra_project_flush_rewrites' );
 
@@ -78,6 +79,7 @@ function vetra_project_roles() {
 		'read' => true,
 		'upload_files' => true,
 		'vetra_submit_projects' => true,
+		'vetra_create_projects' => true,
 		'vetra_edit_own_projects' => true,
 	);
 	$manager_caps = array_merge( $editor_caps, array(
@@ -134,6 +136,19 @@ function vetra_project_fields() {
 	);
 }
 
+/** Stable, documented field IDs for integrations. */
+function vetra_project_field_ids() {
+	return array_merge( array( 'project_name' => 'project_name' ), array_combine( array_keys( vetra_project_fields() ), array_keys( vetra_project_fields() ) ), array_combine( array_keys( vetra_project_extra_fields() ), array_keys( vetra_project_extra_fields() ) ) );
+}
+
+/** Read a single field through the permission-checked project API. */
+function vetra_project_get_field( $project_id, $field_id ) {
+	$allowed = vetra_project_field_ids();
+	if ( ! isset( $allowed[ $field_id ] ) ) { return null; }
+	$project = vetra_project_get( $project_id );
+	return $project && isset( $project->{$field_id} ) ? $project->{$field_id} : null;
+}
+
 function vetra_project_extra_fields() {
 	return array(
 		'category' => array( 'label' => 'دسته پروژه', 'type' => 'text' ),
@@ -144,7 +159,11 @@ function vetra_project_extra_fields() {
 
 function vetra_project_get( $id ) {
 	global $wpdb;
-	return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . vetra_projects_table() . ' WHERE id = %d', absint( $id ) ) );
+	$project = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . vetra_projects_table() . ' WHERE id = %d', absint( $id ) ) );
+	if ( $project && 'approved' !== $project->status && ! current_user_can( 'vetra_manage_projects' ) && ! vetra_project_can_edit( $project ) ) {
+		return null;
+	}
+	return apply_filters( 'vetra_project_read', $project, absint( $id ) );
 }
 
 function vetra_project_query( $args = array() ) {
@@ -153,9 +172,18 @@ function vetra_project_query( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	$where = array( '1=1' );
 	$values = array();
+	$status = sanitize_key( $args['status'] );
+	if ( 'approved' !== $status && ! current_user_can( 'vetra_manage_projects' ) && ! current_user_can( 'vetra_edit_all_projects' ) ) {
+		if ( current_user_can( 'vetra_edit_own_projects' ) ) {
+			$where[] = "(status = 'approved' OR created_by = %d)";
+			$values[] = get_current_user_id();
+		} else {
+			$where[] = "status = 'approved'";
+		}
+	}
 	if ( $args['status'] ) {
 		$where[] = 'status = %s';
-		$values[] = sanitize_key( $args['status'] );
+		$values[] = $status;
 	}
 	if ( $args['created_by'] ) {
 		$where[] = 'created_by = %d';
@@ -201,12 +229,19 @@ function vetra_project_upload_image( $file ) {
 }
 
 function vetra_project_upsert( $data, $id = 0 ) {
+	if ( $id ) {
+		$existing = vetra_project_get( $id );
+		if ( ! $existing || ! vetra_project_can_edit( $existing ) ) { return 0; }
+	} elseif ( ! current_user_can( 'vetra_create_projects' ) && ! current_user_can( 'vetra_manage_projects' ) ) {
+		return 0;
+	}
 	global $wpdb;
 	$table = vetra_projects_table();
 	$now = current_time( 'mysql' );
 	$record = array_merge( array_fill_keys( array_keys( vetra_project_fields() ), '' ), array_fill_keys( array_keys( vetra_project_extra_fields() ), '' ), array( 'project_name' => '', 'status' => 'pending' ), $data );
 	$record['updated_at'] = $now;
 	if ( $id ) {
+		unset( $record['created_by'], $record['created_at'] );
 		$format = vetra_project_formats( $record );
 		$result = $wpdb->update( $table, $record, array( 'id' => absint( $id ) ), $format, array( '%d' ) );
 		return false === $result ? 0 : absint( $id );
@@ -236,13 +271,14 @@ function vetra_project_admin_menu() {
 add_action( 'admin_menu', 'vetra_project_admin_menu' );
 
 function vetra_project_admin_actions() {
-	if ( ! current_user_can( 'vetra_manage_projects' ) || empty( $_POST['vetra_project_admin_action'] ) ) {
-		return;
-	}
-	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vetra_project_admin_nonce'] ?? '' ) ), 'vetra_project_admin' ) ) {
+	if ( empty( $_POST['vetra_project_admin_action'] ) ) {
 		return;
 	}
 	$action = sanitize_key( wp_unslash( $_POST['vetra_project_admin_action'] ) );
+	if ( ! current_user_can( 'vetra_manage_projects' ) || ( 'delete' === $action && ! current_user_can( 'vetra_delete_projects' ) ) ) { return; }
+	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vetra_project_admin_nonce'] ?? '' ) ), 'vetra_project_admin' ) ) {
+		return;
+	}
 	if ( 'delete' === $action ) {
 		global $wpdb;
 		$wpdb->delete( vetra_projects_table(), array( 'id' => absint( $_POST['project_id'] ?? 0 ) ), array( '%d' ) );
@@ -250,9 +286,10 @@ function vetra_project_admin_actions() {
 		exit;
 	}
 	$data = vetra_project_sanitize_data( $_POST );
-	$data['status'] = current_user_can( 'vetra_approve_projects' ) ? $data['status'] : 'pending';
 	$id = absint( $_POST['project_id'] ?? 0 );
 	$existing = $id ? vetra_project_get( $id ) : null;
+	if ( $id && ! $existing ) { wp_die( 'پروژه برای ویرایش پیدا نشد.', 'خطای دسترسی', array( 'response' => 404 ) ); }
+	$data['status'] = $existing ? $existing->status : 'pending';
 	$data['created_by'] = $existing ? (int) $existing->created_by : get_current_user_id();
 	$image_id = vetra_project_upload_image( $_FILES['featured_image'] ?? array() );
 	if ( $image_id ) {
@@ -276,7 +313,7 @@ function vetra_project_admin_page() {
 		<div class="vetra-admin-card"><p>این بخش یک مخزن مستقل اطلاعات پروژه است و پروژه‌ها به‌عنوان پست یا برگه وردپرس ذخیره نمی‌شوند.</p></div>
 		<table class="widefat striped"><thead><tr><th>نام پروژه</th><th>کارفرما</th><th>کاربری</th><th>شماره قرارداد</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>
 		<?php if ( $projects ) : foreach ( $projects as $project ) : ?>
-			<tr><td><strong><?php echo esc_html( $project->project_name ); ?></strong></td><td><?php echo esc_html( $project->client_name ); ?></td><td><?php echo esc_html( $project->project_usage ); ?></td><td><?php echo esc_html( $project->contract_number ); ?></td><td><?php echo esc_html( vetra_project_status_label( $project->status ) ); ?></td><td><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=vetra-projects-add&project_id=' . $project->id ) ); ?>">ویرایش</a></td></tr>
+			<tr><td><strong><?php echo esc_html( $project->project_name ); ?></strong></td><td><?php echo esc_html( $project->client_name ); ?></td><td><?php echo esc_html( $project->project_usage ); ?></td><td><?php echo esc_html( $project->contract_number ); ?></td><td><?php echo esc_html( vetra_project_status_label( $project->status ) ); ?><?php if ( current_user_can( 'vetra_approve_projects' ) ) : ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="vetra_project_moderate"><input type="hidden" name="project_id" value="<?php echo absint( $project->id ); ?>"><input type="hidden" name="project_status" value="<?php echo 'approved' === $project->status ? 'pending' : 'approved'; ?>"><?php wp_nonce_field( 'vetra_project_moderate_' . absint( $project->id ) ); ?><button class="button button-small"><?php echo 'approved' === $project->status ? 'بازگردانی به بررسی' : 'تأیید و انتشار'; ?></button></form><?php endif; ?></td><td><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=vetra-projects-add&project_id=' . $project->id ) ); ?>">ویرایش</a></td></tr>
 		<?php endforeach; else : ?><tr><td colspan="6">هنوز پروژه‌ای ثبت نشده است.</td></tr><?php endif; ?>
 		</tbody></table>
 	</div>
@@ -323,9 +360,6 @@ function vetra_project_render_fields( $project = null, $admin = false ) {
 			<?php vetra_project_render_field( 'description', vetra_project_extra_fields()['description'], $get ); ?>
 		</div>
 	</section>
-	<?php if ( $admin ) : ?>
-		<p><label>وضعیت پروژه<select name="status"><option value="pending" <?php selected( $get( 'status' ) ?: $default_status, 'pending' ); ?>>در انتظار بررسی</option><option value="approved" <?php selected( $get( 'status' ) ?: $default_status, 'approved' ); ?>>تأیید و قابل نمایش</option><option value="rejected" <?php selected( $get( 'status' ) ?: $default_status, 'rejected' ); ?>>ردشده</option></select></label></p>
-	<?php endif; ?>
 	<?php
 }
 
@@ -361,22 +395,36 @@ function vetra_project_admin_post_handlers() {
 add_action( 'admin_post_vetra_save_project', 'vetra_project_admin_post_handlers' );
 add_action( 'admin_post_vetra_delete_project', 'vetra_project_admin_post_handlers' );
 
+function vetra_project_moderate_action() {
+	if ( ! current_user_can( 'vetra_approve_projects' ) ) { wp_die( 'اجازهٔ تغییر وضعیت پروژه را ندارید.', '', array( 'response' => 403 ) ); }
+	$id = absint( $_POST['project_id'] ?? 0 );
+	$status = sanitize_key( wp_unslash( $_POST['project_status'] ?? '' ) );
+	check_admin_referer( 'vetra_project_moderate_' . $id );
+	if ( ! $id || ! in_array( $status, array( 'approved', 'rejected', 'pending' ), true ) ) { wp_die( 'درخواست وضعیت پروژه معتبر نیست.', '', array( 'response' => 400 ) ); }
+	global $wpdb;
+	$wpdb->update( vetra_projects_table(), array( 'status' => $status, 'updated_at' => current_time( 'mysql' ) ), array( 'id' => $id ), array( '%s', '%s' ), array( '%d' ) );
+	wp_safe_redirect( admin_url( 'admin.php?page=vetra-projects&moderated=1' ) ); exit;
+}
+add_action( 'admin_post_vetra_project_moderate', 'vetra_project_moderate_action' );
+
 function vetra_project_frontend_process() {
-	if ( empty( $_POST['vetra_project_submit'] ) || ! is_user_logged_in() || ! current_user_can( 'vetra_submit_projects' ) ) {
+	if ( empty( $_POST['vetra_project_submit'] ) ) {
 		return;
 	}
+	if ( ! is_user_logged_in() || ! current_user_can( 'vetra_submit_projects' ) ) { wp_die( 'برای ثبت پروژه باید با حساب کاربری مجاز وارد شوید.', 'عدم دسترسی', array( 'response' => 403 ) ); }
 	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vetra_project_nonce'] ?? '' ) ), 'vetra_project_frontend' ) ) {
-		return;
+		wp_die( 'نشست فرم معتبر نیست؛ صفحه را تازه‌سازی و دوباره ارسال کنید.', 'خطای امنیتی', array( 'response' => 403 ) );
 	}
 	$data = vetra_project_sanitize_data( $_POST );
 	if ( '' === $data['project_name'] ) {
-		return;
+		wp_die( 'نام پروژه الزامی است.', 'اطلاعات ناقص', array( 'response' => 400 ) );
 	}
 	$id = absint( $_POST['project_id'] ?? 0 );
 	$project = $id ? vetra_project_get( $id ) : null;
-	if ( $project && ! vetra_project_can_edit( $project ) ) {
-		return;
+	if ( $id && ( ! $project || ! vetra_project_can_edit( $project ) ) ) {
+		wp_die( 'شما مجاز به ویرایش این پروژه نیستید.', 'عدم دسترسی', array( 'response' => 403 ) );
 	}
+	if ( ! $id && ! current_user_can( 'vetra_create_projects' ) ) { wp_die( 'مجوز ایجاد پروژه را ندارید.', 'عدم دسترسی', array( 'response' => 403 ) ); }
 	$data['status'] = 'pending';
 	$data['created_by'] = $project ? $project->created_by : get_current_user_id();
 	$image_id = vetra_project_upload_image( $_FILES['featured_image'] ?? array() );
@@ -388,6 +436,7 @@ function vetra_project_frontend_process() {
 		wp_safe_redirect( add_query_arg( 'vetra_project_saved', '1', wp_get_referer() ?: home_url( '/' ) ) );
 		exit;
 	}
+	wp_die( 'ذخیرهٔ پروژه انجام نشد. دوباره تلاش کنید یا با مدیر سایت تماس بگیرید.', 'خطای ذخیره‌سازی', array( 'response' => 500 ) );
 }
 add_action( 'template_redirect', 'vetra_project_frontend_process' );
 
@@ -447,12 +496,36 @@ add_shortcode( 'vetra_project_detail', 'vetra_project_detail_shortcode' );
 
 function vetra_roles_admin_menu() {
 	add_users_page( 'نقش‌های کاربری وترا', 'نقش‌های وترا', 'manage_options', 'vetra-roles', 'vetra_roles_admin_page' );
+	add_users_page( 'حذف نقش سفارشی', 'حذف نقش سفارشی', 'manage_options', 'vetra-role-delete', 'vetra_role_delete_page' );
 }
 add_action( 'admin_menu', 'vetra_roles_admin_menu' );
 
+function vetra_role_delete_page() {
+	if ( ! current_user_can( 'manage_options' ) ) { return; }
+	$protected = array( 'vetra_project_editor', 'vetra_project_manager' );
+	echo '<div class="wrap vetra-admin-wrap" dir="rtl"><h1>حذف نقش سفارشی</h1><p>حذف نقش دسترسی کاربران دارای آن نقش را می‌گیرد؛ حساب کاربران حذف نمی‌شود.</p>';
+	foreach ( wp_roles()->roles as $slug => $role ) {
+		if ( 0 !== strpos( $slug, 'vetra_' ) || in_array( $slug, $protected, true ) ) { continue; }
+		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" class="vetra-admin-card"><strong>' . esc_html( $role['name'] ) . ' <code>' . esc_html( $slug ) . '</code></strong><input type="hidden" name="action" value="vetra_role_delete"><input type="hidden" name="role_slug" value="' . esc_attr( $slug ) . '">';
+		wp_nonce_field( 'vetra_role_delete_' . $slug );
+		echo '<button class="button">حذف نقش</button></form>';
+	}
+	echo '</div>';
+}
+
+function vetra_role_delete_action() {
+	if ( ! current_user_can( 'manage_options' ) ) { wp_die( 'اجازهٔ این عملیات را ندارید.', '', array( 'response' => 403 ) ); }
+	$slug = sanitize_key( wp_unslash( $_POST['role_slug'] ?? '' ) );
+	if ( 0 !== strpos( $slug, 'vetra_' ) || in_array( $slug, array( 'vetra_project_editor', 'vetra_project_manager' ), true ) ) { wp_die( 'این نقش قابل حذف نیست.', '', array( 'response' => 400 ) ); }
+	check_admin_referer( 'vetra_role_delete_' . $slug );
+	if ( get_role( $slug ) ) { remove_role( $slug ); }
+	wp_safe_redirect( admin_url( 'users.php?page=vetra-role-delete' ) ); exit;
+}
+add_action( 'admin_post_vetra_role_delete', 'vetra_role_delete_action' );
+
 function vetra_roles_admin_page() {
 	if ( ! current_user_can( 'manage_options' ) ) { return; }
-	$managed_caps = array( 'vetra_submit_projects' => 'ثبت پروژه با شورتکد', 'vetra_edit_own_projects' => 'ویرایش پروژه‌های خود', 'vetra_edit_all_projects' => 'ویرایش همه پروژه‌ها', 'vetra_approve_projects' => 'تأیید و نمایش پروژه', 'vetra_delete_projects' => 'حذف پروژه', 'upload_files' => 'آپلود تصویر' );
+	$managed_caps = array( 'vetra_submit_projects' => 'دسترسی به فرم سمت سایت', 'vetra_create_projects' => 'ایجاد پروژه', 'vetra_edit_own_projects' => 'ویرایش پروژه‌های خود', 'vetra_edit_all_projects' => 'ویرایش همه پروژه‌ها', 'vetra_manage_projects' => 'مدیریت پروژه‌ها در پیشخوان', 'vetra_approve_projects' => 'تغییر وضعیت انتشار', 'vetra_delete_projects' => 'حذف پروژه', 'upload_files' => 'آپلود تصویر' );
 	$custom_roles = array_filter( wp_roles()->roles, function( $role, $slug ) { return 0 === strpos( $slug, 'vetra_' ); }, ARRAY_FILTER_USE_BOTH );
 	?>
 	<div class="wrap vetra-admin-wrap" dir="rtl"><h1>نقش‌های کاربری وترا</h1><p>سطح دسترسی ثبت پروژه از طریق شورتکد را برای کاربران مشخص کنید.</p><div class="vetra-admin-card"><h2>افزودن نقش</h2><form method="post"><?php wp_nonce_field( 'vetra_role_action', 'vetra_role_nonce' ); ?><input type="hidden" name="vetra_role_action" value="add"><p><label>نام نقش <input class="regular-text" required name="role_name" type="text"></label> <label>شناسه نقش <input class="regular-text" required name="role_slug" type="text" pattern="[a-z0-9_-]+"></label></p><?php foreach ( $managed_caps as $cap => $label ) : ?><label class="vetra-capability"><input type="checkbox" name="caps[]" value="<?php echo esc_attr( $cap ); ?>"> <?php echo esc_html( $label ); ?></label><?php endforeach; ?><p><button class="button button-primary">افزودن نقش</button></p></form></div><?php foreach ( $custom_roles as $slug => $role ) : ?><div class="vetra-admin-card"><h2><?php echo esc_html( $role['name'] ); ?> <code><?php echo esc_html( $slug ); ?></code></h2><form method="post"><?php wp_nonce_field( 'vetra_role_action', 'vetra_role_nonce' ); ?><input type="hidden" name="vetra_role_action" value="update"><input type="hidden" name="role_slug" value="<?php echo esc_attr( $slug ); ?>"><p><label>نام نقش <input class="regular-text" required name="role_name" type="text" value="<?php echo esc_attr( $role['name'] ); ?>"></label></p><?php foreach ( $managed_caps as $cap => $label ) : ?><label class="vetra-capability"><input type="checkbox" name="caps[]" value="<?php echo esc_attr( $cap ); ?>" <?php checked( ! empty( $role['capabilities'][ $cap ] ) ); ?>> <?php echo esc_html( $label ); ?></label><?php endforeach; ?><p><button class="button button-primary">ذخیره نقش</button></p></form></div><?php endforeach; ?><p><code>[vetra_project_form]</code> ثبت/ویرایش پروژه و <code>[vetra_project_list]</code> فهرست پروژه‌ها و <code>[vetra_project_detail id="123"]</code> جزئیات پروژه.</p></div>
@@ -472,7 +545,7 @@ function vetra_roles_admin_actions() {
 		global $wp_roles;
 		$wp_roles->roles[ $slug ]['name'] = sanitize_text_field( wp_unslash( $_POST['role_name'] ?? $slug ) );
 		update_option( $wp_roles->role_key, $wp_roles->roles );
-		foreach ( array( 'vetra_submit_projects', 'vetra_edit_own_projects', 'vetra_edit_all_projects', 'vetra_approve_projects', 'vetra_delete_projects', 'upload_files' ) as $cap ) { if ( isset( $caps[ $cap ] ) ) { $role->add_cap( $cap ); } else { $role->remove_cap( $cap ); } }
+		foreach ( array( 'vetra_submit_projects', 'vetra_create_projects', 'vetra_edit_own_projects', 'vetra_edit_all_projects', 'vetra_manage_projects', 'vetra_approve_projects', 'vetra_delete_projects', 'upload_files' ) as $cap ) { if ( isset( $caps[ $cap ] ) ) { $role->add_cap( $cap ); } else { $role->remove_cap( $cap ); } }
 	}
 	wp_safe_redirect( admin_url( 'users.php?page=vetra-roles' ) );
 	exit;
