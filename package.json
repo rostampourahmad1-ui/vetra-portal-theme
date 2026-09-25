@@ -1,0 +1,12 @@
+{
+  "name": "vetra-portal-theme",
+  "version": "3.4.0",
+  "private": true,
+  "description": "Static contract tests for the Vetra Portal WordPress theme.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
