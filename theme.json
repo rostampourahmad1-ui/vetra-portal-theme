@@ -3,11 +3,26 @@
   "version": 2,
   "settings": {
     "appearanceTools": true,
-    "layout": { "contentSize": "1280px", "wideSize": "1440px" },
-    "spacing": { "blockGap": true }
+    "layout": { "contentSize": "1320px", "wideSize": "1440px" },
+    "spacing": { "blockGap": true, "units": ["px", "em", "rem", "%", "vw"] },
+    "color": { "custom": false, "defaultPalette": true, "palette": [
+      { "slug": "vetra-accent", "color": "#f28b38", "name": "Vetra Accent" },
+      { "slug": "vetra-surface", "color": "#ffffff", "name": "Vetra Surface" },
+      { "slug": "vetra-text", "color": "#171918", "name": "Vetra Text" }
+    ] },
+    "typography": { "fluid": true, "fontSizes": [
+      { "slug": "small", "size": "0.875rem", "name": "Small" },
+      { "slug": "medium", "size": "1.125rem", "name": "Medium" },
+      { "slug": "large", "size": "2.25rem", "name": "Large" }
+    ] }
   },
   "styles": {
-    "typography": { "fontFamily": "var(--vetra-font)" },
-    "elements": { "button": { "border": { "radius": "var(--vetra-radius)" } } }
+    "spacing": { "blockGap": "1.5rem" },
+    "typography": { "fontFamily": "var(--vetra-font)", "lineHeight": "1.8" },
+    "elements": {
+      "button": { "border": { "radius": "var(--vetra-radius)" }, "color": { "background": "var(--vetra-accent)" } },
+      "link": { "color": { "text": "var(--vetra-accent)" } },
+      "heading": { "typography": { "fontWeight": "800", "lineHeight": "1.35" } }
+    }
   }
 }

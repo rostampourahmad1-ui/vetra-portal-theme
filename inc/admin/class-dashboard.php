@@ -1,0 +1,27 @@
+<?php
+namespace Vetra\Theme\Admin;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+final class Dashboard {
+	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'menu' ), 12 );
+		add_action( 'admin_post_vetra_admin_action', array( $this, 'handle' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
+	}
+	public function menu() { add_theme_page( __( 'داشبورد وترا', 'vetra-portal' ), __( 'داشبورد وترا', 'vetra-portal' ), 'manage_options', 'vetra-dashboard', array( $this, 'render' ) ); }
+	public function assets( $hook ) { if ( 'appearance_page_vetra-dashboard' !== $hook ) { return; } wp_enqueue_style( 'vetra-admin-dashboard', VETRA_PORTAL_URI . '/assets/css/admin-dashboard.css', array(), VETRA_PORTAL_VERSION ); }
+	public function render() {
+		if ( ! current_user_can( 'manage_options' ) ) { wp_die( esc_html__( 'دسترسی کافی ندارید.', 'vetra-portal' ) ); }
+		$modules = array( 'Customizer' => true, 'PWA' => (bool) vetra_option( 'pwa_enabled' ), 'bbPress' => function_exists( 'is_bbpress' ), 'WPML' => defined( 'ICL_SITEPRESS_VERSION' ), 'Gravity Forms' => class_exists( 'GFForms' ) );
+		?><div class="wrap vetra-admin-dashboard" dir="<?php echo esc_attr( is_rtl() ? 'rtl' : 'ltr' ); ?>"><h1><?php esc_html_e( 'داشبورد وترا', 'vetra-portal' ); ?></h1><p><?php esc_html_e( 'وضعیت پوسته، ماژول‌ها و ابزارهای نگهداری را از اینجا مدیریت کنید.', 'vetra-portal' ); ?></p><div class="vetra-admin-grid"><section class="vetra-admin-card"><h2><?php esc_html_e( 'وضعیت ماژول‌ها', 'vetra-portal' ); ?></h2><ul><?php foreach ( $modules as $name => $active ) : ?><li><strong><?php echo esc_html( $name ); ?></strong><span class="vetra-status <?php echo $active ? 'is-active' : 'is-inactive'; ?>"><?php echo esc_html( $active ? __( 'فعال', 'vetra-portal' ) : __( 'غیرفعال', 'vetra-portal' ) ); ?></span></li><?php endforeach; ?></ul></section><section class="vetra-admin-card"><h2><?php esc_html_e( 'عملیات نگهداری', 'vetra-portal' ); ?></h2><?php $this->form( 'clear_css', __( 'بازسازی cache CSS', 'vetra-portal' ) ); ?><p><a class="button" href="<?php echo esc_url( customize_url() ); ?>"><?php esc_html_e( 'باز کردن Customizer', 'vetra-portal' ); ?></a></p><p><a class="button" href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'مدیریت افزونه‌ها', 'vetra-portal' ); ?></a></p></section><section class="vetra-admin-card"><h2><?php esc_html_e( 'برون‌ریزی تنظیمات', 'vetra-portal' ); ?></h2><?php $this->form( 'export', __( 'دانلود JSON تنظیمات', 'vetra-portal' ) ); ?><h2><?php esc_html_e( 'درون‌ریزی تنظیمات', 'vetra-portal' ); ?></h2><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data"><?php wp_nonce_field( 'vetra_admin_import', 'vetra_admin_nonce' ); ?><input type="hidden" name="action" value="vetra_admin_action"><input type="hidden" name="vetra_operation" value="import"><input type="file" name="vetra_import" accept="application/json,.json" required><button class="button button-primary" type="submit"><?php esc_html_e( 'اعتبارسنجی و درون‌ریزی', 'vetra-portal' ); ?></button></form></section></div></div><?php
+	}
+	private function form( $operation, $label ) { ?><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><?php wp_nonce_field( 'vetra_admin_' . $operation, 'vetra_admin_nonce' ); ?><input type="hidden" name="action" value="vetra_admin_action"><input type="hidden" name="vetra_operation" value="<?php echo esc_attr( $operation ); ?>"><button class="button" type="submit"><?php echo esc_html( $label ); ?></button></form><?php }
+	public function handle() {
+		if ( ! current_user_can( 'manage_options' ) ) { wp_die( esc_html__( 'دسترسی کافی ندارید.', 'vetra-portal' ) ); }
+		$operation = sanitize_key( wp_unslash( $_POST['vetra_operation'] ?? '' ) );
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vetra_admin_nonce'] ?? '' ) ), 'vetra_admin_' . $operation ) ) { wp_die( esc_html__( 'درخواست نامعتبر است.', 'vetra-portal' ) ); }
+		if ( 'clear_css' === $operation ) { vetra_clear_dynamic_css_cache(); wp_safe_redirect( add_query_arg( 'vetra_notice', 'css', admin_url( 'themes.php?page=vetra-dashboard' ) ) ); exit; }
+		if ( 'export' === $operation ) { nocache_headers(); header( 'Content-Type: application/json; charset=utf-8' ); header( 'Content-Disposition: attachment; filename=vetra-settings.json' ); echo wp_json_encode( array( 'schema_version' => vetra_settings_schema_version(), 'settings' => vetra_operational_settings(), 'theme_mods' => get_theme_mods() ), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT ); exit; }
+		if ( 'import' === $operation ) { $file = $_FILES['vetra_import'] ?? array(); $checked = ! empty( $file['tmp_name'] ) ? wp_check_filetype_and_ext( $file['tmp_name'], sanitize_file_name( $file['name'] ?? '' ) ) : array(); if ( empty( $file['tmp_name'] ) || 'json' !== ( $checked['ext'] ?? '' ) || 'application/json' !== ( $checked['type'] ?? '' ) ) { wp_die( esc_html__( 'فایل JSON معتبر نیست.', 'vetra-portal' ) ); } $raw = file_get_contents( $file['tmp_name'] ); $data = json_decode( $raw, true ); if ( ! is_array( $data ) || ! isset( $data['settings'] ) ) { wp_die( esc_html__( 'ساختار فایل تنظیمات معتبر نیست.', 'vetra-portal' ) ); } update_option( 'vetra_operational_settings', vetra_settings_normalize( $data['settings'] ), false ); vetra_clear_dynamic_css_cache(); wp_safe_redirect( add_query_arg( 'vetra_notice', 'imported', admin_url( 'themes.php?page=vetra-dashboard' ) ) ); exit; }
+	}
+}

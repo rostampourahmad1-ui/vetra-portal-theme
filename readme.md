@@ -127,10 +127,15 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 - `inc/plugin-manager.php` — مدیریت افزونه‌های رایگان
 - `theme.json` — تنظیمات پایه ویرایشگر بلوکی
 - `IMPLEMENTATION-REPORT.md` — گزارش تغییرات و نتایج آزمون این شاخه
+- `inc/core/settings-schema.php` — schema مشترک و normalize تنظیمات عملیاتی
+- `inc/core/class-theme.php` — سرویس هسته و ثبت componentها
+- `inc/admin/class-dashboard.php` — داشبورد مدیریت، import/export و cache
+- `inc/integrations.php` — adapterهای اختیاری WPML، فرم‌ها، bbPress و WooCommerce
+- `assets/css/search.css` / `assets/css/forms.css` — assetهای شرطی جست‌وجو و فرم‌ها
 
 ## نسخه
 
-3.4.0
+3.5.0
 
 ## مجوز
 

@@ -107,3 +107,32 @@ test('moderation and custom icon APIs are documented', () => {
   assert.match(read('inc/helpers.php'), /function vetra_custom_icon_url\(/);
   assert.match(guide, /vetra_custom_icon_url/);
 });
+
+test('complete theme architecture exposes shared schema and admin dashboard', () => {
+  const schema = read('inc/core/settings-schema.php');
+  const dashboard = read('inc/admin/class-dashboard.php');
+  assert.match(bootstrap, /inc\/core\/settings-schema\.php/);
+  assert.match(bootstrap, /class-dashboard\.php/);
+  assert.match(schema, /function vetra_settings_schema\(/);
+  assert.match(schema, /function vetra_settings_normalize\(/);
+  assert.match(dashboard, /current_user_can\( 'manage_options' \)/);
+  assert.match(dashboard, /wp_verify_nonce/);
+  assert.match(dashboard, /vetra_admin_action/);
+});
+
+test('front-end hierarchy includes landing, distraction-free, search and reusable components', () => {
+  assert.match(bootstrap, /templates\/distraction-free\.php/);
+  assert.match(bootstrap, /templates\/landing\.php/);
+  assert.ok(read('header.php').includes('vetra-search-overlay'));
+  assert.ok(read('footer.php').includes('vetra-back-to-top'));
+  assert.match(read('template-parts/content.php'), /vetra_component_related/);
+  assert.match(read('assets/js/corporate.js'), /closeSearch/);
+});
+
+test('optional integrations remain conditional and isolated', () => {
+  const integrations = read('inc/integrations.php');
+  assert.match(integrations, /ICL_SITEPRESS_VERSION/);
+  assert.match(integrations, /class_exists\( 'GFForms' \)/);
+  assert.match(bootstrap, /inc\/integrations\.php/);
+  assert.match(read('assets/css/integrations.css'), /bbp-forums/);
+});
