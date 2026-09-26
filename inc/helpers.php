@@ -40,7 +40,9 @@ function vetra_inline_icon( $name = 'arrow' ) {
 		'chart'    => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19.5V11m7 8.5V5m7 14.5v-6M3.5 19.5h17"/></svg>',
 		'moon'     => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.2 15.5A8.5 8.5 0 0 1 8.5 4.8 8.5 8.5 0 1 0 19.2 15.5Z"/></svg>',
 		'sun'      => '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>',
-		'menu'     => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+			'menu'     => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+			'search'   => '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/></svg>',
+			'close'    => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>',
 		'check'    => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 13 5 5L20 7"/></svg>',
 		'file'     => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
 	);

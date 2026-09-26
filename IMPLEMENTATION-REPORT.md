@@ -1,4 +1,4 @@
-# گزارش پیاده‌سازی Vetra Portal
+# گزارش پیاده‌سازی جامع Vetra Portal 3.5.0
 
 ## دامنه تغییرات
 
@@ -13,13 +13,20 @@
 - **افزونه‌ها:** استایل bbPress فقط در صفحات bbPress بارگذاری می‌شود و نبود افزونه باعث خطا نمی‌شود.
 - **عملکرد:** اسکریپت اصلی با strategy `defer` enqueue می‌شود؛ asset RTL و integration شرطی هستند.
 - **ترجمه:** متن‌های fallback هدر، ۴۰۴، وضعیت خالی و پابرگ از API ترجمه وردپرس عبور می‌کنند.
+- **معماری:** bootstrap اکنون سرویس‌های `Theme`، schema تنظیمات، داشبورد مدیریت و integration adapterها را به‌صورت جداگانه بارگذاری می‌کند.
+- **schema مشترک:** `inc/core/settings-schema.php` نوع، default، allowlist، sanitizer، capability، preview و نگاشت CSS تنظیمات عملیاتی را تعریف و normalize می‌کند.
+- **پنل مدیریت:** داشبورد امن برای وضعیت ماژول‌ها، export/import JSON اعتبارسنجی‌شده و بازسازی cache CSS اضافه شده است.
+- **فرانت‌اند حرفه‌ای:** نوار بالا، جست‌وجوی overlay، انتخاب زبان WPML، widgetهای چندستونه پابرگ، بازگشت به بالا و کامپوننت‌های breadcrumb/share/related اضافه شده‌اند.
+- **قالب‌های صفحه:** قالب‌های تمام‌عرض، بدون حواس‌پرتی و landing page ثبت و قابل انتخاب‌اند.
+- **اتصالات:** adapterهای شرطی WPML، Gravity Forms، bbPress و WooCommerce ایجاد شده‌اند؛ منطق افزونه‌ها بازنویسی نشده است.
+- **ویرایشگر بلوکی:** `theme.json` با palette، font sizes، spacing، layout و element styles تکمیل شده است.
 
 ## بررسی‌های اجراشده
 
 | بررسی | نتیجه |
 |---|---|
-| `php -l` روی تمام فایل‌های PHP | موفق؛ ۲۴ فایل بدون خطای syntax |
-| `npm test` | موفق؛ ۱۲ آزمون قرارداد قبول شد |
+| `php -l` روی تمام فایل‌های PHP | موفق؛ ۳۲ فایل بدون خطای syntax |
+| `npm test` | موفق؛ ۱۵ آزمون قرارداد قبول شد |
 | `node --check assets/js/corporate.js` | موفق |
 | `python3 -m json.tool theme.json` | موفق |
 | `git diff --check` | موفق |
@@ -27,9 +34,24 @@
 ## بررسی دستی ایستا
 
 - رنگ‌های پایه در `style.css` و مقادیر رنگی `customizer.php` تغییر نکرده‌اند.
-- عملیات مدیریتی موجود همچنان از nonce/capability/validation استفاده می‌کنند؛ در این شاخه عملیات مدیریتی جدیدی اضافه نشده است.
+- عملیات مدیریتی موجود و داشبورد جدید از nonce/capability/validation استفاده می‌کنند؛ import فقط JSON با schema مجاز را می‌پذیرد.
 - قالب در نبود JavaScript مسیر محتوایی و منوی پایه را حفظ می‌کند؛ JavaScript فقط enhancement است.
 - افزونه‌های اختیاری در مسیر رندر عادی شرطی و غیرالزامی باقی مانده‌اند.
+
+## پوشش نیازمندی‌ها
+
+| حوزه | وضعیت | پیاده‌سازی اصلی |
+|---|---|---|
+| معماری کلاسیک و ماژولار | پوشش داده شد | `inc/core`, `inc/admin`, `inc/integrations`, `template-parts` |
+| header/footer و تعاملات | پوشش داده شد | overlay search، mobile menu، topbar، footer widgets، back-to-top |
+| template hierarchy | پوشش داده شد | archive/search/single/comments/sidebar و سه page template |
+| اجزای reusable | پوشش داده شد | breadcrumb، post meta، share، related، content/service card |
+| Customizer و schema | پوشش داده شد | `inc/customizer.php` + `inc/core/settings-schema.php` |
+| پنل مدیریت | پوشش داده شد | dashboard، module status، import/export، cache rebuild |
+| RTL/LTR و ترجمه | پوشش داده شد | `language_attributes`، `rtl.css` شرطی، WPML adapter، text domain |
+| امنیت | پوشش داده شد | capability، nonce، sanitize، allowlist، escape در مسیرهای جدید |
+| عملکرد | پوشش داده شد | conditional assets، defer JS، transient CSS cache |
+| افزونه‌ها | پوشش داده شد | bbPress/WPML/forms/WooCommerce detection بدون dependency سخت |
 
 ## محدودیت محیط
 

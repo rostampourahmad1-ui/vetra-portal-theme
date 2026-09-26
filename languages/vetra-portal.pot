@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Vetra Portal 3.5.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: vetra-portal\n"
+
+#: header.php
+msgid "باز کردن جست‌وجو"
+msgstr ""
+
+#: footer.php
+msgid "بازگشت به ابتدای صفحه"
+msgstr ""
+
+#: template-parts/components.php
+msgid "نوشته‌های مرتبط"
+msgstr ""
+
+#: inc/admin/class-dashboard.php
+msgid "داشبورد وترا"
+msgstr ""

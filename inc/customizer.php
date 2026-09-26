@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function vetra_customizer_defaults() {
-	return array(
+	return array_merge( vetra_settings_defaults(), array(
 		'brand_title'       => 'وترا',
 		'brand_subtitle'    => 'معماری، مهندسی و ساخت',
 	'footer_text'       => 'طراحی دقیق. ساخت ماندگار.',
@@ -45,6 +45,12 @@ function vetra_customizer_defaults() {
 		'content_width'     => 1320,
 		'card_radius'       => 24,
 		'header_sticky'     => true,
+		'topbar_enabled'    => false,
+		'topbar_text'       => 'همراه شما برای ساختن آینده‌ای ماندگار',
+		'show_back_to_top'  => true,
+		'show_search'       => true,
+		'enable_forms_style' => true,
+		'enable_bbpress_style' => true,
 		'header_cta_text'   => 'شروع همکاری',
 		'header_cta_url'    => '#contact',
 		'show_theme_switch' => true,
@@ -156,13 +162,18 @@ function vetra_customizer_defaults() {
 		'pwa_install_prompt' => true,
 		'pwa_install_text'   => 'برای دسترسی سریع‌تر، وب‌اپ وترا را نصب کنید.',
 		'pwa_install_delay'  => 5,
-	);
+	) );
 }
 
 function vetra_option( $key, $default = null ) {
+	static $operational = null;
 	$defaults = vetra_customizer_defaults();
 	$fallback = array_key_exists( $key, $defaults ) ? $defaults[ $key ] : $default;
 	$value    = get_theme_mod( 'vetra_' . $key, $fallback );
+	if ( null === $operational ) { $operational = get_option( 'vetra_operational_settings', array() ); }
+	if ( ! is_customize_preview() && is_array( $operational ) && array_key_exists( $key, $operational ) ) {
+		$value = $operational[ $key ];
+	}
 	return ( '' === $value || null === $value ) && null !== $default ? $default : $value;
 }
 
@@ -287,6 +298,12 @@ function vetra_customizer_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'vetra_features_section', array( 'title' => 'اجزای فعال قالب', 'description' => 'هر بخش را مستقل فعال یا غیرفعال کنید. غیرفعال‌سازی یک بخش، تنظیمات سایر بخش‌ها را تغییر نمی‌دهد.', 'panel' => 'vetra_corporate_panel', 'priority' => 15 ) );
 	vetra_add_toggle( $wp_customize, 'header_enabled', 'فعال‌سازی هدر سایت', 'vetra_features_section', 10 );
+	vetra_add_toggle( $wp_customize, 'topbar_enabled', 'نمایش نوار بالایی', 'vetra_features_section', 11 );
+	vetra_add_text( $wp_customize, 'topbar_text', 'متن نوار بالایی', 'vetra_features_section', 11 );
+	vetra_add_toggle( $wp_customize, 'show_search', 'نمایش جست‌وجوی سایت', 'vetra_features_section', 12 );
+	vetra_add_toggle( $wp_customize, 'show_back_to_top', 'نمایش دکمه بازگشت به بالا', 'vetra_features_section', 14 );
+	vetra_add_toggle( $wp_customize, 'enable_forms_style', 'استایل‌دهی فرم‌های افزونه‌ها', 'vetra_features_section', 16 );
+	vetra_add_toggle( $wp_customize, 'enable_bbpress_style', 'استایل‌دهی bbPress', 'vetra_features_section', 18 );
 	vetra_add_toggle( $wp_customize, 'footer_enabled', 'فعال‌سازی فوتر سایت', 'vetra_features_section', 20 );
 	vetra_add_toggle( $wp_customize, 'footer_contact_enabled', 'نمایش اطلاعات تماس فوتر', 'vetra_features_section', 25 );
 	vetra_add_toggle( $wp_customize, 'footer_bottom_enabled', 'نمایش نوار پایانی فوتر', 'vetra_features_section', 27 );
@@ -465,6 +482,11 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 }
 
 function vetra_customizer_css() {
+	$cache_key = 'vetra_dynamic_css_' . md5( wp_json_encode( vetra_theme_css_fingerprint() ) );
+	if ( ! is_customize_preview() ) {
+		$cached_css = get_transient( $cache_key );
+		if ( false !== $cached_css ) { return (string) $cached_css; }
+	}
 	$defaults = vetra_customizer_defaults();
 	$palette_enabled = (bool) vetra_option( 'color_palette_enabled', true );
 	$light_bg = $palette_enabled ? vetra_option( 'light_bg' ) : $defaults['light_bg'];
@@ -532,7 +554,9 @@ function vetra_customizer_css() {
 		$pattern_rule = $pattern_css ? $selector . '::after{position:absolute;z-index:0;inset:0;pointer-events:none;content:"";' . $pattern_css . '}' : '';
 	}
 
-	return $root . $dark . $layout . $background_rule . $pattern_rule . vetra_option( 'custom_css', '' );
+	$css = $root . $dark . $layout . $background_rule . $pattern_rule . vetra_option( 'custom_css', '' );
+	if ( ! is_customize_preview() ) { set_transient( $cache_key, $css, WEEK_IN_SECONDS ); }
+	return $css;
 }
 
 function vetra_portal_customizer_css() {
@@ -569,7 +593,7 @@ function vetra_pwa_manifest_template() {
 		return;
 	}
 	if ( ! vetra_option( 'pwa_enabled' ) ) {
-		wp_die( 'PWA غیرفعال است.', 'PWA', array( 'response' => 404 ) );
+		wp_die( esc_html__( 'PWA غیرفعال است.', 'vetra-portal' ), esc_html__( 'PWA', 'vetra-portal' ), array( 'response' => 404 ) );
 	}
 
 	$icon_url = vetra_image_url( 'pwa_icon' );
@@ -594,8 +618,8 @@ function vetra_pwa_manifest_template() {
 		'background_color'=> vetra_option( 'pwa_bg_color', '#f6f7f4' ),
 		'theme_color'     => vetra_option( 'pwa_theme_color', '#f28b38' ),
 		'orientation'     => 'portrait',
-		'lang'            => 'fa',
-		'dir'             => 'rtl',
+			'lang'            => determine_locale(),
+			'dir'             => is_rtl() ? 'rtl' : 'ltr',
 	);
 	if ( $icons ) {
 		$manifest['icons'] = $icons;
