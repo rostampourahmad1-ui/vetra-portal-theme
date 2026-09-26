@@ -93,7 +93,7 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 - تغییر وضعیت پروژه از `vetra_project_set_status()` عبور می‌کند و فقط با قابلیت `vetra_approve_projects` و خواندن مجاز انجام می‌شود.
 - `vetra_custom_icon_url()` برای مصرف کنترل‌شدهٔ آیکن اختصاصی افزونه‌ها ارائه شد.
 
-برای آزمون خودکار، `tests/theme-contract.test.js` قراردادهای API، مجوزها، PWA، نمونه‌برگه‌ها و layoutهای جدید را بررسی می‌کند. این sandbox PHP و وابستگی‌های WordPress را ندارد؛ بنابراین lint کامل PHP باید در نصب واقعی WordPress یا CI اجرا شود.
+برای آزمون خودکار، `tests/theme-contract.test.js` قراردادهای API، مجوزها، PWA، نمونه‌برگه‌ها و layoutهای جدید را بررسی می‌کند. برای lint کامل PHP از `find . -name '*.php' -print0 | xargs -0 -n1 php -l` استفاده کنید. جزئیات تغییرات و محدودیت‌های آزمون در `IMPLEMENTATION-REPORT.md` آمده است.
 
 ## Customizer
 
@@ -109,6 +109,9 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 
 - `front-page.php` — صفحه اصلی شرکتی
 - `index.php` — آرشیو/وبلاگ
+- `archive.php` / `search.php` — آرشیوها و نتایج جست‌وجو
+- `single.php` / `comments.php` — نوشته تکی و دیدگاه استاندارد وردپرس
+- `sidebar.php` / `template-parts/content.php` — ابزارک و اجزای قابل استفاده مجدد
 - `page.php` — صفحه ثابت
 - `404.php` — صفحه یافت نشد
 - `header.php` / `footer.php` — هدر و فوتر
@@ -122,6 +125,8 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 - `inc/helpers.php` — توابع کمکی
 - `inc/layouts.php` — الگوهای هدر/فوتر و انتخاب آن‌ها برای برگه‌ها
 - `inc/plugin-manager.php` — مدیریت افزونه‌های رایگان
+- `theme.json` — تنظیمات پایه ویرایشگر بلوکی
+- `IMPLEMENTATION-REPORT.md` — گزارش تغییرات و نتایج آزمون این شاخه
 
 ## نسخه
 

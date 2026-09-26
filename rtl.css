@@ -1,9 +1,7 @@
 /*
- * The main stylesheet is RTL-first. This file keeps WordPress RTL discovery
- * explicit for plugins that check for a dedicated rtl.css file.
+ * WordPress loads this file for RTL locales. Direction itself is supplied by
+ * language_attributes(), so LTR installations are not affected.
  */
 
-html,
-body {
-	direction: rtl;
-}
+.vetra-site-nav ul ul { inset-inline-start: 0; inset-inline-end: auto; }
+.vetra-content-layout { direction: rtl; }
