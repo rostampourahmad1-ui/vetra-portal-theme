@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "layout": { "contentSize": "1280px", "wideSize": "1440px" },
+    "spacing": { "blockGap": true }
+  },
+  "styles": {
+    "typography": { "fontFamily": "var(--vetra-font)" },
+    "elements": { "button": { "border": { "radius": "var(--vetra-radius)" } } }
+  }
+}
