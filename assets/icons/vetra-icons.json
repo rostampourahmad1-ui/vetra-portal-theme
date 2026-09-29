@@ -1,0 +1,373 @@
+{
+	"version": "1.0.0",
+	"viewBox": "0 0 24 24",
+	"strokeWidth": 1.5,
+	"icons": {
+		"blueprint": {
+			"label": "نقشه",
+			"base": ["<rect x='3' y='3' width='18' height='18'/>", "<path d='M3 15h18M9 3v18'/>"],
+			"accent": ["<path d='M12 18 19 11'/>"]
+		},
+		"building-crane": {
+			"label": "جرثقیل ساختمانی",
+			"base": ["<path d='M6 21V4h14M6 7h4'/>", "<path d='M16 4v6'/>"],
+			"accent": ["<circle cx='16' cy='13' r='2'/>"]
+		},
+		"construction-site": {
+			"label": "کارگاه ساختمانی",
+			"base": ["<path d='M3 20h18'/>", "<path d='M5 20V9h14v11'/>", "<path d='M5 13h14M12 9v11'/>"],
+			"accent": ["<path d='M8 17 16 10'/>"]
+		},
+		"building": {
+			"label": "ساختمان",
+			"base": ["<rect x='5' y='3' width='14' height='18'/>", "<path d='M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M11 21v-3h2v3'/>"],
+			"accent": []
+		},
+		"safety-helmet": {
+			"label": "کلاه ایمنی",
+			"base": ["<path d='M5 14a7 7 0 0 1 14 0'/>", "<path d='M3 15h18v2H3z'/>"],
+			"accent": ["<path d='M12 7v8'/>"]
+		},
+		"contract": {
+			"label": "قرارداد",
+			"base": ["<path d='M6 3h8l4 4v9H6z'/>", "<path d='M14 3v4h4'/>", "<path d='M9 11h6M9 14h4'/>"],
+			"accent": ["<circle cx='16' cy='18' r='2.5'/>"]
+		},
+		"document": {
+			"label": "سند",
+			"base": ["<path d='M6 3h8l4 4v14H6z'/>", "<path d='M14 3v4h4'/>", "<path d='M9 12h6M9 16h6'/>"],
+			"accent": []
+		},
+		"folder-project": {
+			"label": "پوشه پروژه",
+			"base": ["<path d='M3 6h6l2 2h10v12H3z'/>"],
+			"accent": ["<path d='M3 10h18'/>"]
+		},
+		"engineer": {
+			"label": "مهندس",
+			"base": ["<circle cx='12' cy='8' r='3'/>", "<path d='M5 21c0-4 3-6 7-6s7 2 7 6'/>"],
+			"accent": ["<path d='M9 6a3 3 0 0 1 6 0'/>"]
+		},
+		"settings": {
+			"label": "تنظیمات",
+			"base": ["<circle cx='12' cy='12' r='3'/>", "<path d='M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2'/>"],
+			"accent": []
+		},
+		"search": {
+			"label": "جست‌وجو",
+			"base": ["<circle cx='10.5' cy='10.5' r='6.5'/>", "<path d='M15.5 15.5 21 21'/>"],
+			"accent": []
+		},
+		"filter": {
+			"label": "فیلتر",
+			"base": ["<path d='M3 5h18l-7 8v6l-4 2v-8z'/>"],
+			"accent": []
+		},
+		"export": {
+			"label": "خروجی",
+			"base": ["<path d='M4 14v6h16v-6'/>"],
+			"accent": ["<path d='M12 3v10M8 7l4-4 4 4'/>"]
+		},
+		"print": {
+			"label": "چاپ",
+			"base": ["<path d='M7 8V3h10v5'/>", "<rect x='4' y='8' width='16' height='8'/>", "<path d='M7 16h10v5H7z'/>"],
+			"accent": []
+		},
+		"close": {
+			"label": "بستن",
+			"base": ["<path d='M5 5l14 14M19 5 5 19'/>"],
+			"accent": []
+		},
+		"check": {
+			"label": "تأیید",
+			"base": ["<path d='M4 12.5 9.5 18 20 6'/>"],
+			"accent": []
+		},
+		"warning": {
+			"label": "هشدار",
+			"base": ["<path d='M12 3 22 20H2z'/>"],
+			"accent": ["<path d='M12 9v5M12 17v.5'/>"]
+		},
+		"info": {
+			"label": "اطلاعات",
+			"base": ["<circle cx='12' cy='12' r='9'/>"],
+			"accent": ["<path d='M12 11v5M12 8v.5'/>"]
+		},
+		"arrow-left": {
+			"label": "جهت چپ",
+			"directional": true,
+			"base": ["<path d='M20 12H4M10 6l-6 6 6 6'/>"],
+			"accent": []
+		},
+		"arrow-right": {
+			"label": "جهت راست",
+			"directional": true,
+			"base": ["<path d='M4 12h16M14 6l6 6-6 6'/>"],
+			"accent": []
+		},
+		"arrow-up": {
+			"label": "جهت بالا",
+			"base": ["<path d='M12 20V4M6 10l6-6 6 6'/>"],
+			"accent": []
+		},
+		"chevron-down": {
+			"label": "باز شدن",
+			"base": ["<path d='M6 9l6 6 6-6'/>"],
+			"accent": []
+		},
+		"menu": {
+			"label": "منو",
+			"base": ["<path d='M4 7h16M4 12h16M4 17h16'/>"],
+			"accent": []
+		},
+		"logout": {
+			"label": "خروج",
+			"base": ["<path d='M10 4H5v16h5'/>"],
+			"accent": ["<path d='M9 12h10M15 8l4 4-4 4'/>"]
+		},
+		"login": {
+			"label": "ورود",
+			"base": ["<path d='M14 4h5v16h-5'/>"],
+			"accent": ["<path d='M15 12H5M9 8l-4 4 4 4'/>"]
+		},
+		"sun": {
+			"label": "روشن",
+			"base": ["<circle cx='12' cy='12' r='4'/>", "<path d='M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19'/>"],
+			"accent": []
+		},
+		"moon": {
+			"label": "تاریک",
+			"base": ["<path d='M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z'/>"],
+			"accent": []
+		},
+		"people": {
+			"label": "افراد",
+			"base": ["<circle cx='8' cy='8' r='3'/>", "<path d='M3 20c.6-3.4 2.4-5.2 5-5.2s4.4 1.8 5 5.2'/>"],
+			"accent": ["<circle cx='17' cy='9' r='2.2'/>", "<path d='M15 15c2.4.2 3.8 1.7 4.3 4.3'/>"]
+		},
+		"leaf": {
+			"label": "پایداری",
+			"base": ["<path d='M20 4C11 4.2 6 8 6 14c0 3 2 5 5 5 6 0 9-6 9-15z'/>"],
+			"accent": ["<path d='M4 20c2.8-3.8 5.8-6.6 9.6-8.6'/>"]
+		},
+		"pen": {
+			"label": "قلم",
+			"base": ["<path d='M4 17l-.7 3.7L7 20 19.5 7.5a2 2 0 0 0-2.8-2.8z'/>", "<path d='M4 20h16'/>"],
+			"accent": ["<path d='M15 6.5l2.5 2.5'/>"]
+		},
+		"cube": {
+			"label": "مکعب",
+			"base": ["<path d='M12 3l8 4.5v9L12 21l-8-4.5v-9z'/>", "<path d='M4 7.5l8 4.5 8-4.5M12 12v9'/>"],
+			"accent": []
+		},
+		"chart": {
+			"label": "نمودار",
+			"base": ["<path d='M4 4v16h16'/>"],
+			"accent": ["<path d='M8 16v-4M12 16v-7M16 16v-2'/>"]
+		},
+		"dashboard-grid": {
+			"label": "داشبورد",
+			"base": ["<rect x='3' y='3' width='8' height='8'/>", "<rect x='13' y='3' width='8' height='8'/>", "<rect x='3' y='13' width='8' height='8'/>"],
+			"accent": ["<rect x='13' y='13' width='8' height='8'/>"]
+		},
+		"id-card": {
+			"label": "کارت شناسایی",
+			"base": ["<rect x='3' y='5' width='18' height='14'/>", "<circle cx='8' cy='11' r='2'/>", "<path d='M5 17c.5-1.8 1.5-2.7 3-2.7s2.5.9 3 2.7M14 10h5M14 13h4'/>"],
+			"accent": []
+		},
+		"user-profile": {
+			"label": "پروفایل کاربر",
+			"base": ["<circle cx='12' cy='8' r='4'/>", "<path d='M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7'/>"],
+			"accent": []
+		},
+		"ticket-support": {
+			"label": "پشتیبانی",
+			"base": ["<path d='M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z'/>"],
+			"accent": ["<path d='M12 9v2M12 13v2'/>"]
+		},
+		"wallet-safe": {
+			"label": "کیف پول",
+			"base": ["<rect x='3' y='6' width='18' height='13'/>", "<path d='M3 10h18'/>"],
+			"accent": ["<circle cx='16' cy='14.5' r='2'/>"]
+		},
+		"payment-card": {
+			"label": "پرداخت",
+			"base": ["<rect x='3' y='5' width='18' height='14'/>", "<path d='M6 14h4'/>"],
+			"accent": ["<path d='M3 9.5h18'/>"]
+		},
+		"bank-transfer": {
+			"label": "انتقال بانکی",
+			"base": ["<path d='M3 9l9-4 9 4z'/>", "<path d='M5 9v7M9 9v7M15 9v7M19 9v7'/>", "<path d='M3 19h18'/>"],
+			"accent": ["<path d='M9 13l-2 2 2 2M15 13l2 2-2 2'/>"]
+		},
+		"bell-notification": {
+			"label": "اعلان",
+			"base": ["<path d='M6 17V11a6 6 0 0 1 12 0v6l2 2H4z'/>", "<path d='M10 21a2 2 0 0 0 4 0'/>"],
+			"accent": ["<circle cx='17' cy='5' r='2'/>"]
+		},
+		"message": {
+			"label": "پیام",
+			"base": ["<path d='M4 5h16v11H9l-5 4z'/>"],
+			"accent": ["<path d='M8 9h8M8 12h5'/>"]
+		},
+		"lock-security": {
+			"label": "امنیت",
+			"base": ["<rect x='5' y='10' width='14' height='10'/>", "<path d='M8 10V7a4 4 0 0 1 8 0v3'/>"],
+			"accent": ["<path d='M12 14v2'/>"]
+		},
+		"upload-receipt": {
+			"label": "بارگذاری رسید",
+			"base": ["<path d='M6 3h12v16l-2-1-2 1-2-1-2 1-2-1-2 1z'/>", "<path d='M9 8h6M9 12h4'/>"],
+			"accent": ["<path d='M15 19v-6M13 15l2-2 2 2'/>"]
+		},
+		"rebar-bundle": {
+			"label": "بسته میلگرد",
+			"base": ["<path d='M6 4v16M9 4v16M12 4v16M15 4v16M18 4v16'/>"],
+			"accent": ["<path d='M4 9h16M4 15h16'/>"]
+		},
+		"cut-blade": {
+			"label": "تیغه برش",
+			"base": ["<path d='M4 14 14 4l2 2L6 20H4z'/>", "<path d='M14 4l2 2'/>"],
+			"accent": ["<path d='M14 4 6 20'/>"]
+		},
+		"cut-plan": {
+			"label": "نقشه برش",
+			"base": ["<rect x='4' y='4' width='16' height='16'/>", "<path d='M8 4v16M16 4v16'/>"],
+			"accent": ["<path d='M4 12h16'/>"]
+		},
+		"warehouse-rack": {
+			"label": "قفسه انبار",
+			"base": ["<path d='M4 3v18M20 3v18'/>", "<path d='M4 8h16M4 13h16M4 18h16'/>"],
+			"accent": ["<rect x='7' y='4' width='6' height='4'/>"]
+		},
+		"stock-material": {
+			"label": "موجودی",
+			"base": ["<rect x='4' y='15' width='16' height='4'/>", "<rect x='6' y='10' width='12' height='4'/>", "<rect x='8' y='5' width='8' height='4'/>"],
+			"accent": []
+		},
+		"scrap-recycling": {
+			"label": "بازیافت",
+			"base": ["<path d='M12 4l8 14H4z'/>"],
+			"accent": ["<path d='M9 13l2 2-2 2M15 13l2 2-2 2'/>"]
+		},
+		"usable-remnant": {
+			"label": "باقی‌مانده قابل استفاده",
+			"base": ["<rect x='6' y='9' width='12' height='6'/>"],
+			"accent": ["<path d='M9 12l2 2 4-4'/>"]
+		},
+		"waste-material": {
+			"label": "ضایعات",
+			"base": ["<path d='M5 7h14l-1 14H6z'/>", "<path d='M4 7h16M9 7V4h6v3'/>"],
+			"accent": ["<path d='M10 11l4 4M14 11l-4 4'/>"]
+		},
+		"measurement": {
+			"label": "اندازه‌گیری",
+			"base": ["<path d='M3 8h18v8H3z'/>"],
+			"accent": ["<path d='M7 8v4M11 8v6M15 8v4M19 8v6'/>"]
+		},
+		"optimization": {
+			"label": "بهینه‌سازی",
+			"base": ["<circle cx='12' cy='12' r='8'/>", "<circle cx='12' cy='12' r='3'/>"],
+			"accent": ["<path d='M12 2v3M12 19v3M2 12h3M19 12h3'/>"]
+		},
+		"calculation": {
+			"label": "محاسبه",
+			"base": ["<rect x='5' y='3' width='14' height='18'/>", "<rect x='8' y='6' width='8' height='3'/>"],
+			"accent": ["<path d='M9 13v.01M12 13v.01M15 13v.01M9 17v.01M12 17v.01M15 17v.01'/>"]
+		},
+		"material-report": {
+			"label": "گزارش مواد",
+			"base": ["<path d='M6 3h8l4 4v14H6z'/>", "<path d='M14 3v4h4'/>"],
+			"accent": ["<path d='M10 17v-3M13 17v-5M16 17v-7'/>"]
+		},
+		"gantt-chart": {
+			"label": "نمودار گانت",
+			"base": ["<rect x='3' y='5' width='11' height='4'/>", "<rect x='5' y='15' width='9' height='4'/>"],
+			"accent": ["<rect x='7' y='10' width='13' height='4'/>"]
+		},
+		"wbs-nodes": {
+			"label": "ساختار شکست کار",
+			"base": ["<rect x='3' y='4' width='6' height='4'/>", "<rect x='15' y='10' width='6' height='4'/>", "<rect x='15' y='17' width='6' height='4'/>"],
+			"accent": ["<path d='M9 6h3v13h3M12 11h3'/>"]
+		},
+		"task": {
+			"label": "وظیفه",
+			"base": ["<rect x='3' y='3' width='18' height='18'/>", "<path d='M9 9h9M9 13h9M9 17h5'/>"],
+			"accent": []
+		},
+		"task-complete": {
+			"label": "وظیفه انجام‌شده",
+			"base": ["<rect x='3' y='3' width='18' height='18'/>"],
+			"accent": ["<path d='M8 12l3 3 5-6'/>"]
+		},
+		"milestone-diamond": {
+			"label": "نقطه عطف",
+			"base": ["<path d='M12 3l9 9-9 9-9-9z'/>"],
+			"accent": []
+		},
+		"critical-path": {
+			"label": "مسیر بحرانی",
+			"base": ["<circle cx='5' cy='12' r='2'/>", "<circle cx='19' cy='12' r='2'/>", "<circle cx='12' cy='12' r='2'/>"],
+			"accent": ["<path d='M7 12h3M14 12h3'/>"]
+		},
+		"calendar": {
+			"label": "تقویم",
+			"base": ["<rect x='4' y='5' width='16' height='16'/>", "<path d='M4 9h16M8 3v4M16 3v4'/>"],
+			"accent": []
+		},
+		"timeline-day": {
+			"label": "روز",
+			"base": ["<path d='M3 12h18M8 9v6M16 9v6'/>"],
+			"accent": ["<path d='M12 7v10'/>"]
+		},
+		"timeline-week": {
+			"label": "هفته",
+			"base": ["<path d='M3 12h18'/>"],
+			"accent": ["<path d='M6 8v8M18 8v8M6 8h12M6 16h12'/>"]
+		},
+		"timeline-month": {
+			"label": "ماه",
+			"base": ["<path d='M3 12h18'/>", "<rect x='5' y='8' width='4' height='8'/>", "<rect x='15' y='8' width='4' height='8'/>"],
+			"accent": ["<rect x='10' y='8' width='4' height='8'/>"]
+		},
+		"zoom-in": {
+			"label": "بزرگ‌نمایی",
+			"base": ["<circle cx='10.5' cy='10.5' r='6.5'/>", "<path d='M15.5 15.5 21 21'/>"],
+			"accent": ["<path d='M8 10.5h5M10.5 8v5'/>"]
+		},
+		"zoom-out": {
+			"label": "کوچک‌نمایی",
+			"base": ["<circle cx='10.5' cy='10.5' r='6.5'/>", "<path d='M15.5 15.5 21 21'/>"],
+			"accent": ["<path d='M8 10.5h5'/>"]
+		},
+		"today": {
+			"label": "امروز",
+			"base": ["<rect x='4' y='5' width='16' height='16'/>", "<path d='M4 9h16M8 3v4M16 3v4'/>"],
+			"accent": ["<circle cx='12' cy='15' r='1.5'/>"]
+		},
+		"dependency": {
+			"label": "وابستگی",
+			"base": ["<rect x='3' y='4' width='6' height='4'/>", "<rect x='15' y='16' width='6' height='4'/>"],
+			"accent": ["<path d='M9 6h6v12M13 16l2 2-2 2'/>"]
+		},
+		"project-progress": {
+			"label": "پیشرفت پروژه",
+			"base": ["<rect x='3' y='9' width='18' height='6'/>"],
+			"accent": ["<rect x='3' y='9' width='11' height='6'/>"]
+		}
+	},
+	"aliases": {
+		"arrow": "arrow-right",
+		"file": "document",
+		"folder": "folder-project",
+		"user": "user-profile",
+		"lock": "lock-security",
+		"bell": "bell-notification",
+		"money": "payment-card",
+		"date": "calendar",
+		"grid": "dashboard-grid",
+		"trash": "waste-material",
+		"recycle": "scrap-recycling",
+		"gantt": "gantt-chart"
+	}
+}

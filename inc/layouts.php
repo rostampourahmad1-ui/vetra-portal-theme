@@ -21,7 +21,7 @@ function vetra_register_layout_post_type() {
 		'show_ui' => true,
 		'show_in_menu' => 'themes.php',
 		'show_in_rest' => true,
-		'menu_icon' => 'dashicons-layout',
+		'menu_icon' => vetra_icon_data_uri( 'dashboard-grid' ),
 		'supports' => array( 'title', 'editor', 'revisions' ),
 		'capability_type' => 'post',
 		'map_meta_cap' => true,

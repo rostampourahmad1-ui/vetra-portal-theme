@@ -9,11 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '3.5.0' );
+define( 'VETRA_PORTAL_VERSION', '3.8.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
 require_once VETRA_PORTAL_DIR . '/inc/helpers.php';
+require_once VETRA_PORTAL_DIR . '/inc/vetra-icon-library.php';
+require_once VETRA_PORTAL_DIR . '/inc/vetra-icons.php';
 require_once VETRA_PORTAL_DIR . '/inc/core/settings-schema.php';
 require_once VETRA_PORTAL_DIR . '/inc/core/class-theme.php';
 require_once VETRA_PORTAL_DIR . '/inc/admin/class-dashboard.php';
@@ -23,6 +25,7 @@ require_once VETRA_PORTAL_DIR . '/inc/projects.php';
 require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
 require_once VETRA_PORTAL_DIR . '/inc/layouts.php';
 require_once VETRA_PORTAL_DIR . '/inc/integrations.php';
+require_once VETRA_PORTAL_DIR . '/inc/vetra-design-system.php';
 require_once VETRA_PORTAL_DIR . '/template-parts/components.php';
 
 \Vetra\Theme\Theme::boot();
@@ -227,9 +230,27 @@ function vetra_render_bottom_bar() {
 	}
 	?>
 	<nav class="vetra-bottom-bar" aria-label="منوی سریع موبایل">
-		<?php for ( $i = 1; $i <= 4; $i++ ) : ?>
+		<?php
+		$vetra_bar_icons = array(
+			'home'     => 'building',
+			'services' => 'settings',
+			'projects' => 'folder-project',
+			'contact'  => 'message',
+			'search'   => 'search',
+			'login'    => 'login',
+			'logout'   => 'logout',
+			'filter'   => 'filter',
+		);
+		for ( $i = 1; $i <= 4; $i++ ) :
+			$vetra_bar_key  = (string) vetra_option( 'bottom_bar_item_' . $i . '_icon', '' );
+			$vetra_bar_icon = isset( $vetra_bar_icons[ $vetra_bar_key ] ) ? $vetra_bar_icons[ $vetra_bar_key ] : '';
+			?>
 			<a href="<?php echo esc_url( vetra_option( 'bottom_bar_item_' . $i . '_url', '/' ) ); ?>">
-				<span class="vetra-bottom-bar__icon <?php echo esc_attr( vetra_option( 'bottom_bar_item_' . $i . '_icon', '' ) ); ?>"></span>
+				<?php if ( $vetra_bar_icon && function_exists( 'vetra_icon' ) ) : ?>
+					<span class="vetra-bottom-bar__icon vetra-bottom-bar__icon--svg"><?php echo vetra_icon( $vetra_bar_icon, array( 'size' => 22, 'decorative' => true ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- icon is escaped. ?></span>
+				<?php else : ?>
+					<span class="vetra-bottom-bar__icon <?php echo esc_attr( $vetra_bar_key ); ?>"></span>
+				<?php endif; ?>
 				<span><?php echo esc_html( vetra_option( 'bottom_bar_item_' . $i . '_text', '' ) ); ?></span>
 			</a>
 		<?php endfor; ?>

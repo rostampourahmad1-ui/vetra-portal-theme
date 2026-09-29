@@ -1,0 +1,88 @@
+/**
+ * VETRA Design System — Print
+ * Version: 1.0.0
+ *
+ * Print is always light (ink/tone economy) and optimised for Persian text,
+ * tabular figures, dates and units. Only VETRA-scoped elements are targeted so
+ * WordPress core and plugin output is never disturbed.
+ */
+@media print {
+	.vetra-ds {
+		direction: rtl;
+		color: #12161A !important;
+		background: #FFFFFF !important;
+		font-family: IRANYekan, Vazirmatn, Tahoma, sans-serif;
+		font-size: 11pt;
+		line-height: 1.7;
+	}
+
+	/* Never print interactive or decorative chrome. */
+	.vetra-btn,
+	.vetra-pagination,
+	.vetra-toast-region,
+	.vetra-modal__overlay,
+	.vetra-fab {
+		display: none !important;
+	}
+
+	.vetra-table-wrap,
+	.vetra-table {
+		width: 100%;
+		border: 1px solid #8A95A5;
+		overflow: visible;
+	}
+
+	.vetra-table {
+		border-collapse: collapse;
+		font-size: 10pt;
+	}
+
+	.vetra-table thead { display: table-header-group; }
+	.vetra-table tfoot { display: table-footer-group; }
+	.vetra-table tr { break-inside: avoid; page-break-inside: avoid; }
+
+	.vetra-table th,
+	.vetra-table td {
+		padding: 6pt 8pt;
+		border-bottom: 1px solid #C9CFD8;
+		color: #12161A;
+	}
+
+	.vetra-table thead th {
+		background: #F6F7F9 !important;
+		font-weight: 700;
+	}
+
+	/* Numeric cells, dates and units stay legible and aligned. */
+	.vetra-num,
+	.vetra-table__num {
+		font-variant-numeric: tabular-nums;
+		direction: ltr;
+		unicode-bidi: embed;
+		white-space: nowrap;
+	}
+
+	.vetra-card {
+		border: 1px solid #8A95A5;
+		box-shadow: none;
+		break-inside: avoid;
+		padding: 8pt;
+	}
+
+	.vetra-badge,
+	.vetra-alert {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		border: 1px solid #8A95A5;
+	}
+
+	a.vetra-link::after,
+	.vetra-ds a[href]::after {
+		content: " (" attr(href) ")";
+		font-size: 9pt;
+		color: #5A6472;
+		word-break: break-all;
+	}
+
+	.vetra-sr-only { display: none !important; }
+}

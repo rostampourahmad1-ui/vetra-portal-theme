@@ -81,6 +81,30 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 
 وضعیت افزونه‌های پیشنهادی در **نمایش > افزونه‌های وترا** نمایش داده می‌شود. Gravity Forms نیازمند ZIP رسمی و لایسنس است و اتصال مستقیمی به مخزن پروژه‌های پوسته ندارد. هیچ اتصال زندهٔ AI یا MCP پیاده‌سازی نشده است؛ برای کلید آینده از `wp-config.php` یا secret manager سمت سرور استفاده کنید، هرگز آن را در تنظیم پوسته، مرورگر یا مخزن قرار ندهید. اتصال MCP نیازمند سرویس و زیرساخت مستقل سرور است.
 
+### گزارش تغییرات نسخه ۳.۸.۰
+
+- پالت رسمی VETRA به‌عنوان پیش‌فرض پوسته اعمال شد: پس‌زمینه/سطح/متن روشن و تیره، CTA و focus از `#C67D34`، مرزها از `#8A95A5`. رنگ غیرپالتی قبلی `#f28b38` حذف و شعاع کارت به حداکثر ۸px محدود شد.
+- بخش «پروژه‌های شاخص» صفحه اصلی اکنون مستقیماً از جدول `vetra_projects` خوانده می‌شود (query امن با فیلدهای لازم، بررسی وجود جدول، دسترسی‌بندی پیش‌نویس/خصوصی) و در نبود داده به Customizer بازمی‌گردد. حالت empty نیز پیاده‌سازی شد.
+- آیکن‌های نوار پایین موبایل به VETRA Icon Pack متصل شدند.
+- استایل‌های Gravity Forms برای حالت‌های غیرفعال/در حال ارسال/موفق تکمیل شد.
+
+### گزارش تغییرات نسخه ۳.۷.۰
+
+- **VETRA Icon Pack v1.0.0** با ۷۰ آیکون مهندسی (خط ۱.۵، viewBox 24×24، زوایای ۴۵/۹۰) اضافه شد.
+- منبع واحد: `assets/icons/vetra-icons.json`؛ sprite تولیدشده: `assets/icons/vetra-icons.svg`؛ ساخت مجدد با `node tools/build-icon-sprite.js`.
+- API: `vetra_icon( $name, $args )`، شورتکد `[vetra_icon]`، `vetra_icon_data_uri()`، `vetra_icon_sprite_markup()` و `vetra_inline_icon()` سازگار با کد قبلی.
+- Dashicons از منوهای مدیریت حذف و با آیکون‌های VETRA جایگزین شد؛ وابستگی FontAwesome وجود ندارد.
+- مستند: `docs/ICON-PACK.md`؛ قرارداد خودکار: `tests/icon-pack.test.js`.
+
+### گزارش تغییرات نسخه ۳.۶.۰
+
+- **Design System مشترک VETRA v1.0.0** برای چهار محصول (پورتال، RebarCut، Dashboard، GANTT) اضافه شد.
+- فایل‌های جدید: `assets/css/vetra-tokens.css`، `assets/css/vetra-components.css`، `assets/css/vetra-utilities.css`، `assets/css/vetra-print.css`، `assets/js/vetra-ui.js` و `inc/vetra-design-system.php`.
+- پالت رسمی VETRA (Basalt/Ochre/Concrete/Chalk/Bronze/Charcoal)، حالت Light/Dark/Auto، RTL با propertyهای منطقی، focus ring از `#C67D34` و چاپ خوانا برای فارسی/عدد/واحد.
+- قالب برگه «وترا: پیش‌نمایش دیزاین‌سیستم» برای تست زنده کامپوننت‌ها.
+- مستند کامل: `docs/DESIGN-SYSTEM.md`؛ قرارداد خودکار: `tests/design-system.test.js`.
+- رنگ ممنوع `#F97316` در سیستم استفاده نشده است. جزئیات و محدودیت‌ها در بخش «Design System» پایین.
+
 ### گزارش تغییرات نسخه ۳.۴.۰
 
 - فرمان استاندارد `npm test` با `package.json` اضافه شد تا آزمون قرارداد در CI و توسعهٔ محلی قابل تکرار باشد.
@@ -132,10 +156,25 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 - `inc/admin/class-dashboard.php` — داشبورد مدیریت، import/export و cache
 - `inc/integrations.php` — adapterهای اختیاری WPML، فرم‌ها، bbPress و WooCommerce
 - `assets/css/search.css` / `assets/css/forms.css` — assetهای شرطی جست‌وجو و فرم‌ها
+- `assets/css/vetra-*.css` / `assets/js/vetra-ui.js` — Design System مشترک VETRA v1.0.0
+- `inc/vetra-design-system.php` — بارگذاری و helperهای Design System
+- `templates/design-system.php` — صفحه پیش‌نمایش کامپوننت‌ها
+- `docs/DESIGN-SYSTEM.md` — مستند توکن‌ها، جدول رنگ، نمونه کامپوننت و تست‌ها
+- `assets/icons/vetra-icons.json` / `assets/icons/vetra-icons.svg` — منبع و sprite بسته آیکون VETRA
+- `assets/css/vetra-icons.css` — کلاس‌های `.vetra-icon` و قرارداد هندسی
+- `inc/vetra-icon-library.php` / `inc/vetra-icons.php` — کتابخانه و رندرر `vetra_icon()`
+- `tools/build-icon-sprite.js` — ساخت مجدد sprite آیکون‌ها
+- `docs/ICON-PACK.md` — مستند فهرست آیکون‌ها، امنیت و دسترس‌پذیری
+
+## Design System
+
+سیستم طراحی مشترک چهار محصول VETRA در `docs/DESIGN-SYSTEM.md` مستند شده است. توکن‌های رنگ از پالت رسمی انتخاب می‌شوند، حالت روشن/تاریک از سیستم‌عامل و انتخاب دستی پشتیبانی می‌کند، و همه کامپوننت‌ها با namespace `vetra-` و propertyهای منطقی برای RTL نوشته شده‌اند. برای پیش‌نمایش زنده یک برگه بسازید و قالب «وترا: پیش‌نمایش دیزاین‌سیستم» را انتخاب کنید.
+
+> توجه: توکن `--vetra-color-success` تنها مقدار غیرپالتی است و به‌عنوان «گسترش معنایی کنترل‌شده» نیازمند تأیید مالک محصول است. متن ثانویه `#8A95A5` برای متن طولانی کنتراست AA ندارد؛ برای بدنه از `--vetra-color-text-soft` استفاده کنید.
 
 ## نسخه
 
-3.5.0
+3.8.0
 
 ## مجوز
 

@@ -287,7 +287,7 @@ function vetra_project_set_status( $project_id, $status ) {
 }
 
 function vetra_project_admin_menu() {
-	add_menu_page( 'پروژه‌ها', 'پروژه‌ها', 'vetra_manage_projects', 'vetra-projects', 'vetra_project_admin_page', 'dashicons-building', 25 );
+	add_menu_page( 'پروژه‌ها', 'پروژه‌ها', 'vetra_manage_projects', 'vetra-projects', 'vetra_project_admin_page', vetra_icon_data_uri( 'building' ), 25 );
 	add_submenu_page( 'vetra-projects', 'افزودن پروژه', 'افزودن پروژه', 'vetra_manage_projects', 'vetra-projects-add', 'vetra_project_admin_form_page' );
 }
 add_action( 'admin_menu', 'vetra_project_admin_menu' );
@@ -581,3 +581,151 @@ function vetra_project_admin_assets( $hook ) {
 	}
 }
 add_action( 'admin_enqueue_scripts', 'vetra_project_admin_assets' );
+
+/* -------------------------------------------------------------------------- *
+ * Featured projects for the front page.
+ *
+ * Reads directly from the `vetra_projects` table with a safe, permission-aware
+ * query. Falls back to the Customizer cards only when the table is missing,
+ * the query fails, or no publishable row exists.
+ * -------------------------------------------------------------------------- */
+
+/**
+ * Query featured projects from the dedicated table.
+ *
+ * Only the columns needed for rendering are selected. Draft/private rows
+ * (pending/rejected) are visible only to users who can manage or edit them.
+ * The table name is checked first so a missing table never throws.
+ *
+ * @param array $args { number => int }
+ * @return array Array of row objects (empty on failure or no results).
+ */
+function vetra_featured_projects_get( $args = array() ) {
+	$args = wp_parse_args( $args, array( 'number' => 6 ) );
+
+	global $wpdb;
+	$table = vetra_projects_table();
+
+	// Guard: never query a table that has not been installed.
+	$exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
+	if ( $exists !== $table ) {
+		return array();
+	}
+
+	$number = absint( $args['number'] );
+	$number = $number > 0 && $number <= 12 ? $number : 6;
+
+	$select = 'id, project_name, project_usage, project_address, contract_start, created_at, status, featured_image_id, category';
+	$where  = '';
+	$values = array();
+
+	if ( current_user_can( 'vetra_manage_projects' ) || current_user_can( 'vetra_edit_all_projects' ) ) {
+		$where = "status IN ('approved', 'pending')";
+	} elseif ( current_user_can( 'vetra_edit_own_projects' ) ) {
+		$where   = "(status = 'approved' OR (created_by = %d AND status <> 'rejected'))";
+		$values[] = get_current_user_id();
+	} else {
+		$where = "status = 'approved'";
+	}
+
+	$values[] = $number;
+	$sql      = "SELECT {$select} FROM {$table} WHERE {$where} ORDER BY updated_at DESC LIMIT %d";
+
+	$rows = $wpdb->get_results( $wpdb->prepare( $sql, $values ) );
+
+	return is_array( $rows ) ? $rows : array();
+}
+
+/**
+ * Map a project status to a label and a design-system badge modifier.
+ *
+ * @param string $status Raw status value.
+ * @return array{label:string,type:string}
+ */
+function vetra_project_status_meta( $status ) {
+	$status = sanitize_key( (string) $status );
+	switch ( $status ) {
+		case 'approved':
+			return array( 'label' => __( 'تأییدشده', 'vetra-portal' ), 'type' => 'success' );
+		case 'pending':
+			return array( 'label' => __( 'در انتظار بررسی', 'vetra-portal' ), 'type' => 'warning' );
+		case 'rejected':
+			return array( 'label' => __( 'ردشده', 'vetra-portal' ), 'type' => 'critical' );
+		default:
+			return array( 'label' => __( 'در انتظار بررسی', 'vetra-portal' ), 'type' => 'neutral' );
+	}
+}
+
+/**
+ * Render one featured project card with escaped output.
+ *
+ * @param object $project A row from vetra_featured_projects_get().
+ * @return string Escaped HTML.
+ */
+function vetra_featured_project_card( $project ) {
+	$image = '';
+	if ( ! empty( $project->featured_image_id ) ) {
+		$image = wp_get_attachment_image( absint( $project->featured_image_id ), 'large', false, array( 'class' => 'vetra-project-card__img', 'loading' => 'lazy' ) );
+	}
+	if ( '' === $image ) {
+		$image = '<img class="vetra-project-card__img" src="' . esc_url( VETRA_PORTAL_URI . '/assets/images/art-building.png' ) . '" alt="" loading="lazy" />';
+	}
+
+	$status = vetra_project_status_meta( $project->status );
+	$badge  = function_exists( 'vetra_ds_badge' )
+		? vetra_ds_badge( $status['label'], $status['type'] )
+		: '<span class="vetra-badge">' . esc_html( $status['label'] ) . '</span>';
+
+	$location = $project->project_address ? $project->project_address : $project->project_usage;
+	$year     = $project->contract_start ? $project->contract_start : substr( (string) $project->created_at, 0, 4 );
+
+	$detail_url = apply_filters(
+		'vetra_featured_project_detail_url',
+		add_query_arg( 'vetra_project_id', absint( $project->id ), home_url( '/' ) ),
+		$project
+	);
+
+	ob_start();
+	?>
+	<article class="vetra-project-card vetra-project-card--featured">
+		<?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_get_attachment_image is escaped. ?>
+		<div class="vetra-project-card__overlay">
+			<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- badge is escaped. ?>
+			<h3><?php echo esc_html( $project->project_name ); ?></h3>
+			<?php if ( $location ) : ?><p class="vetra-project-card__meta"><span><?php echo esc_html( $location ); ?></span><span aria-hidden="true">·</span><span><?php echo esc_html( $year ); ?></span></p><?php endif; ?>
+			<a href="<?php echo esc_url( $detail_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'مشاهده اطلاعات پروژه %s', 'vetra-portal' ), $project->project_name ) ); ?>"><?php echo vetra_inline_icon( 'arrow-up' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- icon is escaped. ?></a>
+		</div>
+	</article>
+	<?php
+	return ob_get_clean();
+}
+
+/**
+ * Render the Customizer fallback cards.
+ *
+ * Used only when the database provides no publishable featured projects.
+ *
+ * @return string Escaped HTML (empty when nothing is configured).
+ */
+function vetra_featured_projects_fallback() {
+	$art   = array( 'art-interior.png', 'art-building.png', 'art-interior-2.png' );
+	$html  = '';
+	for ( $i = 1; $i <= 3; $i++ ) {
+		$title = (string) vetra_option( 'project_' . $i . '_title' );
+		if ( '' === $title ) {
+			continue;
+		}
+		$image = vetra_image_url( 'project_' . $i . '_image' );
+		$meta  = vetra_option( 'project_' . $i . '_meta' );
+		$img   = $image
+			? '<img class="vetra-project-card__img" src="' . esc_url( $image ) . '" alt="" loading="lazy" />'
+			: '<img class="vetra-project-card__img" src="' . esc_url( VETRA_PORTAL_URI . '/assets/images/' . $art[ $i - 1 ] ) . '" alt="" loading="lazy" />';
+
+		$html .= '<article class="vetra-project-card' . ( 2 === $i ? ' vetra-project-card--large' : '' ) . '">'
+			. $img
+			. '<div class="vetra-project-card__overlay"><span>' . esc_html( $meta ) . '</span><h3>' . esc_html( $title ) . '</h3>'
+			. '<a href="#contact" aria-label="' . esc_attr( $title ) . '">' . vetra_inline_icon( 'arrow-up' ) . '</a></div></article>';
+	}
+
+	return $html;
+}

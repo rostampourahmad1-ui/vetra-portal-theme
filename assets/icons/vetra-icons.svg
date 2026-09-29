@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- VETRA Icon Pack v1.0.0 — generated from vetra-icons.json, do not edit by hand. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="vetra-icon-sprite" aria-hidden="true">
+	<symbol id="vetra-icon-blueprint" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='3' width='18' height='18'/><path d='M3 15h18M9 3v18'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 18 19 11'/></g>
+	</symbol>
+	<symbol id="vetra-icon-building-crane" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 21V4h14M6 7h4'/><path d='M16 4v6'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><circle cx='16' cy='13' r='2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-construction-site" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 20h18'/><path d='M5 20V9h14v11'/><path d='M5 13h14M12 9v11'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M8 17 16 10'/></g>
+	</symbol>
+	<symbol id="vetra-icon-building" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='5' y='3' width='14' height='18'/><path d='M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M11 21v-3h2v3'/></g>
+	</symbol>
+	<symbol id="vetra-icon-safety-helmet" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M5 14a7 7 0 0 1 14 0'/><path d='M3 15h18v2H3z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 7v8'/></g>
+	</symbol>
+	<symbol id="vetra-icon-contract" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 3h8l4 4v9H6z'/><path d='M14 3v4h4'/><path d='M9 11h6M9 14h4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><circle cx='16' cy='18' r='2.5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-document" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 3h8l4 4v14H6z'/><path d='M14 3v4h4'/><path d='M9 12h6M9 16h6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-folder-project" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 6h6l2 2h10v12H3z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M3 10h18'/></g>
+	</symbol>
+	<symbol id="vetra-icon-engineer" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='12' cy='8' r='3'/><path d='M5 21c0-4 3-6 7-6s7 2 7 6'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 6a3 3 0 0 1 6 0'/></g>
+	</symbol>
+	<symbol id="vetra-icon-settings" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='12' cy='12' r='3'/><path d='M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-search" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5 21 21'/></g>
+	</symbol>
+	<symbol id="vetra-icon-filter" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 5h18l-7 8v6l-4 2v-8z'/></g>
+	</symbol>
+	<symbol id="vetra-icon-export" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 14v6h16v-6'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 3v10M8 7l4-4 4 4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-print" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M7 8V3h10v5'/><rect x='4' y='8' width='16' height='8'/><path d='M7 16h10v5H7z'/></g>
+	</symbol>
+	<symbol id="vetra-icon-close" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M5 5l14 14M19 5 5 19'/></g>
+	</symbol>
+	<symbol id="vetra-icon-check" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 12.5 9.5 18 20 6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-warning" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M12 3 22 20H2z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 9v5M12 17v.5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-info" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='12' cy='12' r='9'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 11v5M12 8v.5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-arrow-left" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M20 12H4M10 6l-6 6 6 6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-arrow-right" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 12h16M14 6l6 6-6 6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-arrow-up" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M12 20V4M6 10l6-6 6 6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-chevron-down" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 9l6 6 6-6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-menu" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 7h16M4 12h16M4 17h16'/></g>
+	</symbol>
+	<symbol id="vetra-icon-logout" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M10 4H5v16h5'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 12h10M15 8l4 4-4 4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-login" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M14 4h5v16h-5'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M15 12H5M9 8l-4 4 4 4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-sun" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='12' cy='12' r='4'/><path d='M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19'/></g>
+	</symbol>
+	<symbol id="vetra-icon-moon" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z'/></g>
+	</symbol>
+	<symbol id="vetra-icon-people" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='8' cy='8' r='3'/><path d='M3 20c.6-3.4 2.4-5.2 5-5.2s4.4 1.8 5 5.2'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><circle cx='17' cy='9' r='2.2'/><path d='M15 15c2.4.2 3.8 1.7 4.3 4.3'/></g>
+	</symbol>
+	<symbol id="vetra-icon-leaf" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M20 4C11 4.2 6 8 6 14c0 3 2 5 5 5 6 0 9-6 9-15z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M4 20c2.8-3.8 5.8-6.6 9.6-8.6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-pen" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 17l-.7 3.7L7 20 19.5 7.5a2 2 0 0 0-2.8-2.8z'/><path d='M4 20h16'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M15 6.5l2.5 2.5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-cube" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M12 3l8 4.5v9L12 21l-8-4.5v-9z'/><path d='M4 7.5l8 4.5 8-4.5M12 12v9'/></g>
+	</symbol>
+	<symbol id="vetra-icon-chart" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 4v16h16'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M8 16v-4M12 16v-7M16 16v-2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-dashboard-grid" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='3' width='8' height='8'/><rect x='13' y='3' width='8' height='8'/><rect x='3' y='13' width='8' height='8'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><rect x='13' y='13' width='8' height='8'/></g>
+	</symbol>
+	<symbol id="vetra-icon-id-card" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='5' width='18' height='14'/><circle cx='8' cy='11' r='2'/><path d='M5 17c.5-1.8 1.5-2.7 3-2.7s2.5.9 3 2.7M14 10h5M14 13h4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-user-profile" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='12' cy='8' r='4'/><path d='M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7'/></g>
+	</symbol>
+	<symbol id="vetra-icon-ticket-support" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 9v2M12 13v2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-wallet-safe" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='6' width='18' height='13'/><path d='M3 10h18'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><circle cx='16' cy='14.5' r='2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-payment-card" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='5' width='18' height='14'/><path d='M6 14h4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M3 9.5h18'/></g>
+	</symbol>
+	<symbol id="vetra-icon-bank-transfer" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 9l9-4 9 4z'/><path d='M5 9v7M9 9v7M15 9v7M19 9v7'/><path d='M3 19h18'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 13l-2 2 2 2M15 13l2 2-2 2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-bell-notification" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 17V11a6 6 0 0 1 12 0v6l2 2H4z'/><path d='M10 21a2 2 0 0 0 4 0'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><circle cx='17' cy='5' r='2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-message" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 5h16v11H9l-5 4z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M8 9h8M8 12h5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-lock-security" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='5' y='10' width='14' height='10'/><path d='M8 10V7a4 4 0 0 1 8 0v3'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 14v2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-upload-receipt" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 3h12v16l-2-1-2 1-2-1-2 1-2-1-2 1z'/><path d='M9 8h6M9 12h4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M15 19v-6M13 15l2-2 2 2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-rebar-bundle" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 4v16M9 4v16M12 4v16M15 4v16M18 4v16'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M4 9h16M4 15h16'/></g>
+	</symbol>
+	<symbol id="vetra-icon-cut-blade" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 14 14 4l2 2L6 20H4z'/><path d='M14 4l2 2'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M14 4 6 20'/></g>
+	</symbol>
+	<symbol id="vetra-icon-cut-plan" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='4' y='4' width='16' height='16'/><path d='M8 4v16M16 4v16'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M4 12h16'/></g>
+	</symbol>
+	<symbol id="vetra-icon-warehouse-rack" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M4 3v18M20 3v18'/><path d='M4 8h16M4 13h16M4 18h16'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><rect x='7' y='4' width='6' height='4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-stock-material" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='4' y='15' width='16' height='4'/><rect x='6' y='10' width='12' height='4'/><rect x='8' y='5' width='8' height='4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-scrap-recycling" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M12 4l8 14H4z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 13l2 2-2 2M15 13l2 2-2 2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-usable-remnant" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='6' y='9' width='12' height='6'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 12l2 2 4-4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-waste-material" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M5 7h14l-1 14H6z'/><path d='M4 7h16M9 7V4h6v3'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M10 11l4 4M14 11l-4 4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-measurement" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 8h18v8H3z'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M7 8v4M11 8v6M15 8v4M19 8v6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-optimization" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='12' cy='12' r='8'/><circle cx='12' cy='12' r='3'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 2v3M12 19v3M2 12h3M19 12h3'/></g>
+	</symbol>
+	<symbol id="vetra-icon-calculation" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='5' y='3' width='14' height='18'/><rect x='8' y='6' width='8' height='3'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 13v.01M12 13v.01M15 13v.01M9 17v.01M12 17v.01M15 17v.01'/></g>
+	</symbol>
+	<symbol id="vetra-icon-material-report" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M6 3h8l4 4v14H6z'/><path d='M14 3v4h4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M10 17v-3M13 17v-5M16 17v-7'/></g>
+	</symbol>
+	<symbol id="vetra-icon-gantt-chart" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='5' width='11' height='4'/><rect x='5' y='15' width='9' height='4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><rect x='7' y='10' width='13' height='4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-wbs-nodes" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='4' width='6' height='4'/><rect x='15' y='10' width='6' height='4'/><rect x='15' y='17' width='6' height='4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 6h3v13h3M12 11h3'/></g>
+	</symbol>
+	<symbol id="vetra-icon-task" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='3' width='18' height='18'/><path d='M9 9h9M9 13h9M9 17h5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-task-complete" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='3' width='18' height='18'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M8 12l3 3 5-6'/></g>
+	</symbol>
+	<symbol id="vetra-icon-milestone-diamond" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M12 3l9 9-9 9-9-9z'/></g>
+	</symbol>
+	<symbol id="vetra-icon-critical-path" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='5' cy='12' r='2'/><circle cx='19' cy='12' r='2'/><circle cx='12' cy='12' r='2'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M7 12h3M14 12h3'/></g>
+	</symbol>
+	<symbol id="vetra-icon-calendar" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='4' y='5' width='16' height='16'/><path d='M4 9h16M8 3v4M16 3v4'/></g>
+	</symbol>
+	<symbol id="vetra-icon-timeline-day" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 12h18M8 9v6M16 9v6'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M12 7v10'/></g>
+	</symbol>
+	<symbol id="vetra-icon-timeline-week" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 12h18'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M6 8v8M18 8v8M6 8h12M6 16h12'/></g>
+	</symbol>
+	<symbol id="vetra-icon-timeline-month" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><path d='M3 12h18'/><rect x='5' y='8' width='4' height='8'/><rect x='15' y='8' width='4' height='8'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><rect x='10' y='8' width='4' height='8'/></g>
+	</symbol>
+	<symbol id="vetra-icon-zoom-in" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5 21 21'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M8 10.5h5M10.5 8v5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-zoom-out" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5 21 21'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M8 10.5h5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-today" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='4' y='5' width='16' height='16'/><path d='M4 9h16M8 3v4M16 3v4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><circle cx='12' cy='15' r='1.5'/></g>
+	</symbol>
+	<symbol id="vetra-icon-dependency" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='4' width='6' height='4'/><rect x='15' y='16' width='6' height='4'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><path d='M9 6h6v12M13 16l2 2-2 2'/></g>
+	</symbol>
+	<symbol id="vetra-icon-project-progress" viewBox="0 0 24 24">
+		<g class="vetra-icon-base" stroke="currentColor" fill="none"><rect x='3' y='9' width='18' height='6'/></g>
+		<g class="vetra-icon-accent" stroke="#C67D34" fill="none"><rect x='3' y='9' width='11' height='6'/></g>
+	</symbol>
+</svg>

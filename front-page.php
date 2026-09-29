@@ -44,9 +44,29 @@ get_header();
 <?php if ( vetra_option( 'home_projects_enabled', true ) ) : ?>
 <section id="projects" class="vetra-section vetra-container vetra-reveal">
 		<div class="vetra-section-heading vetra-section-heading--projects"><div><span class="vetra-kicker"><i></i><?php esc_html_e( 'منتخب پروژه‌ها', 'vetra-portal' ); ?></span><h2><?php echo esc_html( vetra_option( 'projects_title' ) ); ?></h2></div><p><?php echo esc_html( vetra_option( 'projects_intro' ) ); ?></p></div>
-	<div class="vetra-project-grid">
-		<?php $project_art = array( 'art-interior.png', 'art-building.png', 'art-interior-2.png' ); for ( $i = 1; $i <= 3; $i++ ) : $image = vetra_image_url( 'project_' . $i . '_image' ); ?><article class="vetra-project-card<?php echo 2 === $i ? ' vetra-project-card--large' : ''; ?>"><?php if ( $image ) : ?><img src="<?php echo esc_url( $image ); ?>" alt="" loading="lazy" /><?php else : ?><img src="<?php echo esc_url( VETRA_PORTAL_URI . '/assets/images/' . $project_art[ $i - 1 ] ); ?>" alt="" loading="lazy" /><?php endif; ?><div class="vetra-project-card__overlay"><span><?php echo esc_html( vetra_option( 'project_' . $i . '_meta' ) ); ?></span><h3><?php echo esc_html( vetra_option( 'project_' . $i . '_title' ) ); ?></h3><a href="#contact" aria-label="<?php echo esc_attr( vetra_option( 'project_' . $i . '_title' ) ); ?>"><?php echo vetra_inline_icon( 'arrow-up' ); ?></a></div></article><?php endfor; ?>
-	</div>
+	<?php
+	$featured_projects = vetra_featured_projects_get( array( 'number' => apply_filters( 'vetra_featured_projects_count', 6 ) ) );
+	if ( ! empty( $featured_projects ) ) :
+		?>
+		<div class="vetra-project-grid vetra-project-grid--featured">
+			<?php foreach ( $featured_projects as $featured_project ) : ?>
+				<?php echo vetra_featured_project_card( $featured_project ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- card helper escapes. ?>
+			<?php endforeach; ?>
+		</div>
+	<?php else : ?>
+		<?php
+		$fallback_projects = vetra_featured_projects_fallback();
+		if ( '' !== $fallback_projects ) :
+			echo '<div class="vetra-project-grid">' . $fallback_projects . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fallback helper escapes.
+		else :
+			?>
+			<div class="vetra-empty" role="status">
+				<svg class="vetra-empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 7h16v12H4zM4 7l3-3h10l3 3"/></svg>
+				<p class="vetra-empty__title"><?php esc_html_e( 'هنوز پروژه‌ای ثبت نشده است', 'vetra-portal' ); ?></p>
+				<p class="vetra-empty__text"><?php esc_html_e( 'به‌زودی پروژه‌های منتخب وترا در این بخش نمایش داده می‌شود.', 'vetra-portal' ); ?></p>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
 </section>
 <?php endif; ?>
 

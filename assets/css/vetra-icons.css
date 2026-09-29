@@ -1,0 +1,120 @@
+/**
+ * VETRA Icon Pack — styles
+ * Version: 1.0.0
+ *
+ * Geometry is stroke-based: 24x24 viewBox, stroke-width 1.5, square caps and
+ * miter joins. Colour and size are fully CSS-driven so the same icon works in
+ * Light, Dark, RTL, print and every product.
+ *
+ * Base colour follows `currentColor` (Basalt Black in Light, Chalk White in
+ * Dark). Accent is Architectural Ochre, used sparingly. The forbidden signal
+ * orange is never referenced.
+ */
+
+/* Required public classes — do not rename. */
+.vetra-icon {
+	width: 1.5em;
+	height: 1.5em;
+	display: inline-block;
+	flex: 0 0 auto;
+	vertical-align: middle;
+}
+
+.vetra-icon-base {
+	stroke: currentColor;
+	fill: none;
+}
+
+.vetra-icon-accent {
+	stroke: #C67D34;
+	fill: none;
+}
+
+.vetra-icon-base-fill {
+	fill: currentColor;
+	stroke: none;
+}
+
+.vetra-icon-accent-fill {
+	fill: #C67D34;
+	stroke: none;
+}
+
+/* Geometry contract shared by every icon. */
+.vetra-icon {
+	stroke-width: 1.5;
+	stroke-linecap: square;
+	stroke-linejoin: miter;
+	overflow: visible;
+	color: inherit;
+}
+
+/* Opt-in colour overrides via CSS custom properties. */
+.vetra-icon-base {
+	stroke: var(--vetra-icon-base-color, currentColor);
+}
+
+.vetra-icon-accent {
+	stroke: var(--vetra-icon-accent-color, #C67D34);
+}
+
+/* RTL: directional icons must not point the wrong way. */
+[dir="rtl"] .vetra-icon--directional {
+	transform: scaleX(-1);
+}
+
+.vetra-icon--directional {
+	transition: transform var(--vetra-transition-fast, 120ms ease);
+}
+
+/* Icon sizing helpers keep alignment consistent next to text. */
+.vetra-icon--sm { width: 1em; height: 1em; }
+.vetra-icon--lg { width: 2em; height: 2em; }
+
+/* Sprite container never affects layout. */
+.vetra-icon-sprite {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+/* Icon-only controls always ship a tooltip/aria-label; keep them aligned. */
+.vetra-icon-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--vetra-control-height, 40px);
+	min-height: var(--vetra-control-height, 40px);
+	padding: 0;
+	border: var(--vetra-border-width, 1px) solid transparent;
+	border-radius: var(--vetra-radius-control, 6px);
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+
+.vetra-icon-button:hover {
+	background: var(--vetra-color-primary-soft, rgba(198, 125, 52, 0.12));
+	color: var(--vetra-color-primary, #C67D34);
+}
+
+.vetra-icon-button:focus-visible {
+	outline: 2px solid var(--vetra-color-focus, #C67D34);
+	outline-offset: 2px;
+}
+
+/* Print: guarantee legible strokes on white. */
+@media print {
+	.vetra-icon {
+		color: #12161A !important;
+	}
+
+	.vetra-icon-accent {
+		stroke: #C67D34 !important;
+	}
+
+	.vetra-icon--directional {
+		transform: none;
+	}
+}

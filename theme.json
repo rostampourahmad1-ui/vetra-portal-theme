@@ -6,9 +6,12 @@
     "layout": { "contentSize": "1320px", "wideSize": "1440px" },
     "spacing": { "blockGap": true, "units": ["px", "em", "rem", "%", "vw"] },
     "color": { "custom": false, "defaultPalette": true, "palette": [
-      { "slug": "vetra-accent", "color": "#f28b38", "name": "Vetra Accent" },
-      { "slug": "vetra-surface", "color": "#ffffff", "name": "Vetra Surface" },
-      { "slug": "vetra-text", "color": "#171918", "name": "Vetra Text" }
+      { "slug": "vetra-basalt-black", "color": "#12161A", "name": "Basalt Black" },
+      { "slug": "vetra-architectural-ochre", "color": "#C67D34", "name": "Architectural Ochre" },
+      { "slug": "vetra-raw-concrete", "color": "#8A95A5", "name": "Raw Exposed Concrete" },
+      { "slug": "vetra-chalk-white", "color": "#F6F7F9", "name": "Chalk Lime White" },
+      { "slug": "vetra-brushed-bronze", "color": "#B3803B", "name": "Deep Brushed Bronze" },
+      { "slug": "vetra-charcoal-aluminum", "color": "#222933", "name": "Fluted Charcoal Aluminum" }
     ] },
     "typography": { "fluid": true, "fontSizes": [
       { "slug": "small", "size": "0.875rem", "name": "Small" },
@@ -20,8 +23,8 @@
     "spacing": { "blockGap": "1.5rem" },
     "typography": { "fontFamily": "var(--vetra-font)", "lineHeight": "1.8" },
     "elements": {
-      "button": { "border": { "radius": "var(--vetra-radius)" }, "color": { "background": "var(--vetra-accent)" } },
-      "link": { "color": { "text": "var(--vetra-accent)" } },
+      "button": { "border": { "radius": "var(--vetra-radius-md, 8px)" }, "color": { "background": "var(--vetra-architectural-ochre)", "text": "var(--vetra-basalt-black)" } },
+      "link": { "color": { "text": "var(--vetra-architectural-ochre)" } },
       "heading": { "typography": { "fontWeight": "800", "lineHeight": "1.35" } }
     }
   }

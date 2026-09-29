@@ -10,7 +10,7 @@ function vetra_settings_schema() {
 		'footer_enabled' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),
 		'header_sticky' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => true, 'css' => '--vetra-header-sticky' ),
 		'content_width' => array( 'type' => 'integer', 'default' => 1320, 'min' => 960, 'max' => 1800, 'sanitize' => 'absint', 'capability' => 'edit_theme_options', 'preview' => true, 'css' => '--vetra-content-width' ),
-		'card_radius' => array( 'type' => 'integer', 'default' => 24, 'min' => 0, 'max' => 48, 'sanitize' => 'absint', 'capability' => 'edit_theme_options', 'preview' => true, 'css' => '--vetra-radius' ),
+		'card_radius' => array( 'type' => 'integer', 'default' => 8, 'min' => 0, 'max' => 8, 'sanitize' => 'absint', 'capability' => 'edit_theme_options', 'preview' => true, 'css' => '--vetra-radius' ),
 		'color_mode' => array( 'type' => 'enum', 'default' => 'system', 'choices' => array( 'light', 'dark', 'system' ), 'sanitize' => 'vetra_sanitize_mode', 'capability' => 'edit_theme_options', 'preview' => true, 'css' => null ),
 		'mobile_menu_enabled' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),
 		'show_back_to_top' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),

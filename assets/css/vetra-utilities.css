@@ -1,0 +1,90 @@
+/**
+ * VETRA Design System — Utilities
+ * Version: 1.0.0
+ *
+ * Small, single-purpose, namespaced helpers. Intentionally limited so product
+ * teams compose components rather than re-implement layout with ad-hoc CSS.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Layout primitives
+ * ------------------------------------------------------------------ */
+.vetra-container {
+	width: 100%;
+	max-width: 1280px;
+	margin-inline: auto;
+	padding-inline: var(--vetra-space-4);
+}
+
+.vetra-stack { display: flex; flex-direction: column; gap: var(--vetra-space-3); }
+.vetra-stack--sm { gap: var(--vetra-space-2); }
+.vetra-stack--lg { gap: var(--vetra-space-5); }
+
+.vetra-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--vetra-space-3); }
+.vetra-cluster--between { justify-content: space-between; }
+.vetra-cluster--end { justify-content: flex-end; }
+
+.vetra-grid { display: grid; gap: var(--vetra-space-4); }
+.vetra-grid--2 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.vetra-grid--3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+/* ------------------------------------------------------------------ *
+ * Spacing — mirrors the 4/8/12/16/24/32 scale
+ * ------------------------------------------------------------------ */
+.vetra-mt-0 { margin-block-start: 0; }
+.vetra-mt-2 { margin-block-start: var(--vetra-space-2); }
+.vetra-mt-3 { margin-block-start: var(--vetra-space-3); }
+.vetra-mt-4 { margin-block-start: var(--vetra-space-4); }
+.vetra-mt-5 { margin-block-start: var(--vetra-space-5); }
+.vetra-mb-0 { margin-block-end: 0; }
+.vetra-mb-2 { margin-block-end: var(--vetra-space-2); }
+.vetra-mb-3 { margin-block-end: var(--vetra-space-3); }
+.vetra-mb-4 { margin-block-end: var(--vetra-space-4); }
+.vetra-mb-5 { margin-block-end: var(--vetra-space-5); }
+.vetra-p-3 { padding: var(--vetra-space-3); }
+.vetra-p-4 { padding: var(--vetra-space-4); }
+
+/* ------------------------------------------------------------------ *
+ * Text
+ * ------------------------------------------------------------------ */
+.vetra-text-muted { color: var(--vetra-color-text-muted); }
+.vetra-text-soft { color: var(--vetra-color-text-soft); }
+.vetra-text-sm { font-size: var(--vetra-font-size-sm); }
+.vetra-text-xs { font-size: var(--vetra-font-size-xs); }
+.vetra-text-bold { font-weight: var(--vetra-font-weight-bold); }
+.vetra-text-start { text-align: start; }
+.vetra-text-center { text-align: center; }
+.vetra-text-end { text-align: end; }
+.vetra-num { font-variant-numeric: tabular-nums; font-family: var(--vetra-font-mono); direction: ltr; unicode-bidi: embed; }
+.vetra-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ------------------------------------------------------------------ *
+ * Visibility
+ * ------------------------------------------------------------------ */
+.vetra-hidden { display: none !important; }
+.vetra-sr-only {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+.vetra-sr-only-focusable:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+}
+
+@media (max-width: 600px) {
+	.vetra-hide-sm { display: none !important; }
+}
+@media (min-width: 601px) {
+	.vetra-show-sm-only { display: none !important; }
+}

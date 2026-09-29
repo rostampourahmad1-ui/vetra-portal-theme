@@ -1,0 +1,251 @@
+/**
+ * VETRA Design System — Design Tokens
+ * Version: 1.0.0
+ *
+ * Single source of truth for colour, spacing, radius, elevation, motion and
+ * typography across the four VETRA products:
+ *   1. vetra-portal-theme
+ *   2. Vetra RebarCut
+ *   3. Vetra Dashboard
+ *   4. VETRA GANTT
+ *
+ * Rules enforced here:
+ *   - Only the official VETRA palette may originate colour tokens.
+ *   - Forbidden signal-orange (see docs/DESIGN-SYSTEM.md) must never be
+ *     introduced, nor any loud red / neon green.
+ *   - Radius is capped at 8px; shadows are ultra-subtle and functional.
+ *
+ * Namespace: every token is prefixed `--vetra-` and every class `vetra-`.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Official palette — immutable
+ * ------------------------------------------------------------------ */
+:root {
+	--vetra-basalt-black: #12161A;
+	--vetra-architectural-ochre: #C67D34;
+	--vetra-raw-concrete: #8A95A5;
+	--vetra-chalk-white: #F6F7F9;
+	--vetra-brushed-bronze: #B3803B;
+	--vetra-charcoal-aluminum: #222933;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Non-colour scales (shared by every theme mode)
+ * ------------------------------------------------------------------ */
+:root {
+	/* Spacing — regular 4 / 8 / 12 / 16 / 24 / 32 scale */
+	--vetra-space-0: 0;
+	--vetra-space-1: 4px;
+	--vetra-space-2: 8px;
+	--vetra-space-3: 12px;
+	--vetra-space-4: 16px;
+	--vetra-space-5: 24px;
+	--vetra-space-6: 32px;
+	--vetra-space-8: 48px;
+	--vetra-space-10: 64px;
+
+	/* Radius — never larger than 8px for surfaces and controls */
+	--vetra-radius-none: 0;
+	--vetra-radius-sm: 4px;
+	--vetra-radius-control: 6px;
+	--vetra-radius-md: 8px;
+	--vetra-radius-pill: 999px; /* status badges / avatars only */
+
+	/* Control sizing — identical across all products */
+	--vetra-control-height-sm: 32px;
+	--vetra-control-height: 40px;
+	--vetra-control-height-lg: 48px;
+	--vetra-field-height: var(--vetra-control-height);
+
+	/* Border widths */
+	--vetra-border-width: 1px;
+	--vetra-border-width-strong: 2px;
+
+	/* Typography — `--vetra-ds-font` is a fallback only. The active theme's
+	   `--vetra-font` (e.g. the Customizer font stack) always wins. */
+	--vetra-ds-font: IRANYekan, Vazirmatn, Estedad, Tahoma, system-ui, -apple-system, "Segoe UI", sans-serif;
+	--vetra-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+	--vetra-font-size-xs: 12px;
+	--vetra-font-size-sm: 13px;
+	--vetra-font-size-base: 15px;
+	--vetra-font-size-md: 16px;
+	--vetra-font-size-lg: 18px;
+	--vetra-font-size-xl: 22px;
+	--vetra-font-size-2xl: 28px;
+	--vetra-font-weight-regular: 400;
+	--vetra-font-weight-medium: 500;
+	--vetra-font-weight-bold: 700;
+	--vetra-line-height-tight: 1.35;
+	--vetra-line-height: 1.75;
+
+	/* Motion — subtle, respects prefers-reduced-motion below */
+	--vetra-transition-fast: 120ms ease;
+	--vetra-transition: 180ms ease;
+
+	/* Layering */
+	--vetra-z-tooltip: 70;
+	--vetra-z-toast: 80;
+	--vetra-z-modal: 90;
+	--vetra-z-overlay: 100;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Semantic colour tokens — Light (default)
+ * ------------------------------------------------------------------ */
+:root {
+	--vetra-color-bg: var(--vetra-chalk-white);
+	--vetra-color-surface: #FFFFFF;
+	--vetra-color-surface-raised: #FFFFFF;
+	--vetra-color-surface-sunken: var(--vetra-chalk-white);
+	--vetra-color-overlay: rgba(18, 22, 26, 0.55);
+
+	--vetra-color-text: var(--vetra-basalt-black);
+	--vetra-color-text-muted: var(--vetra-raw-concrete);
+	/* Higher-contrast muted for long-form / table body copy (AA compliant). */
+	--vetra-color-text-soft: #5A6472;
+
+	--vetra-color-border: rgba(138, 149, 165, 0.42);
+	--vetra-color-border-strong: rgba(138, 149, 165, 0.72);
+
+	--vetra-color-primary: var(--vetra-architectural-ochre);
+	--vetra-color-primary-hover: var(--vetra-brushed-bronze);
+	--vetra-color-primary-active: #9A6229;
+	--vetra-color-primary-soft: rgba(198, 125, 52, 0.12);
+	--vetra-color-on-primary: var(--vetra-basalt-black);
+
+	--vetra-color-focus: var(--vetra-architectural-ochre);
+
+	--vetra-color-critical: var(--vetra-architectural-ochre);
+	--vetra-color-warning: var(--vetra-brushed-bronze);
+	--vetra-color-danger: var(--vetra-architectural-ochre);
+	--vetra-color-info: var(--vetra-raw-concrete);
+
+	/*
+	 * CONTROLLED SEMANTIC EXTENSION — pending product-owner approval.
+	 * The official palette contains no green; success would otherwise be
+	 * indistinguishable from warning/critical. This single muted, desaturated
+	 * tone is the only non-palette value in the system. It is intentionally
+	 * quiet (no neon) and is always paired with an icon + text label so status
+	 * is never communicated by colour alone.
+	 * Replacement candidate if rejected: var(--vetra-brushed-bronze).
+	 */
+	--vetra-color-success: #4E7A5A;
+	--vetra-color-success-soft: rgba(78, 122, 90, 0.12);
+	--vetra-color-warning-soft: rgba(179, 128, 59, 0.14);
+	--vetra-color-danger-soft: rgba(198, 125, 52, 0.14);
+	--vetra-color-info-soft: rgba(138, 149, 165, 0.16);
+
+	/* Focus ring */
+	--vetra-focus-ring: 0 0 0 3px rgba(198, 125, 52, 0.45);
+
+	/* Elevation — ultra-subtle, functional only */
+	--vetra-shadow-xs: 0 1px 2px rgba(18, 22, 26, 0.06);
+	--vetra-shadow-sm: 0 1px 3px rgba(18, 22, 26, 0.08);
+	--vetra-shadow-md: 0 4px 12px rgba(18, 22, 26, 0.10);
+	--vetra-shadow-lg: 0 10px 24px rgba(18, 22, 26, 0.12);
+	--vetra-shadow: var(--vetra-shadow-sm);
+	--vetra-shadow-none: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Semantic colour tokens — Dark
+ *    Applied by explicit override OR by OS preference (auto mode).
+ * ------------------------------------------------------------------ */
+:root[data-vetra-theme="dark"],
+:root[data-theme="dark"] {
+	--vetra-color-bg: var(--vetra-basalt-black);
+	--vetra-color-surface: var(--vetra-charcoal-aluminum);
+	--vetra-color-surface-raised: #2A323C;
+	--vetra-color-surface-sunken: var(--vetra-basalt-black);
+	--vetra-color-overlay: rgba(18, 22, 26, 0.72);
+
+	--vetra-color-text: var(--vetra-chalk-white);
+	--vetra-color-text-muted: var(--vetra-raw-concrete);
+	--vetra-color-text-soft: #B9C1CC;
+
+	--vetra-color-border: rgba(138, 149, 165, 0.32);
+	--vetra-color-border-strong: rgba(138, 149, 165, 0.55);
+
+	--vetra-color-primary: var(--vetra-architectural-ochre);
+	--vetra-color-primary-hover: var(--vetra-brushed-bronze);
+	--vetra-color-primary-active: #9A6229;
+	--vetra-color-primary-soft: rgba(198, 125, 52, 0.18);
+	--vetra-color-on-primary: var(--vetra-basalt-black);
+
+	--vetra-color-focus: var(--vetra-architectural-ochre);
+
+	--vetra-color-critical: var(--vetra-architectural-ochre);
+	--vetra-color-warning: var(--vetra-brushed-bronze);
+	--vetra-color-danger: var(--vetra-architectural-ochre);
+	--vetra-color-info: var(--vetra-raw-concrete);
+
+	--vetra-color-success: #5E8C6A;
+	--vetra-color-success-soft: rgba(94, 140, 106, 0.20);
+	--vetra-color-warning-soft: rgba(179, 128, 59, 0.20);
+	--vetra-color-danger-soft: rgba(198, 125, 52, 0.20);
+	--vetra-color-info-soft: rgba(138, 149, 165, 0.20);
+
+	--vetra-focus-ring: 0 0 0 3px rgba(198, 125, 52, 0.55);
+
+	--vetra-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.30);
+	--vetra-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+	--vetra-shadow-md: 0 6px 16px rgba(0, 0, 0, 0.40);
+	--vetra-shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.48);
+	--vetra-shadow: var(--vetra-shadow-sm);
+}
+
+/* Auto mode: follow the OS unless the user explicitly chose Light. */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-vetra-theme="light"]) {
+		--vetra-color-bg: var(--vetra-basalt-black);
+		--vetra-color-surface: var(--vetra-charcoal-aluminum);
+		--vetra-color-surface-raised: #2A323C;
+		--vetra-color-surface-sunken: var(--vetra-basalt-black);
+		--vetra-color-overlay: rgba(18, 22, 26, 0.72);
+
+		--vetra-color-text: var(--vetra-chalk-white);
+		--vetra-color-text-muted: var(--vetra-raw-concrete);
+		--vetra-color-text-soft: #B9C1CC;
+
+		--vetra-color-border: rgba(138, 149, 165, 0.32);
+		--vetra-color-border-strong: rgba(138, 149, 165, 0.55);
+
+		--vetra-color-primary: var(--vetra-architectural-ochre);
+		--vetra-color-primary-hover: var(--vetra-brushed-bronze);
+		--vetra-color-primary-active: #9A6229;
+		--vetra-color-primary-soft: rgba(198, 125, 52, 0.18);
+		--vetra-color-on-primary: var(--vetra-basalt-black);
+
+		--vetra-color-focus: var(--vetra-architectural-ochre);
+
+		--vetra-color-critical: var(--vetra-architectural-ochre);
+		--vetra-color-warning: var(--vetra-brushed-bronze);
+		--vetra-color-danger: var(--vetra-architectural-ochre);
+		--vetra-color-info: var(--vetra-raw-concrete);
+
+		--vetra-color-success: #5E8C6A;
+		--vetra-color-success-soft: rgba(94, 140, 106, 0.20);
+		--vetra-color-warning-soft: rgba(179, 128, 59, 0.20);
+		--vetra-color-danger-soft: rgba(198, 125, 52, 0.20);
+		--vetra-color-info-soft: rgba(138, 149, 165, 0.20);
+
+		--vetra-focus-ring: 0 0 0 3px rgba(198, 125, 52, 0.55);
+
+		--vetra-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.30);
+		--vetra-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+		--vetra-shadow-md: 0 6px 16px rgba(0, 0, 0, 0.40);
+		--vetra-shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.48);
+		--vetra-shadow: var(--vetra-shadow-sm);
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Motion preferences
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--vetra-transition-fast: 0ms linear;
+		--vetra-transition: 0ms linear;
+	}
+}
