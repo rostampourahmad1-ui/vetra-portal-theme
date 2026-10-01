@@ -1,4 +1,4 @@
-# Vetra Portal
+# VETRA Portal
 
 قالب مستقل، راست‌چین و بهینه‌شده وردپرس برای سایت شرکتی **گروه ساختمانی و مهندسی وترا** (`portal.vetragroup.ir`).
 
@@ -85,7 +85,7 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 
 ### گزارش تغییرات نسخه ۳.۹.۰
 - پشتیبانی افزونه‌ای روی Elementor و Gravity Forms متمرکز شد و شاخه‌های بلااستفاده حذف شدند.
-- هویت ثابت پوسته (`Theme Name: Vetra Portal`، پوشه و slug: `vetra-portal-theme`) برای شناسایی update وردپرس تثبیت شد.
+- هویت ثابت پوسته (`Theme Name: VETRA Portal`، پوشه و slug: `vetra-portal-theme`) برای شناسایی update وردپرس تثبیت شد.
 - updater مبتنی بر GitHub Releases و اعلان استاندارد پیشخوان اضافه شد.
 - پالت رسمی با neutral ramp ده‌مرحله‌ای، accent states و admin dashboard کارت‌محور/تب‌محور تکمیل شد.
 - GitHub Actions برای PHP 8.1 تا 8.3، تست Node، JSON و ساختار پوسته اضافه شد.

@@ -1,4 +1,4 @@
-# گزارش پیاده‌سازی Vetra Portal 3.9.0
+# گزارش پیاده‌سازی VETRA Portal 3.9.0
 
 ## دامنه تغییرات
 - integration surface به Elementor و Gravity Forms محدود شد و شاخه‌های وابستهٔ بدون استفاده حذف شدند.
