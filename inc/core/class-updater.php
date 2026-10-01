@@ -27,7 +27,12 @@ final class Vetra_Portal_GitHub_Updater {
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) { set_site_transient( 'vetra_portal_latest_release', array(), HOUR_IN_SECONDS ); return false; }
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 		$tag = sanitize_text_field( $data['tag_name'] ?? '' ); $version = ltrim( $tag, 'v' );
-		$result = $version && ! empty( $data['zipball_url'] ) ? array( 'version' => $version, 'url' => esc_url_raw( $data['html_url'] ?? '' ), 'package' => esc_url_raw( $data['zipball_url'] ) ) : array();
+		$package = '';
+		foreach ( (array) ( $data['assets'] ?? array() ) as $asset ) {
+			if ( 'vetra-portal-theme-' . $version . '.zip' === ( $asset['name'] ?? '' ) ) { $package = esc_url_raw( $asset['browser_download_url'] ?? '' ); break; }
+		}
+		if ( ! $package ) { $package = esc_url_raw( $data['zipball_url'] ?? '' ); }
+		$result = $version && $package ? array( 'version' => $version, 'url' => esc_url_raw( $data['html_url'] ?? '' ), 'package' => $package ) : array();
 		set_site_transient( 'vetra_portal_latest_release', $result, 6 * HOUR_IN_SECONDS ); return $result ?: false;
 	}
 	public static function notice() {

@@ -137,7 +137,7 @@ test('integration surface excludes removed providers and keeps supported adapter
   assert.doesNotMatch(bootstrap, /enable_bbpress_style|is_bbpress/);
 });
 test('theme update metadata uses a stable slug and GitHub release checker', () => {
-  assert.match(read('style.css'), /Theme Name: Vetra Portal/);
+  assert.match(read('style.css'), /Theme Name: VETRA Portal/);
   assert.match(read('style.css'), /Text Domain: vetra-portal-theme/);
   assert.match(bootstrap, /class-updater\.php/);
   assert.match(read('inc/core/class-updater.php'), /THEME_SLUG = 'vetra-portal-theme'/);
