@@ -3,38 +3,38 @@ Theme Name: Vetra Portal
 Theme URI: https://portal.vetragroup.ir/
 Author: Vetra Group
 Description: A standalone RTL corporate WordPress theme for Vetra Group — architecture, engineering and construction.
-Version: 3.8.0
+Version: 3.9.0
 Requires at least: 6.3
 Requires PHP: 7.4
-Text Domain: vetra-portal
+Text Domain: vetra-portal-theme
 License: GPL-2.0-or-later
 */
 
-:root {
-	--vetra-bg: #0f172a;
-	--vetra-bg-deep: #0b1220;
-	--vetra-panel: rgba(30, 41, 59, 0.72);
-	--vetra-panel-solid: #151f2f;
-	--vetra-panel-soft: rgba(51, 65, 85, 0.32);
-	--vetra-line: rgba(255, 255, 255, 0.09);
-	--vetra-line-strong: rgba(245, 158, 11, 0.4);
-	--vetra-gold: #f59e0b;
-	--vetra-gold-deep: #d97706;
-	--vetra-gold-soft: rgba(245, 158, 11, 0.14);
-	--vetra-text: #f8fafc;
-	--vetra-muted: #94a3b8;
-	--vetra-dim: #64748b;
-	--vetra-green: #34d399;
-	--vetra-blue: #60a5fa;
-	--vetra-danger: #fb7185;
-	--vetra-radius: 16px;
-	--vetra-shadow: 0 18px 45px rgba(2, 6, 23, 0.28);
-	--vetra-font: IRANYekan, Vazirmatn, Tahoma, sans-serif;
+ :root {
+	--vetra-bg: var(--vetra-basalt-black, #12161A);
+	--vetra-bg-deep: var(--vetra-basalt-black, #12161A);
+	--vetra-panel: var(--vetra-color-surface, #222933);
+	--vetra-panel-solid: var(--vetra-charcoal-aluminum, #222933);
+	--vetra-panel-soft: var(--vetra-color-primary-soft, rgba(198, 125, 52, 0.14));
+	--vetra-line: var(--vetra-color-border, rgba(138, 149, 165, 0.42));
+	--vetra-line-strong: var(--vetra-color-primary, #C67D34);
+	--vetra-gold: var(--vetra-architectural-ochre, #C67D34);
+	--vetra-gold-deep: var(--vetra-brushed-bronze, #B3803B);
+	--vetra-gold-soft: var(--vetra-color-primary-soft, rgba(198, 125, 52, 0.14));
+	--vetra-text: var(--vetra-color-text, #F6F7F9);
+	--vetra-muted: var(--vetra-color-text-muted, #8A95A5);
+	--vetra-dim: var(--vetra-color-text-soft, #5A6472);
+	--vetra-green: var(--vetra-brushed-bronze, #B3803B);
+	--vetra-blue: var(--vetra-raw-concrete, #8A95A5);
+	--vetra-danger: var(--vetra-architectural-ochre, #C67D34);
+	--vetra-radius: 8px;
+	--vetra-radius-md: 8px;
+	--vetra-shadow: var(--vetra-shadow-md, 0 4px 12px rgba(18, 22, 26, 0.10));
+	--vetra-font: IRANYekan, Vazirmatn, Inter, Tahoma, sans-serif;
 	--vetra-base-font-size: 15px;
 	--vetra-content-width: 1280px;
-	--vetra-blur: 18px;
+	--vetra-blur: 12px;
 }
-
 html {
 	direction: rtl;
 	background: var(--vetra-bg);
@@ -87,11 +87,11 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-	background: #0b1220;
+	background: var(--vetra-basalt-black, #12161A);
 }
 
 ::-webkit-scrollbar-thumb {
-	border: 2px solid #0b1220;
+	border: 2px solid var(--vetra-basalt-black, #12161A);
 	border-radius: 999px;
 	background: #475569;
 }

@@ -8,7 +8,7 @@
 get_header();
 ?>
 <section class="vetra-page-hero vetra-container vetra-reveal vetra-page-hero--center">
-	<span class="vetra-kicker"><i></i><?php esc_html_e( 'خدمات وترا', 'vetra-portal' ); ?></span>
+	<span class="vetra-kicker"><i></i><?php esc_html_e( 'خدمات وترا', 'vetra-portal-theme' ); ?></span>
 	<h1><?php echo esc_html( vetra_option( 'services_title' ) ); ?></h1>
 	<p><?php echo esc_html( vetra_option( 'services_intro' ) ); ?></p>
 </section>

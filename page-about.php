@@ -9,7 +9,7 @@ get_header();
 ?>
 <section class="vetra-page-hero vetra-container vetra-reveal">
 	<div class="vetra-page-hero__copy">
-		<span class="vetra-kicker"><i></i><?php esc_html_e( 'درباره وترا', 'vetra-portal' ); ?></span>
+		<span class="vetra-kicker"><i></i><?php esc_html_e( 'درباره وترا', 'vetra-portal-theme' ); ?></span>
 		<h1><?php echo esc_html( vetra_option( 'about_title' ) ); ?></h1>
 		<p><?php echo esc_html( vetra_option( 'about_text' ) ); ?></p>
 	</div>

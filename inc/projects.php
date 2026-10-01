@@ -646,13 +646,13 @@ function vetra_project_status_meta( $status ) {
 	$status = sanitize_key( (string) $status );
 	switch ( $status ) {
 		case 'approved':
-			return array( 'label' => __( 'تأییدشده', 'vetra-portal' ), 'type' => 'success' );
+			return array( 'label' => __( 'تأییدشده', 'vetra-portal-theme' ), 'type' => 'success' );
 		case 'pending':
-			return array( 'label' => __( 'در انتظار بررسی', 'vetra-portal' ), 'type' => 'warning' );
+			return array( 'label' => __( 'در انتظار بررسی', 'vetra-portal-theme' ), 'type' => 'warning' );
 		case 'rejected':
-			return array( 'label' => __( 'ردشده', 'vetra-portal' ), 'type' => 'critical' );
+			return array( 'label' => __( 'ردشده', 'vetra-portal-theme' ), 'type' => 'critical' );
 		default:
-			return array( 'label' => __( 'در انتظار بررسی', 'vetra-portal' ), 'type' => 'neutral' );
+			return array( 'label' => __( 'در انتظار بررسی', 'vetra-portal-theme' ), 'type' => 'neutral' );
 	}
 }
 
@@ -693,7 +693,7 @@ function vetra_featured_project_card( $project ) {
 			<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- badge is escaped. ?>
 			<h3><?php echo esc_html( $project->project_name ); ?></h3>
 			<?php if ( $location ) : ?><p class="vetra-project-card__meta"><span><?php echo esc_html( $location ); ?></span><span aria-hidden="true">·</span><span><?php echo esc_html( $year ); ?></span></p><?php endif; ?>
-			<a href="<?php echo esc_url( $detail_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'مشاهده اطلاعات پروژه %s', 'vetra-portal' ), $project->project_name ) ); ?>"><?php echo vetra_inline_icon( 'arrow-up' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- icon is escaped. ?></a>
+			<a href="<?php echo esc_url( $detail_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'مشاهده اطلاعات پروژه %s', 'vetra-portal-theme' ), $project->project_name ) ); ?>"><?php echo vetra_inline_icon( 'arrow-up' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- icon is escaped. ?></a>
 		</div>
 	</article>
 	<?php

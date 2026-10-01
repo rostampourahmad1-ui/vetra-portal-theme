@@ -57,9 +57,9 @@ function vetra_ds_enqueue_assets() {
 		array(
 			'themeMode' => vetra_ds_default_theme_mode(),
 			'labels'    => array(
-				'notifications' => __( 'اعلان‌ها', 'vetra-portal' ),
-				'dismiss'       => __( 'بستن اعلان', 'vetra-portal' ),
-				'toggleTheme'   => __( 'تغییر حالت رنگی', 'vetra-portal' ),
+				'notifications' => __( 'اعلان‌ها', 'vetra-portal-theme' ),
+				'dismiss'       => __( 'بستن اعلان', 'vetra-portal-theme' ),
+				'toggleTheme'   => __( 'تغییر حالت رنگی', 'vetra-portal-theme' ),
 			),
 		)
 	);
@@ -242,7 +242,7 @@ function vetra_ds_status_values() {
  * @return array
  */
 function vetra_ds_register_preview_template( $templates ) {
-	$templates['templates/design-system.php'] = __( 'وترا: پیش‌نمایش دیزاین‌سیستم', 'vetra-portal' );
+	$templates['templates/design-system.php'] = __( 'وترا: پیش‌نمایش دیزاین‌سیستم', 'vetra-portal-theme' );
 
 	return $templates;
 }

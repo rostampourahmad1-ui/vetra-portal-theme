@@ -8,7 +8,7 @@
 get_header();
 ?>
 <section class="vetra-page-hero vetra-container vetra-reveal vetra-page-hero--center">
-	<span class="vetra-kicker"><i></i><?php esc_html_e( 'تماس با ما', 'vetra-portal' ); ?></span>
+	<span class="vetra-kicker"><i></i><?php esc_html_e( 'تماس با ما', 'vetra-portal-theme' ); ?></span>
 	<h1>با وترا در ارتباط باشید.</h1>
 	<p>برای هرگونه سوال، مشاوره یا شروع پروژه از طریق راه‌های زیر با ما تماس بگیرید.</p>
 </section>

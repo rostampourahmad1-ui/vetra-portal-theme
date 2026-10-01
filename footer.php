@@ -12,17 +12,17 @@
 		<div class="vetra-container">
 			<div class="vetra-footer__top">
 				<div class="vetra-footer__brand"><a class="vetra-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>"><span class="vetra-brand__mark"><?php if ( vetra_brand_logo_url() ) : ?><img class="vetra-logo-light" src="<?php echo esc_url( vetra_brand_logo_url( 'light' ) ); ?>" alt=""><img class="vetra-logo-dark" src="<?php echo esc_url( vetra_brand_logo_url( 'dark' ) ); ?>" alt=""><?php else : echo vetra_inline_icon( 'building' ); endif; ?></span><span class="vetra-brand__copy"><strong><?php echo esc_html( vetra_option( 'brand_title' ) ); ?></strong><small><?php echo esc_html( vetra_option( 'brand_subtitle' ) ); ?></small></span></a><p><?php echo esc_html( vetra_option( 'footer_text' ) ); ?></p></div>
-					<?php if ( vetra_option( 'footer_contact_enabled', true ) ) : ?><div class="vetra-footer__contact"><span><?php esc_html_e( 'ارتباط با وترا', 'vetra-portal' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', vetra_option( 'contact_phone' ) ) ); ?>"><?php echo esc_html( vetra_option( 'contact_phone' ) ); ?></a><a href="mailto:<?php echo esc_attr( vetra_option( 'contact_email' ) ); ?>"><?php echo esc_html( vetra_option( 'contact_email' ) ); ?></a></div><?php endif; ?>
-					<div class="vetra-footer__address"><span><?php esc_html_e( 'دفتر مرکزی', 'vetra-portal' ); ?></span><p><?php echo esc_html( vetra_option( 'contact_address' ) ); ?></p></div>
+					<?php if ( vetra_option( 'footer_contact_enabled', true ) ) : ?><div class="vetra-footer__contact"><span><?php esc_html_e( 'ارتباط با وترا', 'vetra-portal-theme' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', vetra_option( 'contact_phone' ) ) ); ?>"><?php echo esc_html( vetra_option( 'contact_phone' ) ); ?></a><a href="mailto:<?php echo esc_attr( vetra_option( 'contact_email' ) ); ?>"><?php echo esc_html( vetra_option( 'contact_email' ) ); ?></a></div><?php endif; ?>
+					<div class="vetra-footer__address"><span><?php esc_html_e( 'دفتر مرکزی', 'vetra-portal-theme' ); ?></span><p><?php echo esc_html( vetra_option( 'contact_address' ) ); ?></p></div>
 				</div>
 				<?php if ( array_filter( array_map( 'is_active_sidebar', array( 'footer-1', 'footer-2', 'footer-3', 'footer-4' ) ) ) ) : ?><div class="vetra-footer-widgets"><?php for ( $i = 1; $i <= 4; $i++ ) : ?><?php if ( is_active_sidebar( 'footer-' . $i ) ) : ?><div><?php dynamic_sidebar( 'footer-' . $i ); ?></div><?php endif; ?><?php endfor; ?></div><?php endif; ?>
-				<?php if ( has_nav_menu( 'footer' ) ) : ?><nav class="vetra-footer__nav" aria-label="<?php esc_attr_e( 'ناوبری پابرگ', 'vetra-portal' ); ?>"><?php wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'depth' => 1 ) ); ?></nav><?php endif; ?>
-				<?php if ( vetra_option( 'footer_bottom_enabled', true ) ) : ?><div class="vetra-footer__bottom"><span><?php echo esc_html( str_replace( '{year}', gmdate( 'Y' ), vetra_option( 'copyright_text', '© {year} گروه ساختمانی و مهندسی وترا' ) ) ); ?></span><span><?php esc_html_e( 'ساخته‌شده برای ماندگاری', 'vetra-portal' ); ?></span></div><?php endif; ?>
+				<?php if ( has_nav_menu( 'footer' ) ) : ?><nav class="vetra-footer__nav" aria-label="<?php esc_attr_e( 'ناوبری پابرگ', 'vetra-portal-theme' ); ?>"><?php wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'depth' => 1 ) ); ?></nav><?php endif; ?>
+				<?php if ( vetra_option( 'footer_bottom_enabled', true ) ) : ?><div class="vetra-footer__bottom"><span><?php echo esc_html( str_replace( '{year}', gmdate( 'Y' ), vetra_option( 'copyright_text', '© {year} گروه ساختمانی و مهندسی وترا' ) ) ); ?></span><span><?php esc_html_e( 'ساخته‌شده برای ماندگاری', 'vetra-portal-theme' ); ?></span></div><?php endif; ?>
 		</div>
 	</footer>
 		<?php endif; ?>
 	</div>
-	<?php if ( vetra_option( 'show_back_to_top', true ) ) : ?><button class="vetra-back-to-top js-vetra-back-to-top" type="button" aria-label="<?php esc_attr_e( 'بازگشت به ابتدای صفحه', 'vetra-portal' ); ?>" hidden><?php echo vetra_inline_icon( 'arrow-up' ); ?></button><?php endif; ?>
+	<?php if ( vetra_option( 'show_back_to_top', true ) ) : ?><button class="vetra-back-to-top js-vetra-back-to-top" type="button" aria-label="<?php esc_attr_e( 'بازگشت به ابتدای صفحه', 'vetra-portal-theme' ); ?>" hidden><?php echo vetra_inline_icon( 'arrow-up' ); ?></button><?php endif; ?>
 <?php wp_footer(); ?>
 </body>
 </html>

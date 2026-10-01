@@ -16,7 +16,6 @@ function vetra_settings_schema() {
 		'show_back_to_top' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),
 		'show_search' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),
 		'enable_forms_style' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),
-		'enable_bbpress_style' => array( 'type' => 'boolean', 'default' => true, 'sanitize' => 'vetra_sanitize_checkbox', 'capability' => 'edit_theme_options', 'preview' => false, 'css' => null ),
 	);
 	return $schema;
 }

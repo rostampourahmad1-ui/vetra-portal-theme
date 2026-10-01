@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '3.8.0' );
+define( 'VETRA_PORTAL_VERSION', '3.9.0' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
@@ -25,6 +25,7 @@ require_once VETRA_PORTAL_DIR . '/inc/projects.php';
 require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
 require_once VETRA_PORTAL_DIR . '/inc/layouts.php';
 require_once VETRA_PORTAL_DIR . '/inc/integrations.php';
+require_once VETRA_PORTAL_DIR . '/inc/core/class-updater.php';
 require_once VETRA_PORTAL_DIR . '/inc/vetra-design-system.php';
 require_once VETRA_PORTAL_DIR . '/template-parts/components.php';
 
@@ -41,7 +42,7 @@ function vetra_restrict_dashboard() {
 add_action( 'admin_init', 'vetra_restrict_dashboard', 1 );
 
 function vetra_portal_setup() {
-	load_theme_textdomain( 'vetra-portal', VETRA_PORTAL_DIR . '/languages' );
+	load_theme_textdomain( 'vetra-portal-theme', VETRA_PORTAL_DIR . '/languages' );
 
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
@@ -56,16 +57,16 @@ function vetra_portal_setup() {
 
 	register_nav_menus(
 		array(
-			'primary' => __( 'منوی اصلی سایت', 'vetra-portal' ),
-			'footer'  => __( 'منوی پابرگ سایت', 'vetra-portal' ),
+			'primary' => __( 'منوی اصلی سایت', 'vetra-portal-theme' ),
+			'footer'  => __( 'منوی پابرگ سایت', 'vetra-portal-theme' ),
 		)
 	);
 
 	register_sidebar(
 		array(
-			'name'          => __( 'نوار کناری اصلی', 'vetra-portal' ),
+			'name'          => __( 'نوار کناری اصلی', 'vetra-portal-theme' ),
 			'id'            => 'sidebar-1',
-			'description'   => __( 'ابزارک‌های نوشته‌ها و آرشیوها.', 'vetra-portal' ),
+			'description'   => __( 'ابزارک‌های نوشته‌ها و آرشیوها.', 'vetra-portal-theme' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
@@ -73,13 +74,13 @@ function vetra_portal_setup() {
 			)
 		);
 	for ( $i = 1; $i <= 4; $i++ ) {
-		register_sidebar( array( 'name' => sprintf( __( 'پابرگ ستون %d', 'vetra-portal' ), $i ), 'id' => 'footer-' . $i, 'before_widget' => '<section id="%1$s" class="widget %2$s">', 'after_widget' => '</section>', 'before_title' => '<h2 class="widget-title">', 'after_title' => '</h2>' ) );
+		register_sidebar( array( 'name' => sprintf( __( 'پابرگ ستون %d', 'vetra-portal-theme' ), $i ), 'id' => 'footer-' . $i, 'before_widget' => '<section id="%1$s" class="widget %2$s">', 'after_widget' => '</section>', 'before_title' => '<h2 class="widget-title">', 'after_title' => '</h2>' ) );
 	}
 	}
 add_action( 'after_setup_theme', 'vetra_portal_setup' );
 
 function vetra_primary_menu_fallback() {
-	echo '<ul class="vetra-site-nav"><li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'خانه', 'vetra-portal' ) . '</a></li><li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'درباره وترا', 'vetra-portal' ) . '</a></li><li><a href="' . esc_url( home_url( '/#services' ) ) . '">' . esc_html__( 'خدمات', 'vetra-portal' ) . '</a></li><li><a href="' . esc_url( home_url( '/#projects' ) ) . '">' . esc_html__( 'پروژه‌ها', 'vetra-portal' ) . '</a></li><li><a href="' . esc_url( home_url( '/#contact' ) ) . '">' . esc_html__( 'تماس با ما', 'vetra-portal' ) . '</a></li></ul>';
+	echo '<ul class="vetra-site-nav"><li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'خانه', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'درباره وترا', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#services' ) ) . '">' . esc_html__( 'خدمات', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#projects' ) ) . '">' . esc_html__( 'پروژه‌ها', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#contact' ) ) . '">' . esc_html__( 'تماس با ما', 'vetra-portal-theme' ) . '</a></li></ul>';
 }
 
 /** Elementor-friendly canvas layout while retaining the standard page content flow. */
@@ -119,9 +120,6 @@ function vetra_portal_enqueue_assets() {
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'vetra-rtl', VETRA_PORTAL_URI . '/rtl.css', array( 'vetra-corporate' ), VETRA_PORTAL_VERSION );
 	}
-	if ( vetra_option( 'enable_bbpress_style', true ) && function_exists( 'is_bbpress' ) && is_bbpress() ) {
-		wp_enqueue_style( 'vetra-bbpress', VETRA_PORTAL_URI . '/assets/css/integrations.css', array( 'vetra-corporate' ), VETRA_PORTAL_VERSION );
-	}
 	if ( vetra_option( 'show_search', true ) ) {
 		wp_enqueue_style( 'vetra-search', VETRA_PORTAL_URI . '/assets/css/search.css', array( 'vetra-corporate' ), VETRA_PORTAL_VERSION );
 	}
@@ -133,12 +131,12 @@ function vetra_portal_enqueue_assets() {
 		'vetraPortal',
 		array(
 			'themeMode' => vetra_option( 'color_mode' ),
-			'themeLabel' => __( 'تغییر حالت رنگی', 'vetra-portal' ),
-			'menuOpenLabel' => __( 'باز کردن منوی سایت', 'vetra-portal' ),
-			'menuCloseLabel' => __( 'بستن منوی سایت', 'vetra-portal' ),
-			'searchOpenLabel' => __( 'باز کردن جست‌وجو', 'vetra-portal' ),
-			'searchCloseLabel' => __( 'بستن جست‌وجو', 'vetra-portal' ),
-			'backToTopLabel' => __( 'بازگشت به ابتدای صفحه', 'vetra-portal' ),
+			'themeLabel' => __( 'تغییر حالت رنگی', 'vetra-portal-theme' ),
+			'menuOpenLabel' => __( 'باز کردن منوی سایت', 'vetra-portal-theme' ),
+			'menuCloseLabel' => __( 'بستن منوی سایت', 'vetra-portal-theme' ),
+			'searchOpenLabel' => __( 'باز کردن جست‌وجو', 'vetra-portal-theme' ),
+			'searchCloseLabel' => __( 'بستن جست‌وجو', 'vetra-portal-theme' ),
+			'backToTopLabel' => __( 'بازگشت به ابتدای صفحه', 'vetra-portal-theme' ),
 			'showBackToTop' => (bool) vetra_option( 'show_back_to_top', true ),
 			'pwaEnabled' => (bool) vetra_option( 'pwa_enabled' ),
 			'swUrl' => home_url( '/vetra-sw' ),
@@ -203,7 +201,7 @@ function vetra_render_user_bar() {
 					<?php if ( $show_name ) : ?><span class="vetra-user-bar__name"><?php echo esc_html( wp_get_current_user()->display_name ); ?></span><?php endif; ?>
 				</div>
 			<?php else : ?>
-				<span class="vetra-user-bar__guest"><?php esc_html_e( 'مهمان عزیز', 'vetra-portal' ); ?></span>
+				<span class="vetra-user-bar__guest"><?php esc_html_e( 'مهمان عزیز', 'vetra-portal-theme' ); ?></span>
 			<?php endif; ?>
 			<?php if ( $show_list ) : ?>
 				<div class="vetra-user-bar__list">
