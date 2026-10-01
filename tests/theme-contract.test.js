@@ -143,3 +143,30 @@ test('theme update metadata uses a stable slug and GitHub release checker', () =
   assert.match(read('inc/core/class-updater.php'), /THEME_SLUG = 'vetra-portal-theme'/);
   assert.match(read('inc/core/class-updater.php'), /api\.github\.com/);
 });
+
+test('admin settings use the collision-safe slug and no longer expose Customizer controls', () => {
+  const dashboard = read('inc/admin/class-dashboard.php');
+  const customizerFile = read('inc/customizer.php');
+  assert.match(dashboard, /vetra-portal-settings/);
+  assert.doesNotMatch(dashboard, /vetra-' \+ 'dashboard/);
+  assert.match(customizerFile, /load-customize\.php/);
+  assert.match(customizerFile, /vetra-portal-settings/);
+  assert.match(bootstrap, /remove_action\( 'customize_register', 'vetra_layout_customizer_register'/);
+});
+test('Private Portal is capability-safe, opt-in, and represented in the dashboard', () => {
+  const dashboard = read('inc/admin/class-dashboard.php');
+  assert.match(bootstrap, /register_setting\( 'vetra_portal_options'/);
+  assert.match(bootstrap, /template_redirect', 'vetra_private_portal_gate'/);
+  assert.match(bootstrap, /current_user_can/);
+  assert.match(dashboard, /vetra_private_portal/);
+  assert.match(dashboard, /type=\"hidden\" name=\"vetra_private_portal\" value=\"0\"/);
+  assert.match(read('assets/css/vetra-admin.css'), /vetra-toggle/);
+});
+test('updater normalizes GitHub extraction directories and prefers the release asset', () => {
+  const updater = read('inc/core/class-updater.php');
+  assert.match(updater, /upgrader_source_selection/);
+  assert.match(updater, /fix_source_directory/);
+  assert.ok(updater.includes("$asset_name = self::THEME_SLUG . '-' . $version . '.zip';"));
+  assert.match(read('.github/workflows/ci.yml'), /rsync -a/);
+  assert.match(read('.github/workflows/ci.yml'), /vetra-portal-theme-\$\{\{ github\.ref_name \}\}\.zip/);
+});

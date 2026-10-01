@@ -38,3 +38,27 @@ jobs:
         run: test -f style.css && test -f functions.php && test -f screenshot.png
       - name: Check whitespace
         run: git diff --check HEAD^ HEAD || true
+
+  package:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: Build WordPress theme ZIP
+        run: |
+          slug="vetra-portal-theme"
+          tmpdir="$(mktemp -d)"
+          mkdir -p "$tmpdir/$slug"
+          rsync -a --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='*.zip' --exclude='tests' --exclude='.env*' ./ "$tmpdir/$slug/"
+          (cd "$tmpdir" && zip -qr "$GITHUB_WORKSPACE/$slug-${GITHUB_REF_NAME}.zip" "$slug/")
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: vetra-portal-theme-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

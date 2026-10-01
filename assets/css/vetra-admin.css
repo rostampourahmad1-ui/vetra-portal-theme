@@ -11,3 +11,19 @@
 .vetra-admin-status-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:24px; } .vetra-admin-status { display:grid; gap:8px; padding:16px; border:1px solid var(--vetra-admin-border); border-radius:var(--vetra-admin-radius); background:var(--vetra-admin-surface-raised); } .vetra-status { display:inline-flex; width:max-content; padding:4px 8px; border-radius:999px; font-size:12px; } .vetra-status.is-active { background:rgba(224,170,112,.22); color:#EBC49B; } .vetra-status.is-inactive { background:rgba(186,194,203,.14); color:var(--vetra-admin-muted); }
 .vetra-admin-panel .button { margin:16px 8px 0 0; border-radius:var(--vetra-admin-radius); } .vetra-admin-panel .button-primary { border-color:var(--vetra-admin-accent); background:var(--vetra-admin-accent); color:#12161A; } .vetra-admin-panel .button-primary:hover,.vetra-admin-panel .button-primary:focus { border-color:var(--vetra-admin-accent-hover); background:var(--vetra-admin-accent-hover); } .vetra-admin-panel input[type=file] { margin-top:16px; color:var(--vetra-admin-muted); }
 @media(max-width:800px){.vetra-admin-hero{padding:24px}.vetra-admin-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}} @media(max-width:520px){.vetra-admin-hero__mark{display:none}.vetra-admin-status-grid{grid-template-columns:1fr}.vetra-admin-tab{flex:1 1 calc(50% - 8px);justify-content:center}}
+
+/* Private Portal Toggle */
+.vetra-private-portal-card { margin: 24px 0; padding: 16px; border: 1px solid var(--vetra-admin-border); border-radius: var(--vetra-admin-radius); background: var(--vetra-admin-surface-raised); }
+.vetra-private-portal-card h3 { margin: 0 0 8px; color: var(--vetra-admin-text); }
+.vetra-private-portal-card p { color: var(--vetra-admin-muted); }
+.vetra-toggle { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; margin-block: 16px; user-select: none; }
+.vetra-toggle input[type="checkbox"] { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.vetra-toggle__track { position: relative; display: inline-block; flex-shrink: 0; width: 44px; height: 24px; border: 1px solid var(--vetra-admin-border); border-radius: 12px; background: var(--vetra-admin-surface); transition: background 160ms ease, border-color 160ms ease; }
+.vetra-toggle__track::after { content: ''; position: absolute; inset-block: 3px; inset-inline-start: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.4); transition: inset-inline-start 160ms ease; }
+.vetra-toggle input:checked ~ .vetra-toggle__track { border-color: var(--vetra-admin-accent); background: var(--vetra-admin-accent); }
+.vetra-toggle input:checked ~ .vetra-toggle__track::after { inset-inline-start: calc(100% - 19px); }
+.vetra-toggle input:focus-visible ~ .vetra-toggle__track { outline: 2px solid var(--vetra-admin-accent); outline-offset: 2px; }
+.vetra-toggle__label { color: var(--vetra-admin-text); }
+.vetra-badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border: 1px solid var(--vetra-admin-border); border-radius: 999px; font-size: .8125rem; }
+.vetra-badge.is-active { border-color: rgba(198,125,52,.35); background: rgba(198,125,52,.18); color: #EBC49B; }
+.vetra-badge.is-inactive { background: rgba(186,194,203,.1); color: var(--vetra-admin-muted); }

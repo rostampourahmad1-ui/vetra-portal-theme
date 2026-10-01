@@ -19,5 +19,8 @@
 - Unused third-party integration branches; supported optional integrations are Elementor and Gravity Forms.
 
 ### Fixed
+- Corrected GitHub ZIP extraction so updates install into the stable `vetra-portal-theme/` directory.
+- Renamed the admin page to `vetra-portal-settings` and removed the Customizer entry points.
+- Added the opt-in Private Portal gate and dashboard toggle with explicit off-state handling.
 - Theme update recognition in WordPress admin.
 - Theme slug consistency across all files and release packages.

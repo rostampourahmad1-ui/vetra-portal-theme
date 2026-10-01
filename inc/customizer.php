@@ -640,3 +640,21 @@ function vetra_pwa_manifest_link() {
 	echo '<meta name="apple-mobile-web-app-title" content="' . esc_attr( vetra_option( 'pwa_short_name', 'وترا' ) ) . '">' . "\n";
 }
 add_action( 'wp_head', 'vetra_pwa_manifest_link', 1 );
+
+/** The VETRA settings dashboard is the sole settings surface; keep Customizer unavailable. */
+remove_action( 'customize_register', 'vetra_customizer_register' );
+add_action( 'customize_register', 'vetra_disable_customizer', 999 );
+function vetra_disable_customizer( $wp_customize ) {
+foreach ( array( 'title_tagline', 'colors', 'header_image', 'background_image', 'nav', 'static_front_page', 'custom_css' ) as $section ) {
+$wp_customize->remove_section( $section );
+}
+foreach ( array_keys( $wp_customize->sections() ) as $section_id ) {
+if ( 0 === strpos( $section_id, 'vetra_' ) ) { $wp_customize->remove_section( $section_id ); }
+}
+}
+add_action( 'admin_bar_menu', function( $bar ) { $bar->remove_node( 'customize' ); }, 999 );
+add_action( 'load-customize.php', function() {
+if ( isset( $_GET['vetra_force_customizer'] ) && current_user_can( 'manage_options' ) ) { return; }
+wp_safe_redirect( admin_url( 'themes.php?page=vetra-portal-settings' ) );
+exit;
+} );

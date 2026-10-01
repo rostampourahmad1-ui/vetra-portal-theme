@@ -24,6 +24,7 @@ require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
 require_once VETRA_PORTAL_DIR . '/inc/projects.php';
 require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
 require_once VETRA_PORTAL_DIR . '/inc/layouts.php';
+remove_action( 'customize_register', 'vetra_layout_customizer_register', 20 );
 require_once VETRA_PORTAL_DIR . '/inc/integrations.php';
 require_once VETRA_PORTAL_DIR . '/inc/core/class-updater.php';
 require_once VETRA_PORTAL_DIR . '/inc/vetra-design-system.php';
@@ -31,6 +32,21 @@ require_once VETRA_PORTAL_DIR . '/template-parts/components.php';
 
 \Vetra\Theme\Theme::boot();
 new \Vetra\Theme\Admin\Dashboard();
+
+/** Optional private portal gate for staging and member-only sites. */
+function vetra_register_private_portal_setting() {
+	register_setting( 'vetra_portal_options', 'vetra_private_portal', array( 'type' => 'boolean', 'default' => false, 'sanitize_callback' => 'rest_sanitize_boolean' ) );
+}
+add_action( 'admin_init', 'vetra_register_private_portal_setting' );
+function vetra_private_portal_gate() {
+	if ( ! get_option( 'vetra_private_portal', false ) || is_user_logged_in() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) { return; }
+	global $pagenow;
+	if ( 'wp-login.php' === $pagenow ) { return; }
+	$redirect_to = rawurlencode( (string) ( get_permalink() ?: home_url( '/' ) ) );
+	wp_safe_redirect( add_query_arg( 'redirect_to', $redirect_to, wp_login_url() ), 302 );
+	exit;
+}
+add_action( 'template_redirect', 'vetra_private_portal_gate', 1 );
 
 /** Keep non-administrative accounts out of wp-admin; front-end forms remain available. */
 function vetra_restrict_dashboard() {
