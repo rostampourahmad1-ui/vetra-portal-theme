@@ -30,6 +30,27 @@
 	--vetra-charcoal-aluminum: #222933;
 }
 
+/* Official palette ramps: graphite neutrals and ochre/bronze interaction states. */
+:root {
+	--vetra-neutral-0: #12161A;
+	--vetra-neutral-1: #222933;
+	--vetra-neutral-2: #343D48;
+	--vetra-neutral-3: #4A5562;
+	--vetra-neutral-4: #626E7B;
+	--vetra-neutral-5: #7D8996;
+	--vetra-neutral-6: #9BA5B0;
+	--vetra-neutral-7: #BAC2CB;
+	--vetra-neutral-8: #DCE1E6;
+	--vetra-neutral-9: #F8FAFC;
+	--vetra-accent-100: #7F4D20;
+	--vetra-accent-200: #9A6229;
+	--vetra-accent-300: #B3803B;
+	--vetra-accent-400: #C67D34;
+	--vetra-accent-500: #D39451;
+	--vetra-accent-600: #E0AA70;
+	--vetra-accent-700: #EBC49B;
+	--vetra-accent-800: #F3DEC4;
+}
 /* ------------------------------------------------------------------ *
  * 2. Non-colour scales (shared by every theme mode)
  * ------------------------------------------------------------------ */

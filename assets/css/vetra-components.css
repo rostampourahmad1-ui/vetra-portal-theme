@@ -3,7 +3,7 @@
  * Version: 1.0.0
  *
  * Opt-in, namespaced component layer. Every class is prefixed `vetra-` so it
- * never collides with WordPress core, Elementor, Gravity Forms or bbPress.
+ * never collides with WordPress core or supported optional integrations.
  * All spacing uses logical properties (`*-inline-start/end`) so components are
  * RTL-native without a separate stylesheet.
  *
