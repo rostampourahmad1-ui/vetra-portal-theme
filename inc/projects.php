@@ -206,7 +206,8 @@ function vetra_project_sanitize_data( $source ) {
 		$data[ $key ] = 'description' === $key ? wp_kses_post( $value ) : sanitize_textarea_field( $value );
 	}
 	$data['project_name'] = sanitize_text_field( wp_unslash( $source['project_name'] ?? '' ) );
-	$data['status'] = in_array( $source['status'] ?? 'pending', array( 'pending', 'approved', 'rejected' ), true ) ? $source['status'] : 'pending';
+	$status = sanitize_key( wp_unslash( $source['status'] ?? 'pending' ) );
+	$data['status'] = in_array( $status, array( 'pending', 'approved', 'rejected' ), true ) ? $status : 'pending';
 	return $data;
 }
 

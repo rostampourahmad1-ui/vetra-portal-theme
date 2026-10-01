@@ -17,8 +17,13 @@ require_once VETRA_PORTAL_DIR . '/inc/helpers.php';
 require_once VETRA_PORTAL_DIR . '/inc/vetra-icon-library.php';
 require_once VETRA_PORTAL_DIR . '/inc/vetra-icons.php';
 require_once VETRA_PORTAL_DIR . '/inc/core/settings-schema.php';
-require_once VETRA_PORTAL_DIR . '/inc/core/class-theme.php';
-require_once VETRA_PORTAL_DIR . '/inc/admin/class-dashboard.php';
+require_once VETRA_PORTAL_DIR . '/inc/core/class-loader.php';
+if ( ! class_exists( '\\Vetra\\Theme\\Theme' ) ) {
+	require_once VETRA_PORTAL_DIR . '/inc/core/class-theme.php';
+}
+if ( ! class_exists( '\\Vetra\\Theme\\Admin\\Dashboard' ) ) {
+	require_once VETRA_PORTAL_DIR . '/inc/admin/class-dashboard.php';
+}
 require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
 require_once VETRA_PORTAL_DIR . '/inc/projects.php';
@@ -132,7 +137,8 @@ function vetra_portal_enqueue_assets() {
 	}
 
 	wp_enqueue_style( 'vetra-portal-style', get_stylesheet_uri(), array(), VETRA_PORTAL_VERSION );
-	wp_enqueue_style( 'vetra-corporate', VETRA_PORTAL_URI . '/assets/css/corporate.css', array( 'vetra-portal-style' ), VETRA_PORTAL_VERSION );
+	$corporate_css = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'corporate.css' : 'corporate.min.css';
+	wp_enqueue_style( 'vetra-corporate', VETRA_PORTAL_URI . '/assets/css/' . $corporate_css, array( 'vetra-portal-style' ), VETRA_PORTAL_VERSION );
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'vetra-rtl', VETRA_PORTAL_URI . '/rtl.css', array( 'vetra-corporate' ), VETRA_PORTAL_VERSION );
 	}
@@ -140,7 +146,8 @@ function vetra_portal_enqueue_assets() {
 		wp_enqueue_style( 'vetra-search', VETRA_PORTAL_URI . '/assets/css/search.css', array( 'vetra-corporate' ), VETRA_PORTAL_VERSION );
 	}
 	wp_add_inline_style( 'vetra-corporate', vetra_portal_customizer_css() );
-	wp_enqueue_script( 'vetra-portal-script', VETRA_PORTAL_URI . '/assets/js/corporate.js', array(), VETRA_PORTAL_VERSION, true );
+	$corporate_js = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'corporate.js' : 'corporate.min.js';
+	wp_enqueue_script( 'vetra-portal-script', VETRA_PORTAL_URI . '/assets/js/' . $corporate_js, array(), VETRA_PORTAL_VERSION, true );
 	wp_script_add_data( 'vetra-portal-script', 'strategy', 'defer' );
 	wp_localize_script(
 		'vetra-portal-script',

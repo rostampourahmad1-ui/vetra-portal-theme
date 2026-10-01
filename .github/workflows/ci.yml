@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*' ]
+    tags: [ 'v*', 'vetra-plus-*' ]
   pull_request:
     branches: [ main ]
 
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.1', '8.2', '8.3']
+        php: ['8.2', '8.3']
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
@@ -41,7 +41,7 @@ jobs:
         run: git diff --check HEAD^ HEAD || true
 
   package:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/tags/vetra-plus-')
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -55,11 +55,20 @@ jobs:
           slug="vetra-portal-theme"
           tmpdir="$(mktemp -d)"
           mkdir -p "$tmpdir/$slug"
-          rsync -a --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='*.zip' --exclude='tests' --exclude='.env*' ./ "$tmpdir/$slug/"
-          (cd "$tmpdir" && zip -qr "$GITHUB_WORKSPACE/$slug-${GITHUB_REF_NAME}.zip" "$slug/")
-      - name: Upload release asset
+          rsync -a --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='*.zip' --exclude='tests' --exclude='docs' --exclude='tools' --exclude='vetra-plus' --exclude='.env*' ./ "$tmpdir/$slug/"
+          (cd "$tmpdir" && zip -qr "$GITHUB_WORKSPACE/vetra.zip" "$slug/")
+      - name: Build Vetra Plus ZIP
+        run: |
+          slug="vetra-plus"
+          tmpdir="$(mktemp -d)"
+          mkdir -p "$tmpdir/$slug"
+          rsync -a --exclude='.git' --exclude='*.zip' ./vetra-plus/ "$tmpdir/$slug/"
+          (cd "$tmpdir" && zip -qr "$GITHUB_WORKSPACE/vetra-plus.zip" "$slug/")
+      - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
-          files: vetra-portal-theme-${{ github.ref_name }}.zip
+          files: |
+            vetra.zip
+            vetra-plus.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

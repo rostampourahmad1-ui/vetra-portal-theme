@@ -68,7 +68,9 @@ function vetra_theme_options() {
 }
 function vetra_theme_admin_page_render() {
 	if ( isset( $_POST['vetra_site_options_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['vetra_site_options_nonce'] ) ), 'vetra_site_options' ) ) {
-		$input = array( 'cookie_enabled' => empty( $_POST['cookie_enabled'] ) ? 0 : 1, 'cookie_text' => sanitize_textarea_field( wp_unslash( $_POST['cookie_text'] ?? '' ) ), 'cookie_position' => in_array( $_POST['cookie_position'] ?? '', array( 'bottom', 'top' ), true ) ? $_POST['cookie_position'] : 'bottom', 'policy_page' => absint( $_POST['policy_page'] ?? 0 ), 'site_mode' => in_array( $_POST['site_mode'] ?? '', array( 'normal', 'maintenance', 'updating' ), true ) ? $_POST['site_mode'] : 'normal', 'maintenance_text' => sanitize_textarea_field( wp_unslash( $_POST['maintenance_text'] ?? '' ) ), 'update_text' => sanitize_textarea_field( wp_unslash( $_POST['update_text'] ?? '' ) ) );
+		$cookie_position = sanitize_key( wp_unslash( $_POST['cookie_position'] ?? '' ) );
+		$site_mode = sanitize_key( wp_unslash( $_POST['site_mode'] ?? '' ) );
+		$input = array( 'cookie_enabled' => empty( $_POST['cookie_enabled'] ) ? 0 : 1, 'cookie_text' => sanitize_textarea_field( wp_unslash( $_POST['cookie_text'] ?? '' ) ), 'cookie_position' => in_array( $cookie_position, array( 'bottom', 'top' ), true ) ? $cookie_position : 'bottom', 'policy_page' => absint( $_POST['policy_page'] ?? 0 ), 'site_mode' => in_array( $site_mode, array( 'normal', 'maintenance', 'updating' ), true ) ? $site_mode : 'normal', 'maintenance_text' => sanitize_textarea_field( wp_unslash( $_POST['maintenance_text'] ?? '' ) ), 'update_text' => sanitize_textarea_field( wp_unslash( $_POST['update_text'] ?? '' ) ) );
 		update_option( 'vetra_site_options', $input, false );
 		echo '<div class="notice notice-success"><p>تنظیمات ذخیره شد.</p></div>';
 	}

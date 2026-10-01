@@ -166,7 +166,9 @@ test('updater normalizes GitHub extraction directories and prefers the release a
   const updater = read('inc/core/class-updater.php');
   assert.match(updater, /upgrader_source_selection/);
   assert.match(updater, /fix_source_directory/);
-  assert.ok(updater.includes("$asset_name = self::THEME_SLUG . '-' . $version . '.zip';"));
-  assert.match(read('.github/workflows/ci.yml'), /rsync -a/);
-  assert.match(read('.github/workflows/ci.yml'), /vetra-portal-theme-\$\{\{ github\.ref_name \}\}\.zip/);
+	assert.match(updater, /'vetra\.zip'/);
+	assert.match(updater, /in_array\( isset\( \$asset\['name'\]/);
+	assert.match(read('.github/workflows/ci.yml'), /rsync -a/);
+	assert.match(read('.github/workflows/ci.yml'), /vetra\.zip/);
+	assert.match(read('.github/workflows/ci.yml'), /vetra-plus\.zip/);
 });

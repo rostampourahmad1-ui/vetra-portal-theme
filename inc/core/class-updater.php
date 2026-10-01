@@ -34,7 +34,7 @@ final class Vetra_Portal_GitHub_Updater {
 			'url' => $release['url'],
 			'package' => $release['package'],
 			'requires' => '6.0',
-			'requires_php' => '7.4',
+			'requires_php' => '8.2',
 		);
 		return $transient;
 	}
@@ -54,9 +54,9 @@ final class Vetra_Portal_GitHub_Updater {
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 		$version = ltrim( sanitize_text_field( isset( $data['tag_name'] ) ? $data['tag_name'] : '' ), 'v' );
 		$package = '';
-		$asset_name = self::THEME_SLUG . '-' . $version . '.zip';
+		$asset_names = array( 'vetra.zip', self::THEME_SLUG . '-' . $version . '.zip', self::THEME_SLUG . '-v' . $version . '.zip' );
 		foreach ( (array) ( isset( $data['assets'] ) ? $data['assets'] : array() ) as $asset ) {
-			if ( $asset_name === ( isset( $asset['name'] ) ? $asset['name'] : '' ) ) { $package = esc_url_raw( isset( $asset['browser_download_url'] ) ? $asset['browser_download_url'] : '' ); break; }
+			if ( in_array( isset( $asset['name'] ) ? $asset['name'] : '', $asset_names, true ) ) { $package = esc_url_raw( isset( $asset['browser_download_url'] ) ? $asset['browser_download_url'] : '' ); break; }
 		}
 		if ( ! $package ) { $package = esc_url_raw( isset( $data['zipball_url'] ) ? $data['zipball_url'] : '' ); }
 		$result = $version && $package ? array(
