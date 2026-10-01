@@ -163,7 +163,7 @@ test('PHP loader is guarded, escaped and plugin-independent', () => {
   assert.match(loader, /esc_attr\(/);
   assert.match(loader, /esc_url\(/);
   assert.match(loader, /sanitize_html_class/);
-  assert.doesNotMatch(loader, /Elementor|GFForms|bbPress/i);
+  assert.doesNotMatch(loader, /Elementor|GFForms/i);
 });
 
 test('bootstrap wires the design system and versions agree', () => {

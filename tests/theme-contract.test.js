@@ -129,10 +129,17 @@ test('front-end hierarchy includes landing, distraction-free, search and reusabl
   assert.match(read('assets/js/corporate.js'), /closeSearch/);
 });
 
-test('optional integrations remain conditional and isolated', () => {
+test('integration surface excludes removed providers and keeps supported adapters', () => {
   const integrations = read('inc/integrations.php');
-  assert.match(integrations, /ICL_SITEPRESS_VERSION/);
+  assert.doesNotMatch(integrations, /WPML|bbPress|WooCommerce|ICL_SITEPRESS/);
   assert.match(integrations, /class_exists\( 'GFForms' \)/);
-  assert.match(bootstrap, /inc\/integrations\.php/);
-  assert.match(read('assets/css/integrations.css'), /bbp-forums/);
+  assert.match(integrations, /ELEMENTOR_VERSION/);
+  assert.doesNotMatch(bootstrap, /enable_bbpress_style|is_bbpress/);
+});
+test('theme update metadata uses a stable slug and GitHub release checker', () => {
+  assert.match(read('style.css'), /Theme Name: Vetra Portal/);
+  assert.match(read('style.css'), /Text Domain: vetra-portal-theme/);
+  assert.match(bootstrap, /class-updater\.php/);
+  assert.match(read('inc/core/class-updater.php'), /THEME_SLUG = 'vetra-portal-theme'/);
+  assert.match(read('inc/core/class-updater.php'), /api\.github\.com/);
 });

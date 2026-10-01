@@ -16,10 +16,10 @@ const functionsPhp = read('functions.php');
 
 const OFFICIAL = ['#C67D34', '#12161A', '#F6F7F9', '#8A95A5', '#222933'];
 
-test('theme version is bumped consistently to 3.8.0', () => {
-  assert.match(functionsPhp, /VETRA_PORTAL_VERSION', '3\.8\.0'/);
-  assert.equal(read('style.css').match(/^Version: (.+)$/m)[1], '3.8.0');
-  assert.equal(JSON.parse(read('package.json')).version, '3.8.0');
+test('theme version is bumped consistently to 3.9.0', () => {
+  assert.match(functionsPhp, /VETRA_PORTAL_VERSION', '3\.9\.0'/);
+  assert.equal(read('style.css').match(/^Version: (.+)$/m)[1], '3.9.0');
+  assert.equal(JSON.parse(read('package.json')).version, '3.9.0');
 });
 
 test('official VETRA palette is the default and legacy accent is removed', () => {

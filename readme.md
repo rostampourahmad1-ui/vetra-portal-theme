@@ -21,7 +21,7 @@
 
 ## نصب
 
-1. فایل ZIP رسمی را از بخش Release نصب کنید؛ ساختار ZIP شامل پوشه استاندارد `vetra-portal/` است.
+1. فایل ZIP رسمی را از بخش Release نصب کنید؛ ساختار ZIP شامل پوشه استاندارد `vetra-portal-theme/` است.
 2. قالب را از مسیر **نمایش > پوسته‌ها** فعال کنید.
 3. برای شخصی‌سازی به **نمایش > سفارشی‌سازی > هویت شرکتی وترا** بروید.
 4. یک صفحه ثابت برای خانه انتخاب کنید تا `front-page.php` نمایش داده شود.
@@ -81,9 +81,18 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 
 وضعیت افزونه‌های پیشنهادی در **نمایش > افزونه‌های وترا** نمایش داده می‌شود. Gravity Forms نیازمند ZIP رسمی و لایسنس است و اتصال مستقیمی به مخزن پروژه‌های پوسته ندارد. هیچ اتصال زندهٔ AI یا MCP پیاده‌سازی نشده است؛ برای کلید آینده از `wp-config.php` یا secret manager سمت سرور استفاده کنید، هرگز آن را در تنظیم پوسته، مرورگر یا مخزن قرار ندهید. اتصال MCP نیازمند سرویس و زیرساخت مستقل سرور است.
 
+[![CI](https://github.com/rostampourahmad1-ui/vetra-portal-theme/actions/workflows/ci.yml/badge.svg)](https://github.com/rostampourahmad1-ui/vetra-portal-theme/actions/workflows/ci.yml)
+
+### گزارش تغییرات نسخه ۳.۹.۰
+- پشتیبانی افزونه‌ای روی Elementor و Gravity Forms متمرکز شد و شاخه‌های بلااستفاده حذف شدند.
+- هویت ثابت پوسته (`Theme Name: Vetra Portal`، پوشه و slug: `vetra-portal-theme`) برای شناسایی update وردپرس تثبیت شد.
+- updater مبتنی بر GitHub Releases و اعلان استاندارد پیشخوان اضافه شد.
+- پالت رسمی با neutral ramp ده‌مرحله‌ای، accent states و admin dashboard کارت‌محور/تب‌محور تکمیل شد.
+- GitHub Actions برای PHP 8.1 تا 8.3، تست Node، JSON و ساختار پوسته اضافه شد.
+
 ### گزارش تغییرات نسخه ۳.۸.۰
 
-- پالت رسمی VETRA به‌عنوان پیش‌فرض پوسته اعمال شد: پس‌زمینه/سطح/متن روشن و تیره، CTA و focus از `#C67D34`، مرزها از `#8A95A5`. رنگ غیرپالتی قبلی `#f28b38` حذف و شعاع کارت به حداکثر ۸px محدود شد.
+- پالت رسمی VETRA به‌عنوان پیش‌فرض پوسته اعمال شد: پس‌زمینه/سطح/متن روشن و تیره، CTA و focus از `#C67D34`، مرزها از `#8A95A5`. رنگ‌های رسمی VETRA و شعاع کارت حداکثر ۸px تثبیت شدند.
 - بخش «پروژه‌های شاخص» صفحه اصلی اکنون مستقیماً از جدول `vetra_projects` خوانده می‌شود (query امن با فیلدهای لازم، بررسی وجود جدول، دسترسی‌بندی پیش‌نویس/خصوصی) و در نبود داده به Customizer بازمی‌گردد. حالت empty نیز پیاده‌سازی شد.
 - آیکن‌های نوار پایین موبایل به VETRA Icon Pack متصل شدند.
 - استایل‌های Gravity Forms برای حالت‌های غیرفعال/در حال ارسال/موفق تکمیل شد.
@@ -154,7 +163,7 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 - `inc/core/settings-schema.php` — schema مشترک و normalize تنظیمات عملیاتی
 - `inc/core/class-theme.php` — سرویس هسته و ثبت componentها
 - `inc/admin/class-dashboard.php` — داشبورد مدیریت، import/export و cache
-- `inc/integrations.php` — adapterهای اختیاری WPML، فرم‌ها، bbPress و WooCommerce
+- `inc/integrations.php` — adapterهای اختیاری Elementor و Gravity Forms
 - `assets/css/search.css` / `assets/css/forms.css` — assetهای شرطی جست‌وجو و فرم‌ها
 - `assets/css/vetra-*.css` / `assets/js/vetra-ui.js` — Design System مشترک VETRA v1.0.0
 - `inc/vetra-design-system.php` — بارگذاری و helperهای Design System
@@ -174,7 +183,7 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 
 ## نسخه
 
-3.8.0
+3.9.0
 
 ## مجوز
 

@@ -1,4 +1,4 @@
-# VETRA Design System v1.0.0
+# VETRA Design System v1.1.0 — Theme 3.9.0
 
 Design System مشترک چهار محصول:
 
@@ -31,6 +31,10 @@ Design System مشترک چهار محصول:
 
 ## 2. توکن‌ها
 
+### Neutral ramp و حالت‌های accent
+
+Neutralها از `--vetra-neutral-0` (`#12161A`) تا `--vetra-neutral-9` (`#F8FAFC`) برای سطوح، متن و مرزها تعریف شده‌اند. حالت‌های تعاملی accent از `--vetra-accent-100` تا `--vetra-accent-800` مشتق می‌شوند؛ رنگ اصلی `--vetra-accent-400` برابر `#C67D34` و hover برابر `#B3803B` است.
+
 ### پالت رسمی (غیرقابل تغییر)
 
 | نام | توکن | Hex | کاربرد |
@@ -38,7 +42,7 @@ Design System مشترک چهار محصول:
 | Basalt Black | `--vetra-basalt-black` | `#12161A` | پس‌زمینه Dark، متن اصلی Light، متن روی CTA |
 | Architectural Ochre | `--vetra-architectural-ochre` | `#C67D34` | CTA اصلی، focus ring، وضعیت بحرانی |
 | Raw Exposed Concrete | `--vetra-raw-concrete` | `#8A95A5` | متن ثانویه، مرزها، وضعیت اطلاعات |
-| Chalk Lime White | `--vetra-chalk-white` | `#F6F7F9` | پس‌زمینه Light، متن اصلی Dark |
+| Chalk Lime White | `--vetra-chalk-white` | `#F8FAFC` | انتهای neutral ramp و سطوح روشن |
 | Deep Brushed Bronze | `--vetra-brushed-bronze` | `#B3803B` | hover اصلی، وضعیت هشدار |
 | Fluted Charcoal Aluminum | `--vetra-charcoal-aluminum` | `#222933` | سطح‌ها در Dark |
 
@@ -195,7 +199,7 @@ window.VetraUI.setTheme('dark');
 ## 7. سازگاری وردپرس
 
 - تمام کلاس‌ها با `vetra-` namespace شده‌اند و هیچ استایل عمومی وردپرس/افزونه‌ای به‌صورت سراسری override نمی‌شود؛ مصرف کامپوننت‌ها opt-in است.
-- هیچ وابستگی به Elementor، Gravity Forms یا bbPress وجود ندارد؛ در نبود افزونه خطایی رخ نمی‌دهد. استایل‌های ادغام آن‌ها جدا باقی می‌مانند.
+- اتصال‌های اختیاری فقط برای Elementor و Gravity Forms نگه داشته شده‌اند و در نبود آن‌ها خطایی رخ نمی‌دهد.
 - خروجی PHP با `esc_html`/`esc_attr`/`esc_url` چاپ و ورودی‌ها با `sanitize_html_class`/`wp_parse_args` پاک‌سازی می‌شوند؛ nameهای رویدادی (`on*`) در `vetra_ds_button` مسدود می‌شوند.
 - Design System عملیات تغییردهنده سمت سرور ندارد، بنابراین nonce/capability اضافه نشده است. هر endpoint آینده باید مستقل `check_admin_referer`/`wp_verify_nonce` و `current_user_can` داشته باشد.
 
@@ -215,6 +219,7 @@ window.VetraUI.setTheme('dark');
 
 | نسخه | تاریخ | تغییرات |
 | --- | --- | --- |
+| 1.1.0 | 2026-10 | پالت نهایی VETRA، neutral ramp ده‌مرحله‌ای، حالت‌های accent و الگوی admin card/tab |
 | 1.0.0 | 2026-09 | انتشار اولیه: توکن‌ها، ۲۶ کامپوننت، utilities، print، JS، helperهای PHP، قالب پیش‌نمایش |
 
 **Breaking changes:** این اولین انتشار است و breaking ندارد. توکن `--vetra-radius` قالب (۱۶px) دست‌نخورده باقی مانده تا ظاهر فعلی نشکند؛ مهاجرت به `--vetra-radius-md` (۸px) یک تغییر آگاهانه در نسخه‌های بعدی است.
