@@ -123,3 +123,349 @@
 .vetra-multi-checkbox {
 	accent-color: var(--vetra-admin-accent);
 }
+
+/* VETRA Customizer — RTL dark control panel inspired by the supplied reference. */
+:root {
+	--vetra-customizer-bg: #12161A;
+	--vetra-customizer-surface: #222933;
+	--vetra-customizer-surface-raised: #2B3038;
+	--vetra-customizer-field: #3A3B46;
+	--vetra-customizer-line: rgba(246, 247, 249, .11);
+	--vetra-customizer-text: #F6F7F9;
+	--vetra-customizer-muted: #A8AFBB;
+	--vetra-customizer-accent: #C67D34;
+	--vetra-customizer-accent-soft: rgba(198, 125, 52, .16);
+}
+
+body.wp-customizer,
+body.wp-customizer #customize-controls,
+body.wp-customizer #customize-theme-controls,
+body.wp-customizer .wp-full-overlay-sidebar {
+	font-family: IRANYekan, Vazirmatn, Tahoma, sans-serif;
+}
+
+body.wp-customizer #customize-controls {
+	width: 300px;
+	background: var(--vetra-customizer-bg);
+	color: var(--vetra-customizer-text);
+	direction: rtl;
+}
+
+body.wp-customizer #customize-preview {
+	inset-inline-start: 300px;
+}
+
+body.wp-customizer #customize-header-actions,
+body.wp-customizer #customize-controls .customize-info,
+body.wp-customizer #customize-controls .customize-pane-parent {
+	background: var(--vetra-customizer-surface);
+	color: var(--vetra-customizer-text);
+}
+
+body.wp-customizer #customize-header-actions {
+	display: flex;
+	align-items: center;
+	min-height: 46px;
+	border-bottom: 1px solid var(--vetra-customizer-line);
+}
+
+body.wp-customizer #customize-header-actions .button,
+body.wp-customizer #customize-header-actions .button-primary,
+body.wp-customizer #customize-header-actions #publish {
+	min-height: 30px;
+	border: 0;
+	border-radius: 2px;
+	background: var(--vetra-customizer-accent);
+	color: #12161A;
+	font-weight: 800;
+	box-shadow: none;
+}
+
+body.wp-customizer #customize-header-actions .customize-controls-close,
+body.wp-customizer #customize-header-actions .customize-help-toggle,
+body.wp-customizer #customize-header-actions .customize-panel-back {
+	color: var(--vetra-customizer-text);
+}
+
+body.wp-customizer #customize-controls .customize-info {
+	padding: 12px 14px 14px;
+	border-bottom: 1px solid var(--vetra-customizer-line);
+}
+
+body.wp-customizer #customize-controls .customize-info .customize-section-title h3,
+body.wp-customizer #customize-controls .customize-info .customize-section-title h3 a {
+	color: var(--vetra-customizer-text);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+body.wp-customizer #customize-controls .customize-info .customize-panel-description {
+	margin-top: 5px;
+	color: var(--vetra-customizer-muted);
+	font-size: 10px;
+	line-height: 1.9;
+}
+
+body.wp-customizer #customize-theme-controls .control-section {
+	border-bottom: 1px solid var(--vetra-customizer-line);
+	background: var(--vetra-customizer-bg);
+}
+
+body.wp-customizer #customize-theme-controls .accordion-section-title {
+	position: relative;
+	margin: 0;
+	padding: 14px 38px 14px 16px;
+	border: 0;
+	border-radius: 0;
+	background: var(--vetra-customizer-bg);
+	color: var(--vetra-customizer-text);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.5;
+	box-shadow: none;
+}
+
+body.wp-customizer #customize-theme-controls .accordion-section-title::before {
+	position: absolute;
+	inset-inline-start: 15px;
+	color: var(--vetra-customizer-muted);
+	content: '‹';
+	font-size: 21px;
+	font-weight: 400;
+	line-height: 15px;
+	transition: color .18s ease, transform .18s ease;
+}
+
+body.wp-customizer #customize-theme-controls .control-section.open > .accordion-section-title::before {
+	color: var(--vetra-customizer-accent);
+	transform: rotate(-90deg);
+}
+
+body.wp-customizer #customize-theme-controls .accordion-section-title:hover,
+body.wp-customizer #customize-theme-controls .accordion-section-title:focus {
+	background: var(--vetra-customizer-surface);
+	color: var(--vetra-customizer-text);
+}
+
+body.wp-customizer #customize-theme-controls .accordion-section-title:hover::before,
+body.wp-customizer #customize-theme-controls .accordion-section-title:focus::before {
+	color: var(--vetra-customizer-accent);
+}
+
+body.wp-customizer #customize-theme-controls .accordion-section-title:after {
+	display: none;
+}
+
+body.wp-customizer #customize-theme-controls .accordion-section-content {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: var(--vetra-customizer-surface);
+	color: var(--vetra-customizer-text);
+}
+
+body.wp-customizer .customize-section-title {
+	padding: 14px 16px 10px;
+	border-bottom: 1px solid var(--vetra-customizer-line);
+	background: var(--vetra-customizer-surface);
+}
+
+body.wp-customizer .customize-section-title h3 {
+	margin: 0;
+	color: var(--vetra-customizer-text);
+	font-size: 15px;
+	font-weight: 700;
+}
+
+body.wp-customizer .customize-section-description,
+body.wp-customizer .customize-control-description {
+	color: var(--vetra-customizer-muted);
+	font-size: 10px;
+	line-height: 1.9;
+}
+
+body.wp-customizer .customize-section-description {
+	padding: 10px 16px;
+	border: 0;
+	background: var(--vetra-customizer-surface);
+}
+
+body.wp-customizer .customize-control {
+	margin: 0;
+	padding: 13px 16px;
+	border-bottom: 1px solid var(--vetra-customizer-line);
+	background: var(--vetra-customizer-surface);
+	color: var(--vetra-customizer-text);
+}
+
+body.wp-customizer .customize-control:hover {
+	background: var(--vetra-customizer-surface-raised);
+}
+
+body.wp-customizer .customize-control-title,
+body.wp-customizer .customize-control > label > span:first-child {
+	display: block;
+	margin-bottom: 7px;
+	color: var(--vetra-customizer-text);
+	font-size: 11px;
+	font-weight: 700;
+}
+
+body.wp-customizer .customize-control input[type="text"],
+body.wp-customizer .customize-control input[type="number"],
+body.wp-customizer .customize-control input[type="url"],
+body.wp-customizer .customize-control select,
+body.wp-customizer .customize-control textarea,
+body.wp-customizer .customize-control .CodeMirror,
+body.wp-customizer .customize-control .CodeMirror-gutters {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 36px;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	background: var(--vetra-customizer-field);
+	color: var(--vetra-customizer-text);
+	box-shadow: none;
+	font-family: IRANYekan, Vazirmatn, Tahoma, sans-serif;
+	font-size: 11px;
+}
+
+body.wp-customizer .customize-control textarea {
+	min-height: 90px;
+	padding: 10px;
+	line-height: 1.9;
+}
+
+body.wp-customizer .customize-control input:focus,
+body.wp-customizer .customize-control select:focus,
+body.wp-customizer .customize-control textarea:focus,
+body.wp-customizer .customize-control .CodeMirror-focused {
+	border-color: var(--vetra-customizer-accent);
+	outline: 2px solid var(--vetra-customizer-accent-soft);
+}
+
+body.wp-customizer .customize-control input::placeholder,
+body.wp-customizer .customize-control textarea::placeholder {
+	color: var(--vetra-customizer-muted);
+}
+
+body.wp-customizer .customize-control select {
+	padding: 0 10px;
+}
+
+body.wp-customizer .customize-control-checkbox label,
+body.wp-customizer .customize-control-toggle label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-height: 30px;
+}
+
+body.wp-customizer .customize-control-checkbox input[type="checkbox"],
+body.wp-customizer .customize-control-toggle input[type="checkbox"] {
+	position: relative;
+	width: 38px;
+	height: 20px;
+	margin: 0;
+	border: 0;
+	border-radius: 12px;
+	background: var(--vetra-customizer-field);
+	appearance: none;
+	cursor: pointer;
+}
+
+body.wp-customizer .customize-control-checkbox input[type="checkbox"]::after,
+body.wp-customizer .customize-control-toggle input[type="checkbox"]::after {
+	position: absolute;
+	top: 4px;
+	inset-inline-start: 4px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--vetra-customizer-muted);
+	content: '';
+	transition: transform .18s ease, background-color .18s ease;
+}
+
+body.wp-customizer .customize-control-checkbox input[type="checkbox"]:checked,
+body.wp-customizer .customize-control-toggle input[type="checkbox"]:checked {
+	background: var(--vetra-customizer-accent);
+}
+
+body.wp-customizer .customize-control-checkbox input[type="checkbox"]:checked::after,
+body.wp-customizer .customize-control-toggle input[type="checkbox"]:checked::after {
+	background: #12161A;
+	transform: translateX(-18px);
+}
+
+body.wp-customizer .customize-control-checkbox input[type="checkbox"]:focus-visible,
+body.wp-customizer .customize-control-toggle input[type="checkbox"]:focus-visible,
+body.wp-customizer .vetra-multi-checkbox:focus-visible {
+	outline: 2px solid var(--vetra-customizer-accent);
+	outline-offset: 2px;
+}
+
+body.wp-customizer .customize-control-color .wp-color-result {
+	width: 100%;
+	min-height: 36px;
+	margin: 0;
+	border: 1px solid var(--vetra-customizer-line);
+	border-radius: 2px;
+	box-shadow: none;
+}
+
+body.wp-customizer .customize-control .button,
+body.wp-customizer .customize-control .button-secondary {
+	min-height: 30px;
+	border: 1px solid var(--vetra-customizer-line);
+	border-radius: 2px;
+	background: var(--vetra-customizer-field);
+	color: var(--vetra-customizer-text);
+	box-shadow: none;
+}
+
+body.wp-customizer .customize-control .button:hover,
+body.wp-customizer .customize-control .button:focus,
+body.wp-customizer .customize-control .button-primary {
+	border-color: var(--vetra-customizer-accent);
+	background: var(--vetra-customizer-accent);
+	color: #12161A;
+}
+
+body.wp-customizer .vetra-multi-checkbox {
+	accent-color: var(--vetra-customizer-accent);
+}
+
+body.wp-customizer .customize-control-checkbox-multiple ul {
+	border-color: var(--vetra-customizer-line) !important;
+	background: var(--vetra-customizer-field) !important;
+}
+
+body.wp-customizer #customize-footer-actions {
+	border-top: 1px solid var(--vetra-customizer-line);
+	background: var(--vetra-customizer-surface);
+}
+
+body.wp-customizer #customize-footer-actions .collapse-sidebar {
+	color: var(--vetra-customizer-text);
+}
+
+@media (max-width: 640px) {
+	body.wp-customizer #customize-controls {
+		width: min(300px, 88vw);
+	}
+
+	body.wp-customizer #customize-preview {
+		inset-inline-start: min(300px, 88vw);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.wp-customizer *,
+	body.wp-customizer *::before,
+	body.wp-customizer *::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}

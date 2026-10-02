@@ -75,3 +75,30 @@
   }
 
 }(jQuery));
+
+/* Reference-inspired section metadata: keep native WordPress navigation keyboard-safe. */
+(function () {
+  'use strict';
+  if (!window.wp || !wp.customize) return;
+  wp.customize.bind('ready', function () {
+    var sectionLabels = {
+      vetra_identity_section: 'هویت سایت',
+      vetra_features_section: 'عمومی',
+      vetra_theme_section: 'تایپوگرافی و رنگ‌ها',
+      vetra_background_section: 'پس‌زمینه',
+      vetra_header_section: 'سربرگ',
+      vetra_mobile_menu_section: 'منوی موبایل',
+      vetra_hero_section: 'برگه خانه',
+      vetra_content_section: 'محتوای سایت',
+      vetra_contact_section: 'پاورقی و تماس',
+      vetra_pwa_section: 'وب‌اپ پیشرو (PWA)',
+      vetra_advanced_section: 'CSS اضافی'
+    };
+    Object.keys(sectionLabels).forEach(function (id) {
+      var section = wp.customize.section(id);
+      if (!section || !section.container) return;
+      section.container.attr('data-vetra-section', id);
+      section.container.find('.accordion-section-title').attr('aria-label', sectionLabels[id]);
+    });
+  });
+}());
