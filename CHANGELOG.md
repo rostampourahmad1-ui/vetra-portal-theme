@@ -1,4 +1,17 @@
 # Changelog
+## [3.9.2] - 2026-10-02
+
+### Added
+- Added a dark RTL Customizer control panel inspired by the supplied visual reference.
+- Added accessible section metadata and visible keyboard focus states in Customizer controls.
+
+### Changed
+- Reorganized native WordPress Customizer sections under the VETRA control hierarchy.
+- Updated mobile navigation defaults to use Contact and Search instead of the removed Projects entry.
+
+### Fixed
+- Removed the last stale Projects defaults from the Customizer configuration.
+
 ## [3.9.1] - 2026-10-02
 ### Added
 - Bundled Vetra Plus installation and activation on theme activation.

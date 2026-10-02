@@ -163,11 +163,11 @@ PWA از **سفارشی‌سازی > وب‌اپ PWA** روشن/خاموش می�
 
 ## نسخه
 
-3.9.1
+3.9.2
 
 ## مجوز
 
 GPL-2.0-or-later
 
 
-Current release: 3.9.1
+Current release: 3.9.2
