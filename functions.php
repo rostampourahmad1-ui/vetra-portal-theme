@@ -26,10 +26,8 @@ if ( ! class_exists( '\\Vetra\\Theme\\Admin\\Dashboard' ) ) {
 }
 require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
-require_once VETRA_PORTAL_DIR . '/inc/projects.php';
 require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
 require_once VETRA_PORTAL_DIR . '/inc/layouts.php';
-remove_action( 'customize_register', 'vetra_layout_customizer_register', 20 );
 require_once VETRA_PORTAL_DIR . '/inc/integrations.php';
 require_once VETRA_PORTAL_DIR . '/inc/core/class-updater.php';
 require_once VETRA_PORTAL_DIR . '/inc/vetra-design-system.php';
@@ -55,7 +53,8 @@ add_action( 'template_redirect', 'vetra_private_portal_gate', 1 );
 
 /** Keep non-administrative accounts out of wp-admin; front-end forms remain available. */
 function vetra_restrict_dashboard() {
-	if ( is_admin() && ! wp_doing_ajax() && ! ( defined( 'DOING_CRON' ) && DOING_CRON ) && ! current_user_can( 'manage_options' ) && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+	global $pagenow;
+	if ( 'customize.php' !== $pagenow && ( is_admin() && ! wp_doing_ajax() && ! ( defined( 'DOING_CRON' ) && DOING_CRON ) && ! current_user_can( 'manage_options' ) && ! current_user_can( 'edit_theme_options' ) && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
 		wp_safe_redirect( home_url( '/' ) );
 		exit;
 	}
@@ -101,7 +100,7 @@ function vetra_portal_setup() {
 add_action( 'after_setup_theme', 'vetra_portal_setup' );
 
 function vetra_primary_menu_fallback() {
-	echo '<ul class="vetra-site-nav"><li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'خانه', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'درباره وترا', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#services' ) ) . '">' . esc_html__( 'خدمات', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#projects' ) ) . '">' . esc_html__( 'پروژه‌ها', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#contact' ) ) . '">' . esc_html__( 'تماس با ما', 'vetra-portal-theme' ) . '</a></li></ul>';
+	echo '<ul class="vetra-site-nav"><li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'خانه', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'درباره وترا', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#services' ) ) . '">' . esc_html__( 'خدمات', 'vetra-portal-theme' ) . '</a></li><li><a href="' . esc_url( home_url( '/#contact' ) ) . '">' . esc_html__( 'تماس با ما', 'vetra-portal-theme' ) . '</a></li></ul>';
 }
 
 /** Elementor-friendly canvas layout while retaining the standard page content flow. */
@@ -255,8 +254,7 @@ function vetra_render_bottom_bar() {
 		$vetra_bar_icons = array(
 			'home'     => 'building',
 			'services' => 'settings',
-			'projects' => 'folder-project',
-			'contact'  => 'message',
+						'contact'  => 'message',
 			'search'   => 'search',
 			'login'    => 'login',
 			'logout'   => 'logout',

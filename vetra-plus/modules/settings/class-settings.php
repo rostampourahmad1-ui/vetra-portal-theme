@@ -49,7 +49,7 @@ final class Settings {
 	}
 
 	public function menu() {
-		add_menu_page( 'تنظیمات Vetra Plus', 'Vetra Plus', 'manage_options', 'vetra-plus-settings', array( $this, 'render' ), 'dashicons-admin-customizer', 58 );
+		add_submenu_page( 'themes.php', 'تنظیمات Vetra Plus', 'Vetra Plus', 'manage_options', 'vetra-plus-settings', array( $this, 'render' ) );
 	}
 
 	public function render() {
@@ -95,14 +95,14 @@ final class Settings {
 		$current = self::get();
 		$mapped  = array_intersect_key( $result['settings'], array_flip( $result['mapped_keys'] ) );
 		update_option( 'vetra_plus_settings', array_merge( $current, $mapped ), false );
-		wp_safe_redirect( add_query_arg( 'vetra_notice', 'imported', admin_url( 'admin.php?page=vetra-plus-settings' ) ) );
+		wp_safe_redirect( add_query_arg( 'vetra_notice', 'imported', admin_url( 'themes.php?page=vetra-plus-settings' ) ) );
 		exit;
 	}
 
 	public function reset() {
 		$this->authorize( 'vetra_plus_settings_reset' );
 		update_option( 'vetra_plus_settings', SettingsSchema::defaults(), false );
-		wp_safe_redirect( add_query_arg( 'vetra_notice', 'reset', admin_url( 'admin.php?page=vetra-plus-settings' ) ) );
+		wp_safe_redirect( add_query_arg( 'vetra_notice', 'reset', admin_url( 'themes.php?page=vetra-plus-settings' ) ) );
 		exit;
 	}
 

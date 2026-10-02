@@ -142,11 +142,9 @@ test('bootstrap loads the icon pack and helpers delegate to it', () => {
   assert.doesNotMatch(helpers, /function vetra_inline_icon\(/);
 });
 
-test('Dashicons are removed from the theme admin UI', () => {
-  assert.doesNotMatch(read('inc/projects.php'), /dashicons-/);
-  assert.doesNotMatch(read('inc/layouts.php'), /dashicons-/);
-  assert.match(read('inc/projects.php'), /vetra_icon_data_uri\(/);
-  assert.match(read('inc/layouts.php'), /vetra_icon_data_uri\(/);
+test('removed project module is not loaded by the theme', () => {
+  assert.doesNotMatch(read('functions.php'), /inc\/projects\.php/);
+  assert.ok(!exists('inc/projects.php'));
 });
 
 test('the design system preview documents the icon pack', () => {

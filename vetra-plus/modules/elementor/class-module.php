@@ -27,8 +27,6 @@ final class Module {
 	}
 
 	public function register_shortcodes() {
-		add_shortcode( 'vetra_projects', array( Renderer::class, 'projects_shortcode' ) );
-		add_shortcode( 'vetra_project_gallery', array( Renderer::class, 'gallery_shortcode' ) );
 		add_shortcode( 'vetra_corporate_banner', array( Renderer::class, 'banner_shortcode' ) );
 	}
 
@@ -43,8 +41,6 @@ final class Module {
 	}
 
 	public function register_widgets( $widgets_manager ) {
-		$widgets_manager->register( new ProjectGrid() );
-		$widgets_manager->register( new ProjectGallery() );
 		$widgets_manager->register( new CorporateBanner() );
 	}
 }

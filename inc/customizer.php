@@ -24,7 +24,6 @@ function vetra_customizer_defaults() {
 		'home_stats_enabled' => true,
 		'home_services_enabled' => true,
 		'home_about_enabled' => true,
-		'home_projects_enabled' => true,
 		'home_cta_enabled'  => true,
 		'color_mode'        => 'system',
 		'color_palette_enabled' => true,
@@ -58,13 +57,13 @@ function vetra_customizer_defaults() {
 		'hero_description'  => 'وترا در مرز معماری، مهندسی و اجرای دقیق ایستاده است؛ از ایده‌های جسورانه تا فضاهایی که سال‌ها ماندگار می‌مانند.',
 		'hero_primary_text' => 'آشنایی با وترا',
 		'hero_primary_url'  => '#about',
-		'hero_secondary_text' => 'مشاهده پروژه‌ها',
-		'hero_secondary_url'  => '#projects',
+		'hero_secondary_text' => 'مشاهده خدمات',
+		'hero_secondary_url'  => '#services',
 		'hero_image'        => 0,
 		'stat_1_number'     => '۱۲+',
 		'stat_1_label'      => 'سال تجربه تخصصی',
 		'stat_2_number'     => '۸۰+',
-		'stat_2_label'      => 'پروژه تحویل‌شده',
+		'stat_2_label'      => 'فضای تحویل‌شده',
 		'stat_3_number'     => '۳.۲M',
 		'stat_3_label'      => 'مترمربع طراحی و اجرا',
 		'stat_4_number'     => '۲۴',
@@ -72,26 +71,15 @@ function vetra_customizer_defaults() {
 		'services_title'    => 'تخصصی که به نتیجه تبدیل می‌شود.',
 		'services_intro'    => 'یک تیم یکپارچه برای تصمیم‌های بهتر، اجرای دقیق‌تر و ارزش‌آفرینی ماندگار.',
 		'service_1_title'   => 'طراحی و معماری',
-		'service_1_text'    => 'خلق فضاهای معاصر، انسانی و کارآمد با توجه به زمینه، اقلیم و آینده پروژه.',
+		'service_1_text'    => 'خلق فضاهای معاصر، انسانی و کارآمد با توجه به زمینه، اقلیم و آینده هر فضا.',
 		'service_2_title'   => 'مهندسی و مدیریت',
-		'service_2_text'    => 'مدیریت یکپارچه زمان، هزینه و کیفیت برای تحویل مطمئن و شفاف پروژه.',
+		'service_2_text'    => 'مدیریت یکپارچه زمان، هزینه و کیفیت برای تحویل مطمئن و شفاف.',
 		'service_3_title'   => 'ساخت و توسعه',
 		'service_3_text'    => 'تبدیل نقشه به واقعیت با استاندارد اجرایی بالا و توجه جدی به جزئیات.',
 		'about_title'       => 'ساختن، فقط بالا بردن دیوارها نیست.',
-		'about_text'        => 'ما باور داریم هر پروژه یک اثر ماندگار در شهر است. وترا با ترکیب نگاه معماری، دانش مهندسی و انضباط اجرایی، فضاهایی می‌سازد که کیفیت زندگی و ارزش دارایی را هم‌زمان ارتقا می‌دهند.',
+		'about_text'        => 'ما باور داریم هر فضا یک اثر ماندگار در شهر است. وترا با ترکیب نگاه معماری، دانش مهندسی و انضباط اجرایی، فضاهایی می‌سازد که کیفیت زندگی و ارزش دارایی را هم‌زمان ارتقا می‌دهند.',
 		'about_image'       => 0,
-		'projects_title'    => 'پروژه‌هایی که روایت خودشان را دارند.',
-		'projects_intro'    => 'منتخبی از مسیر ما در طراحی و ساخت فضاهای متمایز.',
-		'project_1_title'   => 'برج سامان',
-		'project_1_meta'    => 'تهران · مسکونی · ۱۴۰۳',
-		'project_1_image'   => 0,
-		'project_2_title'   => 'مجتمع آفتاب',
-		'project_2_meta'    => 'کیش · تجاری · ۱۴۰۲',
-		'project_2_image'   => 0,
-		'project_3_title'   => 'خانه‌ی کوهستان',
-		'project_3_meta'    => 'لواسان · ویلایی · ۱۴۰۱',
-		'project_3_image'   => 0,
-		'cta_title'         => 'پروژه بعدی شما، از یک گفت‌وگو شروع می‌شود.',
+		'cta_title'         => 'همکاری بعدی شما، از یک گفت‌وگو شروع می‌شود.',
 		'cta_text'          => 'برای ساختن آینده‌ای دقیق‌تر، با تیم وترا در ارتباط باشید.',
 		'cta_button_text'   => 'تماس با ما',
 		'cta_button_url'    => '#contact',
@@ -283,7 +271,7 @@ function vetra_add_pages_multi( $customizer, $key, $label, $section, $priority )
 }
 
 function vetra_customizer_register( $wp_customize ) {
-	$wp_customize->add_panel( 'vetra_corporate_panel', array( 'title' => 'هویت شرکتی وترا', 'description' => 'طراحی، محتوا و رنگ‌بندی سایت شرکتی وترا را از یک پنل حرفه‌ای مدیریت کنید.', 'priority' => 25 ) );
+	$wp_customize->add_panel( 'vetra_corporate_panel', array( 'title' => 'سفارشی‌سازی VETRA Portal', 'description' => 'طراحی، محتوا و رنگ‌بندی سایت شرکتی وترا را از یک پنل حرفه‌ای مدیریت کنید.', 'priority' => 25 ) );
 
 	$wp_customize->add_section( 'vetra_identity_section', array( 'title' => 'هویت برند', 'description' => 'نام، شعار و لوگوی اصلی سایت را مدیریت کنید.', 'panel' => 'vetra_corporate_panel', 'priority' => 10 ) );
 	vetra_add_text( $wp_customize, 'brand_title', 'نام برند', 'vetra_identity_section', 10 );
@@ -309,7 +297,6 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_toggle( $wp_customize, 'home_stats_enabled', 'نمایش نوار آمار', 'vetra_features_section', 40 );
 	vetra_add_toggle( $wp_customize, 'home_services_enabled', 'نمایش بخش خدمات', 'vetra_features_section', 50 );
 	vetra_add_toggle( $wp_customize, 'home_about_enabled', 'نمایش بخش درباره ما', 'vetra_features_section', 60 );
-	vetra_add_toggle( $wp_customize, 'home_projects_enabled', 'نمایش پروژه‌های منتخب صفحه اصلی', 'vetra_features_section', 70 );
 	vetra_add_toggle( $wp_customize, 'home_cta_enabled', 'نمایش دعوت به همکاری', 'vetra_features_section', 80 );
 
 	$wp_customize->add_section( 'vetra_theme_section', array( 'title' => 'ظاهر پایه و رنگ‌ها', 'description' => 'این بخش ظاهر اصلی نسخه ۲.۰ را کنترل می‌کند. تنظیمات پس‌زمینه در بخش جداگانه و اختیاری قرار دارد.', 'panel' => 'vetra_corporate_panel', 'priority' => 20 ) );
@@ -405,13 +392,6 @@ function vetra_customizer_register( $wp_customize ) {
 	vetra_add_text( $wp_customize, 'about_title', 'عنوان درباره وترا', 'vetra_content_section', 70 );
 	vetra_add_text( $wp_customize, 'about_text', 'متن درباره وترا', 'vetra_content_section', 80, true );
 	vetra_add_media( $wp_customize, 'about_image', 'تصویر درباره وترا', 'vetra_content_section', 90 );
-	vetra_add_text( $wp_customize, 'projects_title', 'عنوان پروژه‌ها', 'vetra_content_section', 100 );
-	vetra_add_text( $wp_customize, 'projects_intro', 'توضیح پروژه‌ها', 'vetra_content_section', 110, true );
-	foreach ( array( 1, 2, 3 ) as $index ) {
-		vetra_add_text( $wp_customize, 'project_' . $index . '_title', 'عنوان پروژه ' . $index, 'vetra_content_section', 110 + ( $index * 10 ) );
-		vetra_add_text( $wp_customize, 'project_' . $index . '_meta', 'اطلاعات پروژه ' . $index, 'vetra_content_section', 115 + ( $index * 10 ) );
-		vetra_add_media( $wp_customize, 'project_' . $index . '_image', 'تصویر پروژه ' . $index, 'vetra_content_section', 118 + ( $index * 10 ) );
-	}
 
 	$wp_customize->add_section( 'vetra_contact_section', array( 'title' => 'تماس و CTA', 'panel' => 'vetra_corporate_panel', 'priority' => 60 ) );
 	vetra_add_text( $wp_customize, 'footer_text', 'متن معرفی فوتر', 'vetra_contact_section', 5, true );
@@ -640,21 +620,3 @@ function vetra_pwa_manifest_link() {
 	echo '<meta name="apple-mobile-web-app-title" content="' . esc_attr( vetra_option( 'pwa_short_name', 'وترا' ) ) . '">' . "\n";
 }
 add_action( 'wp_head', 'vetra_pwa_manifest_link', 1 );
-
-/** The VETRA settings dashboard is the sole settings surface; keep Customizer unavailable. */
-remove_action( 'customize_register', 'vetra_customizer_register' );
-add_action( 'customize_register', 'vetra_disable_customizer', 999 );
-function vetra_disable_customizer( $wp_customize ) {
-foreach ( array( 'title_tagline', 'colors', 'header_image', 'background_image', 'nav', 'static_front_page', 'custom_css' ) as $section ) {
-$wp_customize->remove_section( $section );
-}
-foreach ( array_keys( $wp_customize->sections() ) as $section_id ) {
-if ( 0 === strpos( $section_id, 'vetra_' ) ) { $wp_customize->remove_section( $section_id ); }
-}
-}
-add_action( 'admin_bar_menu', function( $bar ) { $bar->remove_node( 'customize' ); }, 999 );
-add_action( 'load-customize.php', function() {
-if ( isset( $_GET['vetra_force_customizer'] ) && current_user_can( 'manage_options' ) ) { return; }
-wp_safe_redirect( admin_url( 'themes.php?page=vetra-portal-settings' ) );
-exit;
-} );

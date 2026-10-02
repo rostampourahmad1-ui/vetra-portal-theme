@@ -19,7 +19,6 @@ final class SettingsSchema {
 			'typography' => 'تایپوگرافی',
 			'header' => 'هدر و ناوبری',
 			'footer' => 'فوتر',
-			'projects' => 'تنظیمات پروژه‌ها',
 			'custom' => 'کدهای سفارشی',
 		);
 	}
@@ -48,11 +47,6 @@ final class SettingsSchema {
 				'vetra_footer_enabled' => array( 'label' => 'فعال‌سازی فوتر', 'type' => 'boolean', 'default' => true ),
 				'vetra_footer_text' => array( 'label' => 'متن فوتر', 'type' => 'textarea', 'default' => 'طراحی دقیق. ساخت ماندگار.' ),
 				'vetra_contact_email' => array( 'label' => 'ایمیل تماس', 'type' => 'email', 'default' => 'hello@vetragroup.ir' ),
-			),
-			'projects' => array(
-				'vetra_projects_per_page' => array( 'label' => 'تعداد پروژه در صفحه', 'type' => 'integer', 'default' => 12, 'min' => 1, 'max' => 48 ),
-				'vetra_projects_archive_slug' => array( 'label' => 'نامک آرشیو پروژه', 'type' => 'slug', 'default' => 'projects' ),
-				'vetra_projects_featured_only' => array( 'label' => 'نمایش فقط پروژه‌های منتخب', 'type' => 'boolean', 'default' => false ),
 			),
 			'custom' => array(
 				'vetra_custom_css' => array( 'label' => 'CSS سفارشی', 'type' => 'css', 'default' => '' ),

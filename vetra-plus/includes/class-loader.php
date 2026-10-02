@@ -23,14 +23,8 @@ final class Loader {
 	public static function load( $class ) {
 		$map = array(
 			'Vetra\\Plus\\Plugin'       => 'class-plugin.php',
-			'Vetra\\Plus\\Capabilities' => 'class-capabilities.php',
-			'Vetra\\Plus\\PostTypes'   => 'class-post-types.php',
-			'Vetra\\Plus\\MetaBoxes'   => 'class-meta-boxes.php',
-			'Vetra\\Plus\\API'         => 'class-api.php',
 			'Vetra\\Plus\\Elementor\\Module' => '../modules/elementor/class-module.php',
 			'Vetra\\Plus\\Elementor\\Renderer' => '../modules/elementor/class-renderer.php',
-			'Vetra\\Plus\\Elementor\\ProjectGrid' => '../modules/elementor/class-project-grid.php',
-			'Vetra\\Plus\\Elementor\\ProjectGallery' => '../modules/elementor/class-project-gallery.php',
 			'Vetra\\Plus\\Elementor\\CorporateBanner' => '../modules/elementor/class-corporate-banner.php',
 			'Vetra\\Plus\\Settings\\SettingsSchema' => '../modules/settings/class-settings-schema.php',
 			'Vetra\\Plus\\Settings\\Migration' => '../modules/settings/class-migration.php',

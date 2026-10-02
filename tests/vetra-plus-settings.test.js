@@ -12,14 +12,14 @@ const loader = read('vetra-plus/includes/class-loader.php');
 const plugin = read('vetra-plus/includes/class-plugin.php');
 
 test('phase 6 settings schema covers all requested categories with vetra-prefixed keys', () => {
-  for (const category of ['identity', 'typography', 'header', 'footer', 'projects', 'custom']) {
+  for (const category of ['identity', 'typography', 'header', 'footer', 'custom']) {
     assert.match(schema, new RegExp(`'${category}'`));
   }
   assert.match(schema, /vetra_primary_color/);
   assert.match(schema, /vetra_font_family/);
   assert.match(schema, /vetra_header_enabled/);
   assert.match(schema, /vetra_footer_enabled/);
-  assert.match(schema, /vetra_projects_per_page/);
+  assert.doesNotMatch(schema, /vetra_projects_/);
   assert.match(schema, /vetra_custom_css/);
 });
 
