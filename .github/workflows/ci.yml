@@ -55,7 +55,7 @@ jobs:
           slug="vetra-portal-theme"
           tmpdir="$(mktemp -d)"
           mkdir -p "$tmpdir/$slug"
-          rsync -a --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='*.zip' --exclude='tests' --exclude='docs' --exclude='tools' --exclude='vetra-plus' --exclude='.env*' ./ "$tmpdir/$slug/"
+          rsync -a --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='*.zip' --exclude='tests' --exclude='docs' --exclude='tools' --exclude='.env*' ./ "$tmpdir/$slug/"
           (cd "$tmpdir" && zip -qr "$GITHUB_WORKSPACE/vetra.zip" "$slug/")
       - name: Build Vetra Plus ZIP
         run: |

@@ -13,11 +13,11 @@
 | Working tree | clean؛ `main...origin/main` |
 | HEAD | `01860a1cfa9692b8fe0f60fcf15565bd5462af91` |
 | آخرین commit | `ci: package releases on version tags` |
-| Theme version | `3.9.0` |
-| `style.css` version | `3.9.0` |
-| `functions.php` constant | `VETRA_PORTAL_VERSION = 3.9.0` |
-| `package.json` version | `3.9.0` |
-| Release tag | `v3.9.0` |
+| Theme version | `3.9.1` |
+| `style.css` version | `3.9.1` |
+| `functions.php` constant | `VETRA_PORTAL_VERSION = 3.9.1` |
+| `package.json` version | `3.9.1` |
+| Release tag | `v3.9.1` |
 | PHP CLI | `8.3.6` |
 | WordPress CLI | نصب نیست |
 | WordPress core version | از workspace قابل تشخیص نیست |
@@ -32,7 +32,7 @@
 404.php
 CHANGELOG.md
 IMPLEMENTATION-REPORT.md
-TEST-REPORT-3.9.0.md
+TEST-REPORT-3.9.1.md
 archive.php
 comments.php
 footer.php
@@ -301,7 +301,7 @@ Sidebars: sidebar-1, footer-1 ... footer-4
 
 ### CI موجود
 
-آخرین GitHub Actions run روی tag `v3.9.0`:
+آخرین GitHub Actions run روی tag `v3.9.1`:
 
 - Run ID: `36933210840`
 - Commit: `01860a1cfa9692b8fe0f60fcf15565bd5462af91`

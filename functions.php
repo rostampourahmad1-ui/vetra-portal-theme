@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VETRA_PORTAL_VERSION', '3.9.0' );
+define( 'VETRA_PORTAL_VERSION', '3.9.1' );
 define( 'VETRA_PORTAL_DIR', get_template_directory() );
 define( 'VETRA_PORTAL_URI', get_template_directory_uri() );
 
@@ -26,6 +26,7 @@ if ( ! class_exists( '\\Vetra\\Theme\\Admin\\Dashboard' ) ) {
 }
 require_once VETRA_PORTAL_DIR . '/inc/customizer.php';
 require_once VETRA_PORTAL_DIR . '/inc/plugin-manager.php';
+require_once VETRA_PORTAL_DIR . '/inc/vetra-plus-installer.php';
 require_once VETRA_PORTAL_DIR . '/inc/site-features.php';
 require_once VETRA_PORTAL_DIR . '/inc/layouts.php';
 require_once VETRA_PORTAL_DIR . '/inc/integrations.php';

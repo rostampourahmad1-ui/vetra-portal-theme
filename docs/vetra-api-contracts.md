@@ -4,7 +4,7 @@
 **تاریخ استخراج:** 2026-10-02  
 **Repository:** `rostampourahmad1-ui/vetra-portal-theme`  
 **Commit بررسی‌شده:** `01860a1cfa9692b8fe0f60fcf15565bd5462af91`  
-**نسخه پوسته:** `3.9.0`
+**نسخه پوسته:** `3.9.1`
 
 ## 1. روش و قواعد تفسیر
 
@@ -163,7 +163,7 @@
 
 | Constant | محل تعریف | مقدار/نقش |
 |---|---|---|
-| `VETRA_PORTAL_VERSION` | `functions.php:12` | `3.9.0` |
+| `VETRA_PORTAL_VERSION` | `functions.php:12` | `3.9.1` |
 | `VETRA_PORTAL_DIR` | `functions.php:13` | template directory |
 | `VETRA_PORTAL_URI` | `functions.php:14` | template URI |
 | `VETRA_ICON_FALLBACK` | `inc/vetra-icons.php:20` | `info` |

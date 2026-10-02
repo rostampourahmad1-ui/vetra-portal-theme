@@ -39,3 +39,17 @@ test('Commerce integrations are absent from VETRA runtime code', () => {
   const files = ['functions.php', 'inc/customizer.php', 'inc/integrations.php', 'vetra-plus/includes/class-plugin.php', 'vetra-plus/modules/settings/class-settings.php'];
   for (const file of files) assert.doesNotMatch(read(file), /WooCommerce|is_product|is_woocommerce|wc_/i);
 });
+
+
+test('bundled Vetra Plus installer is wired and included in release packaging', () => {
+  const bootstrap = read('functions.php');
+  const installer = read('inc/vetra-plus-installer.php');
+  const workflow = read('.github/workflows/ci.yml');
+  assert.match(bootstrap, /inc\/vetra-plus-installer\.php/);
+  assert.match(installer, /after_switch_theme/);
+  assert.match(installer, /copy_dir/);
+  assert.match(installer, /activate_plugin/);
+  assert.match(installer, /install_plugins/);
+  assert.doesNotMatch(workflow, /--exclude='vetra-plus'/);
+  assert.match(workflow, /Build Vetra Plus ZIP/);
+});

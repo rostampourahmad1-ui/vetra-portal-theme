@@ -6,7 +6,9 @@
 
 **شاخه:** `main`
 
-**آخرین commit:** `3795a3d refactor: remove projects and restore customizer`
+**آخرین commit کد:** `3795a3d refactor: remove projects and restore customizer`
+
+**انتشار بعدی:** `v3.9.1` با نصب خودکار Vetra Plus هنگام فعال‌سازی تم.
 
 **وضعیت Git:** working tree پاک است؛ شاخه محلی یک commit جلوتر از `origin/main` قرار دارد.
 

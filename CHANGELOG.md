@@ -1,4 +1,16 @@
 # Changelog
+## [3.9.1] - 2026-10-02
+### Added
+- Bundled Vetra Plus installation and activation on theme activation.
+- Graceful admin notice when automatic plugin installation is blocked by permissions or filesystem access.
+
+### Changed
+- Removed the legacy Projects runtime and restored the native WordPress Customizer flow.
+- Moved Vetra Plus settings under Appearance and aligned the release package versions.
+
+### Fixed
+- Prevented the dashboard guard from redirecting `customize.php`.
+
 
 ## [3.9.0] - 2026-10-02
 
